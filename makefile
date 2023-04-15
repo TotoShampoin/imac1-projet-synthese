@@ -1,29 +1,30 @@
-EXEC = licorri
+EXEC = test
 CC = g++
 
 CFLAGS  = -Wall -O2 -g
 LDFLAGS = -lglfw -lGLU -lGL -lm
 
-SRCDIR = src/
-INCDIR = include/
-OBJDIR = obj/
-BINDIR = bin/
+SRCDIR = src
+INCDIR = include
+OBJDIR = obj
+BINDIR = bin
 
-SOURCES = $(shell find $(SRC_DIR)/ -type f -name '*.cpp')
-OBJECTS = $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o, $(SRC_FILES))
+SOURCES = $(shell find $(SRCDIR) -type f -name '*.cpp')
+OBJECTS = $(patsubst $(SRCDIR)%.cpp,$(OBJDIR)%.o, $(SOURCES))
 
 all: $(BINDIR)/$(EXEC)
 
 $(BINDIR)/$(EXEC): $(OBJECTS)
-	@mkdir -p $(BIN_DIR)/
-	$(CC) -o $(BIN_DIR)/$(EXEC_BIN) $(OBJ_FILES) $(LDFLAGS)
+	mkdir -p $(BINDIR)/
+	mkdir -p $(BINDIR)/assets
+	cp -r assets/* $(BINDIR)/assets/*
+	$(CC) -o $(BINDIR)/$(EXEC) $(OBJECTS) $(LDFLAGS)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 	mkdir -p "$(@D)"
-	$(CC) -c $< -o $@ $(CFLAGS) -I$(INCDIR) $(INC_DIR)
+	$(CC) -c $< -o $@ $(CFLAGS) -I$(INCDIR)
 
 clean:
 	rm -rf *~
-	rm -rf $(SRC_DIR)/*/*~
-	rm -rf $(OBJ_DIR)/
-	rm -rf $(BIN_DIR)/*
+	rm -rf $(OBJDIR)/
+	rm -rf $(BINDIR)/*
