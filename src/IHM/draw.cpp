@@ -61,6 +61,12 @@ float toRad(float deg) {
     return deg*M_PI/180.0f;
 }
 
+void cameraToCenter() {
+	gluLookAt(0.0, 0.0, 0.0,
+        0.0,-1.0,0.0,
+    0.0,0.0,1.0);
+}
+
 void setCamera(float theta, float phy, float dist_zoom) {
 	gluLookAt(dist_zoom*cos(toRad(theta))*sin(toRad(phy)),
 			  dist_zoom*sin(toRad(theta))*sin(toRad(phy)),

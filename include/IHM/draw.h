@@ -13,6 +13,8 @@ void drawGeometry(Geometry& geo);
 void drawSquare(Image& img);
 
 float toRad(float deg);
+
+void cameraToCenter();
 void setCamera(float theta = 45.0f, float phy = 60.0f, float dist_zoom = 30.0f);
 void use3dMode(Window& win);
 void use2dMode(Window& win);
