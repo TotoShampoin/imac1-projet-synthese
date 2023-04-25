@@ -45,26 +45,28 @@ void draw2DTexture(Image& img, GLdouble pos_x, GLdouble pos_y, GLdouble scale_x,
 void drawGeometry(Geometry& geo) {
     glEnableClientState(GL_VERTEX_ARRAY);
     glVertexPointer(3,GL_FLOAT, 0, geo.vertices);
+    glColorPointer(4, GL_FLOAT, 0, geo.colors);
+    glTexCoordPointer(2, GL_FLOAT, 0, geo.uv);
     glDrawElements(GL_TRIANGLES, 3*geo.tri_nb, GL_UNSIGNED_INT, geo.triangles);
 }
 
 void drawSquare(Image& img) {
-        glEnable(GL_TEXTURE_2D);
-        glEnable(GL_BLEND);
-        glBindTexture(GL_TEXTURE_2D, img.texture_id);
-        glBegin(GL_POLYGON);
-            glTexCoord2f(0, 0);
-            glVertex2f(-1, -1);
-            glTexCoord2f(1, 0);
-            glVertex2f( 1, -1);
-            glTexCoord2f(1, 1);
-            glVertex2f( 1,  1);
-            glTexCoord2f(0, 1);
-            glVertex2f(-1,  1);
-        glEnd();
-        glBindTexture(GL_TEXTURE_2D, 0);
-        glDisable(GL_BLEND);
-        glDisable(GL_TEXTURE_2D);
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_BLEND);
+    glBindTexture(GL_TEXTURE_2D, img.texture_id);
+    glBegin(GL_POLYGON);
+        glTexCoord2f(0, 0);
+        glVertex2f(-1, -1);
+        glTexCoord2f(1, 0);
+        glVertex2f( 1, -1);
+        glTexCoord2f(1, 1);
+        glVertex2f( 1,  1);
+        glTexCoord2f(0, 1);
+        glVertex2f(-1,  1);
+    glEnd();
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glDisable(GL_BLEND);
+    glDisable(GL_TEXTURE_2D);
 }
 
 float toRad(float deg) {

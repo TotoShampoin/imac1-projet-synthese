@@ -5,6 +5,7 @@ int main(int argc, const char* argv[]) {
     Window win {800, 600, "fenetre"};
 
     Image yey {"assets/yey.png"};
+    Image colors {"assets/colors.png"};
     Geometry cube = createCube();
     Geometry sphere = createSphere(64);
     
@@ -22,11 +23,11 @@ int main(int argc, const char* argv[]) {
         glTranslatef(0, -10, 0);
         glRotatef(timer * 180 / M_PI, 1, 1, 1);
 
-        draw3DObject(cube, yey);
+        draw3DObject(cube, colors);
 
     // Image en 2D
         use2dMode(win);
-		//draw2DTexture(yey, .5, 0, .25);
+		draw2DTexture(yey, .5, 0, .25);
 
         win.refresh();
         win.pollEvents();
