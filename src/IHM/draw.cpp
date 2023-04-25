@@ -89,6 +89,7 @@ void setCamera(float theta, float phy, float dist_zoom) {
 
 void use3dMode(Window& win) {
     win.updateSize();
+    glEnable(GL_DEPTH_TEST);
     glViewport(0, 0, win.width, win.height);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
