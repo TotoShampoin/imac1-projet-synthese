@@ -104,7 +104,28 @@ Geometry createCube() {
 }
 
 Geometry createSphere(GLint precision) {
-    Geometry sphere (8, 12);
+    int vertex_number = precision * (precision / 2 + 1); // A CHANGER
+    int triangle_number = vertex_number * 2; // A CHANGER
+
+    Geometry sphere (vertex_number, triangle_number);
+
+    int points_i = precision / 2 + 1;
+    int points_j = precision;
+    int a, b, c, d;
+    for (int i = 0; i < points_i; i++) { // LATITUDE
+        for (int j = 0; j < points_j; j++) { // LONGITUDE
+            a = i * points_j + j;
+            b = i * points_j + ((j + 1) % points_j);
+            c = ((i + 1) % points_i) * points_j + j;
+            d = ((i + 1) % points_i) * points_j + ((j + 1) % points_j);
+
+            float _i = 2 * M_PI * (float)i / precision;
+            float _j = 2 * M_PI * (float)j / precision;
+            set_coord(sphere.vertices, a, cos(_j)*sin(_i), sin(_j)*sin(_i), cos(_i));
+            set_triangle(sphere.triangles, 2 * a, a, b, d);
+            set_triangle(sphere.triangles, 2 * a + 1, a, c, d);
+        }
+    }
 
     return sphere;
 }
