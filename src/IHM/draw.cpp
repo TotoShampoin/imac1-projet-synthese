@@ -2,6 +2,26 @@
 
 #include <cmath>
 
+void draw2DTexture(Image& img, GLdouble pos_x, GLdouble pos_y, GLdouble scale) {
+    glPushMatrix();
+        glTranslated(pos_x, pos_y, 0);
+        glScaled(scale, scale, 1);
+        glScalef(1, (float)img.height/img.width, 1);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        drawSquare(img);
+    glPopMatrix();
+}
+
+void draw2DTexture(Image& img, GLdouble pos_x, GLdouble pos_y, GLdouble scale_x, GLdouble scale_y) {
+    glPushMatrix();
+        glTranslated(pos_x, pos_y, 0);
+        glScaled(scale_x, scale_y, 1);
+        glScalef(1, (float)img.height/img.width, 1);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        drawSquare(img);
+    glPopMatrix();
+}
+
 void drawGeometry(Geometry& geo) {
     glEnableClientState(GL_VERTEX_ARRAY);
     glVertexPointer(3,GL_FLOAT, 0, geo.vertices);

@@ -21,13 +21,7 @@ int main(int argc, const char* argv[]) {
 
     // Image en 2D
         use2dMode(win);
-		glPushMatrix();
-            glTranslated(.5, 0, 0);
-            glScaled(.25, .25, 1);
-            glScalef(1, (float)yey.height/yey.width, 1);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-            drawSquare(yey);
-        glPopMatrix();
+		draw2DTexture(yey, .5, 0, .25);
 
         win.refresh();
         win.pollEvents();
