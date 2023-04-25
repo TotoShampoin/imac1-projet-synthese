@@ -77,28 +77,80 @@ void set_triangle(unsigned int* table, int idx, unsigned int t0, unsigned int t1
 }
 
 Geometry createCube() {
-    Geometry cube (8, 12);
+    Geometry cube (24, 12);
 
+    /* VERTICES */
+    // ABCD
     set_coord(cube.vertices, 0, -1, -1, -1); // A
     set_coord(cube.vertices, 1,  1, -1, -1); // B
-    set_coord(cube.vertices, 2, -1,  1, -1); // C
-    set_coord(cube.vertices, 3,  1,  1, -1); // D
+    set_coord(cube.vertices, 2,  1,  1, -1); // C
+    set_coord(cube.vertices, 3, -1,  1, -1); // D
+    // EFGH
     set_coord(cube.vertices, 4, -1, -1,  1); // E
     set_coord(cube.vertices, 5,  1, -1,  1); // F
-    set_coord(cube.vertices, 6, -1,  1,  1); // G
-    set_coord(cube.vertices, 7,  1,  1,  1); // H
-    set_triangle(cube.triangles, 0, 0, 1, 2); // A B C
-    set_triangle(cube.triangles, 1, 1, 2, 3); // B C D
-    set_triangle(cube.triangles, 2, 4, 5, 6); // E F G
-    set_triangle(cube.triangles, 3, 5, 6, 7); // F G H
-    set_triangle(cube.triangles, 4, 0, 4, 6); // A E G
-    set_triangle(cube.triangles, 5, 0, 2, 6); // A C G
-    set_triangle(cube.triangles, 6, 3, 1, 5); // D B F
-    set_triangle(cube.triangles, 7, 3, 7, 5); // D H F
-    set_triangle(cube.triangles, 8, 0, 4, 5); // A E F
-    set_triangle(cube.triangles, 9, 0, 1, 5); // A B F
-    set_triangle(cube.triangles, 10, 2, 6, 7); // C G H
-    set_triangle(cube.triangles, 11, 2, 3, 7); // C D H
+    set_coord(cube.vertices, 6,  1,  1,  1); // G
+    set_coord(cube.vertices, 7, -1,  1,  1); // H
+    // AEHD
+    set_coord(cube.vertices, 8, -1, -1, -1); // A
+    set_coord(cube.vertices, 9, -1, -1,  1); // E
+    set_coord(cube.vertices,10, -1,  1,  1); // H
+    set_coord(cube.vertices,11, -1,  1, -1); // D
+    // BFGC
+    set_coord(cube.vertices,12,  1, -1, -1); // B
+    set_coord(cube.vertices,13,  1, -1,  1); // F
+    set_coord(cube.vertices,14,  1,  1,  1); // G
+    set_coord(cube.vertices,15,  1,  1, -1); // C
+    // AEFB
+    set_coord(cube.vertices,16, -1, -1, -1); // A
+    set_coord(cube.vertices,17, -1, -1,  1); // E
+    set_coord(cube.vertices,18,  1, -1,  1); // F
+    set_coord(cube.vertices,19,  1, -1, -1); // B
+    // DHGC
+    set_coord(cube.vertices,20, -1,  1, -1); // D
+    set_coord(cube.vertices,21, -1,  1,  1); // H
+    set_coord(cube.vertices,22,  1,  1,  1); // G
+    set_coord(cube.vertices,23,  1,  1, -1); // C
+
+    /* UV MAP*/
+    // ABCD
+    set_coord(cube.uv, 0,    0,    0); // A
+    set_coord(cube.uv, 1,    0, 1/3.); // B
+    set_coord(cube.uv, 2, 1/2.,    0); // C
+    set_coord(cube.uv, 3, 1/2., 1/3.); // D
+    // EFGH
+    set_coord(cube.uv, 4, 1/2.,    0); // E
+    set_coord(cube.uv, 5, 1/2., 1/3.); // F
+    set_coord(cube.uv, 6,    1,    0); // G
+    set_coord(cube.uv, 7,    1, 1/3.); // H
+    // AEHD
+    set_coord(cube.uv, 8,    0, 1/3.); // A
+    set_coord(cube.uv, 9,    0, 2/3.); // E
+    set_coord(cube.uv,10, 1/2., 1/3.); // H
+    set_coord(cube.uv,11, 1/2., 2/3.); // D
+    // BFGC
+    set_coord(cube.uv,12, 1/2., 1/3.); // B
+    set_coord(cube.uv,13, 1/2., 2/3.); // F
+    set_coord(cube.uv,14,    1, 1/3.); // G
+    set_coord(cube.uv,15,    1, 2/3.); // C
+    // AEFB
+    set_coord(cube.uv,16,    0, 2/3.); // A
+    set_coord(cube.uv,17,    0,    1); // E
+    set_coord(cube.uv,18, 1/2., 2/3.); // F
+    set_coord(cube.uv,19, 1/2.,    1); // B
+    // DHGC
+    set_coord(cube.uv,20, 1/2., 2/3.); // D
+    set_coord(cube.uv,21, 1/2.,    1); // H
+    set_coord(cube.uv,22,    1, 2/3.); // G
+    set_coord(cube.uv,23,    1,    1); // C
+
+    for(int i = 0; i < 6; i++) {
+        set_triangle(cube.triangles, i*2+0, i*4, i*4+1, i*4+2);
+        set_triangle(cube.triangles, i*2+1, i*4, i*4+2, i*4+3);
+    }
+
+    for(int i = 0; i < 24; i++) {
+        set_coord(cube.colors, i, 1, 1, 1, 1);
+    }
 
     return cube;
 }

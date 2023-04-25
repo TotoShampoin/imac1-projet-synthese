@@ -16,9 +16,10 @@ int main(int argc, const char* argv[]) {
 
     // Cube en 3D
         use3dMode(win);
-        setCamera(0, 90, 0.1);
+        //setCamera(0, 90, 0);
+        cameraToCenter();
         
-        draw3DObject(sphere, Vec3f(5 * cos(5 * timer), 5 * sin(5 * timer), 0));
+        draw3DObject(cube, yey, Vec3f(5 * cos(5 * timer), 5 * sin(5 * timer), 0));
 
     // Image en 2D
         use2dMode(win);

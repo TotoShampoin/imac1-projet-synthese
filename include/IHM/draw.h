@@ -6,7 +6,8 @@
 
 const double GL_VIEW_SIZE = 2.;
 
-void draw3DObject(Geometry& geo, Vec3f vec, Vec3f scale = Vec3f(1, 1, 1));
+void draw3DObject(Geometry& geo, Image& img, Vec3f vec = Vec3f(0, 0, 0), Vec3f scale = Vec3f(1, 1, 1));
+void draw3DObject(Geometry& geo, Vec3f vec = Vec3f(0, 0, 0), Vec3f scale = Vec3f(1, 1, 1));
 void draw2DTexture(Image& img, GLdouble pos_x, GLdouble pos_y, GLdouble scale = 1.);
 void draw2DTexture(Image& img, GLdouble pos_x, GLdouble pos_y, GLdouble scale_x, GLdouble scale_y);
 void drawGeometry(Geometry& geo);

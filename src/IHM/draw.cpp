@@ -3,6 +3,16 @@
 
 #include <cmath>
 
+void draw3DObject(Geometry& geo, Image& img, Vec3f vec, Vec3f scale) {
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_BLEND);
+    glBindTexture(GL_TEXTURE_2D, img.texture_id);
+    draw3DObject(geo, vec, scale);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glDisable(GL_BLEND);
+    glDisable(GL_TEXTURE_2D);
+}
+
 void draw3DObject(Geometry& geo, Vec3f vec, Vec3f scale) {
     glPushMatrix();
         glTranslated(vec.x, vec.y, vec.z);
