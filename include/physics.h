@@ -16,5 +16,9 @@ struct PhysicsSphere {
     PhysicsSphere(Vec3f pos, float r);
 
     bool collide(Vec3f point);
+    bool collide(PhysicsAABB other);
     bool collide(PhysicsAABB other, Vec3f& normal);
 };
+
+
+bool floatCollide(float a0, float a1, float b0, float b1);
