@@ -6,6 +6,7 @@ int main(int argc, const char* argv[]) {
 
     Image yey {"assets/yey.png"};
     Geometry cube = createCube();
+    Geometry sphere = createSphere(64);
     
     double timer = 0;
     while(!win.shouldClose()) {
@@ -15,13 +16,13 @@ int main(int argc, const char* argv[]) {
 
     // Cube en 3D
         use3dMode(win);
-        setCamera();
+        setCamera(0, 90, 0.1);
         
-        drawGeometry(cube);
+        draw3DObject(sphere, Vec3f(5 * cos(5 * timer), 5 * sin(5 * timer), 0));
 
     // Image en 2D
         use2dMode(win);
-		draw2DTexture(yey, .5, 0, .25);
+		//draw2DTexture(yey, .5, 0, .25);
 
         win.refresh();
         win.pollEvents();

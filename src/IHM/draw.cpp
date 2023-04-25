@@ -1,6 +1,16 @@
 #include "IHM/draw.h"
+#include "vec3.h"
 
 #include <cmath>
+
+void draw3DObject(Geometry& geo, Vec3f vec, Vec3f scale) {
+    glPushMatrix();
+        glTranslated(vec.x, vec.y, vec.z);
+        glScaled(scale.x, scale.y, scale.z);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        drawGeometry(geo);
+    glPopMatrix();
+}
 
 void draw2DTexture(Image& img, GLdouble pos_x, GLdouble pos_y, GLdouble scale) {
     glPushMatrix();
