@@ -115,33 +115,33 @@ Geometry createCube() {
     // ABCD
     set_coord(cube.uv, 0,    0,    0); // A
     set_coord(cube.uv, 1,    0, 1/3.); // B
-    set_coord(cube.uv, 2, 1/2.,    0); // C
-    set_coord(cube.uv, 3, 1/2., 1/3.); // D
+    set_coord(cube.uv, 2, 1/2., 1/3.); // C
+    set_coord(cube.uv, 3, 1/2.,    0); // D
     // EFGH
     set_coord(cube.uv, 4, 1/2.,    0); // E
     set_coord(cube.uv, 5, 1/2., 1/3.); // F
-    set_coord(cube.uv, 6,    1,    0); // G
-    set_coord(cube.uv, 7,    1, 1/3.); // H
+    set_coord(cube.uv, 6,    1, 1/3.); // G
+    set_coord(cube.uv, 7,    1,    0); // H
     // AEHD
     set_coord(cube.uv, 8,    0, 1/3.); // A
     set_coord(cube.uv, 9,    0, 2/3.); // E
-    set_coord(cube.uv,10, 1/2., 1/3.); // H
-    set_coord(cube.uv,11, 1/2., 2/3.); // D
+    set_coord(cube.uv,10, 1/2., 2/3.); // H
+    set_coord(cube.uv,11, 1/2., 1/3.); // D
     // BFGC
     set_coord(cube.uv,12, 1/2., 1/3.); // B
     set_coord(cube.uv,13, 1/2., 2/3.); // F
-    set_coord(cube.uv,14,    1, 1/3.); // G
-    set_coord(cube.uv,15,    1, 2/3.); // C
+    set_coord(cube.uv,14,    1, 2/3.); // G
+    set_coord(cube.uv,15,    1, 1/3.); // C
     // AEFB
     set_coord(cube.uv,16,    0, 2/3.); // A
     set_coord(cube.uv,17,    0,    1); // E
-    set_coord(cube.uv,18, 1/2., 2/3.); // F
-    set_coord(cube.uv,19, 1/2.,    1); // B
+    set_coord(cube.uv,18, 1/2.,    1); // F
+    set_coord(cube.uv,19, 1/2., 2/3.); // B
     // DHGC
     set_coord(cube.uv,20, 1/2., 2/3.); // D
     set_coord(cube.uv,21, 1/2.,    1); // H
-    set_coord(cube.uv,22,    1, 2/3.); // G
-    set_coord(cube.uv,23,    1,    1); // C
+    set_coord(cube.uv,22,    1,    1); // G
+    set_coord(cube.uv,23,    1, 2/3.); // C
 
     for(int i = 0; i < 6; i++) {
         set_triangle(cube.triangles, i*2+0, i*4, i*4+1, i*4+2);
