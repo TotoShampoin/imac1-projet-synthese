@@ -19,7 +19,10 @@ int main(int argc, const char* argv[]) {
         //setCamera(0, 90, 0);
         cameraToCenter();
         
-        draw3DObject(cube, yey, Vec3f(5 * cos(5 * timer), 5 * sin(5 * timer), 0));
+        glTranslatef(0, -10, 0);
+        glRotatef(timer * 180 / M_PI, 1, 1, 1);
+
+        draw3DObject(cube, yey);
 
     // Image en 2D
         use2dMode(win);
