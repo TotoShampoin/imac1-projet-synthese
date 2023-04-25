@@ -17,7 +17,7 @@ all: $(BINDIR)/$(EXEC)
 $(BINDIR)/$(EXEC): $(OBJECTS)
 	mkdir -p $(BINDIR)/
 	mkdir -p $(BINDIR)/assets
-	cp -r assets/* $(BINDIR)/assets/*
+	cp -r assets/* $(BINDIR)/assets
 	$(CC) -o $(BINDIR)/$(EXEC) $(OBJECTS) $(LDFLAGS)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
