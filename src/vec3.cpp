@@ -59,7 +59,10 @@ float Vec3f::operator*(Vec3f other) {
     return this->x * other.x + this->y * other.y + this->z * other.z;
 }
 float Vec3f::norm() {
-    return sqrt((*this) * (*this));
+    return sqrt(norm2());
+}
+float Vec3f::norm2() {
+    return (*this) * (*this);
 }
 Vec3f Vec3f::normalize() {
     return (*this) / this->norm();

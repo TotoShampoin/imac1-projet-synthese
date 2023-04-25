@@ -15,5 +15,6 @@ struct Vec3f {
     float operator*(Vec3f other);
 
     float norm();
+    float norm2();
     Vec3f normalize();
 };
