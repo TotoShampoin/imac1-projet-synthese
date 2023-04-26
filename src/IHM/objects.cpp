@@ -25,6 +25,8 @@ Image::Image(const char* file) {
     }
     glGenTextures(1, &texture_id);
     glBindTexture(GL_TEXTURE_2D, texture_id);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexImage2D(
@@ -115,34 +117,34 @@ Geometry createCube() {
     /* UV MAP*/
     // ABCD
     set_coord(cube.uv, 0,    0,    0); // A
-    set_coord(cube.uv, 1,    0, 1/3.); // B
-    set_coord(cube.uv, 2, 1/2., 1/3.); // C
-    set_coord(cube.uv, 3, 1/2.,    0); // D
+    set_coord(cube.uv, 1, 1/3.,    0); // B
+    set_coord(cube.uv, 2, 1/3., 1/2.); // C
+    set_coord(cube.uv, 3,    0, 1/2.); // D
     // EFGH
-    set_coord(cube.uv, 4, 1/2.,    0); // E
-    set_coord(cube.uv, 5, 1/2., 1/3.); // F
-    set_coord(cube.uv, 6,    1, 1/3.); // G
-    set_coord(cube.uv, 7,    1,    0); // H
+    set_coord(cube.uv, 4,    0, 1/2.); // E
+    set_coord(cube.uv, 5, 1/3., 1/2.); // F
+    set_coord(cube.uv, 6, 1/3.,    1); // G
+    set_coord(cube.uv, 7,    0,    1); // H
     // AEHD
-    set_coord(cube.uv, 8,    0, 1/3.); // A
-    set_coord(cube.uv, 9,    0, 2/3.); // E
-    set_coord(cube.uv,10, 1/2., 2/3.); // H
-    set_coord(cube.uv,11, 1/2., 1/3.); // D
+    set_coord(cube.uv, 8, 1/3.,    0); // A
+    set_coord(cube.uv, 9, 2/3.,    0); // E
+    set_coord(cube.uv,10, 2/3., 1/2.); // H
+    set_coord(cube.uv,11, 1/3., 1/2.); // D
     // BFGC
-    set_coord(cube.uv,12, 1/2., 1/3.); // B
-    set_coord(cube.uv,13, 1/2., 2/3.); // F
-    set_coord(cube.uv,14,    1, 2/3.); // G
-    set_coord(cube.uv,15,    1, 1/3.); // C
+    set_coord(cube.uv,12, 1/3., 1/2.); // B
+    set_coord(cube.uv,13, 2/3., 1/2.); // F
+    set_coord(cube.uv,14, 2/3.,    1); // G
+    set_coord(cube.uv,15, 1/3.,    1); // C
     // AEFB
-    set_coord(cube.uv,16,    0, 2/3.); // A
-    set_coord(cube.uv,17,    0,    1); // E
-    set_coord(cube.uv,18, 1/2.,    1); // F
-    set_coord(cube.uv,19, 1/2., 2/3.); // B
+    set_coord(cube.uv,16, 2/3.,    0); // A
+    set_coord(cube.uv,17,    1,    0); // E
+    set_coord(cube.uv,18,    1, 1/2.); // F
+    set_coord(cube.uv,19, 2/3., 1/2.); // B
     // DHGC
-    set_coord(cube.uv,20, 1/2., 2/3.); // D
-    set_coord(cube.uv,21, 1/2.,    1); // H
+    set_coord(cube.uv,20, 2/3., 1/2.); // D
+    set_coord(cube.uv,21,    1, 1/2.); // H
     set_coord(cube.uv,22,    1,    1); // G
-    set_coord(cube.uv,23,    1, 2/3.); // C
+    set_coord(cube.uv,23, 2/3.,    1); // C
 
     for(int i = 0; i < 6; i++) {
         set_triangle(cube.triangles, i*2+0, i*4, i*4+1, i*4+2);
@@ -175,6 +177,7 @@ Geometry createSphere(GLint precision) {
             float _i = 2 * M_PI * (float)i / precision;
             float _j = 2 * M_PI * (float)j / precision;
             set_coord(sphere.vertices, a, cos(_j)*sin(_i), sin(_j)*sin(_i), cos(_i));
+            set_coord(sphere.colors, a, 1, 1, 1, 1);
             set_triangle(sphere.triangles, 2 * a, a, b, d);
             set_triangle(sphere.triangles, 2 * a + 1, a, c, d);
         }

@@ -44,10 +44,15 @@ void draw2DTexture(Image& img, GLdouble pos_x, GLdouble pos_y, GLdouble scale_x,
 
 void drawGeometry(Geometry& geo) {
     glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_COLOR_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
     glVertexPointer(3,GL_FLOAT, 0, geo.vertices);
     glColorPointer(4, GL_FLOAT, 0, geo.colors);
     glTexCoordPointer(2, GL_FLOAT, 0, geo.uv);
     glDrawElements(GL_TRIANGLES, 3*geo.tri_nb, GL_UNSIGNED_INT, geo.triangles);
+    glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_COLOR_ARRAY);
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
 void drawSquare(Image& img) {
