@@ -13,6 +13,10 @@ struct Vec3f {
     Vec3f operator*(float other);
     Vec3f operator/(float other);
     float operator*(Vec3f other);
+    Vec3f& operator+=(Vec3f other);
+    Vec3f& operator-=(Vec3f other);
+    Vec3f& operator*=(float other);
+    Vec3f& operator/=(float other);
 
     float norm();
     float norm2();
