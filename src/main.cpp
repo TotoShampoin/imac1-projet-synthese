@@ -13,8 +13,8 @@ int main(int argc, const char* argv[]) {
     Geometry cube = createCube();
     Geometry sphere = createSphere(24);
 
-    PhysicsSphere ball { Vec3f(2, 0, 0), .5 };
-    PhysicsAABB box { Vec3f(0, -1, -2) , Vec3f(-2, 1, -.4) };
+    //PhysicsSphere ball { Vec3f(2, 0, 0), .5 };
+    //PhysicsAABB box { Vec3f(0, -1, -2) , Vec3f(-2, 1, -.4) };
     
     bool is_touching = false;
     
@@ -22,10 +22,10 @@ int main(int argc, const char* argv[]) {
     while(!win.shouldClose()) {
         double startTime = glfwGetTime();
 
-        ball.position.x = cos(timer) + 1;
-        ball.position.y = sin(timer);
+        //ball.position.x = cos(timer) + 1;
+        //ball.position.y = sin(timer);
 
-        is_touching = ball.collide(box);
+        //is_touching = ball.collide(box);
 
         win.clear();
 
@@ -39,17 +39,18 @@ int main(int argc, const char* argv[]) {
         // draw3DObject(cube);
 
         // Test collision
-        setCamera(90, 90, 3);
+        setCamera(90, 90, -1);
         
         glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
-        draw3DObject(cube, colors,
+        draw3DObject(cube, colors);
+        /*draw3DObject(cube, colors,
             (box.boundA+box.boundB)/2,
             box.boundB - (box.boundA+box.boundB)/2
-        );
+        );*/
         
-        draw3DObject(sphere, ball.position, Vec3f(1,1,1) * ball.radius);
+        //draw3DObject(sphere, ball.position, Vec3f(1,1,1) * ball.radius);
 
-        glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+        //glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
 
     // Image en 2D
         use2dMode(win);
