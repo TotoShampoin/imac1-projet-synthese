@@ -26,12 +26,6 @@ int main(int argc, const char* argv[]) {
         ball.position.y = sin(timer);
 
         is_touching = ball.collide(box);
-        
-        Vec3f radius_box = Vec3f(1,1,1) * ball.radius;
-        PhysicsAABB sphere_box = PhysicsAABB(
-            ball.position - radius_box,
-            ball.position + radius_box
-        );
 
         win.clear();
 
@@ -56,10 +50,6 @@ int main(int argc, const char* argv[]) {
         draw3DObject(sphere, ball.position, Vec3f(1,1,1) * ball.radius);
 
         glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-        draw3DObject(cube,
-            (sphere_box.boundA+sphere_box.boundB)/2,
-            sphere_box.boundB - (sphere_box.boundA+sphere_box.boundB)/2
-        );
 
     // Image en 2D
         use2dMode(win);
