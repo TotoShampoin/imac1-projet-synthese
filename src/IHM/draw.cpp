@@ -80,8 +80,8 @@ float toRad(float deg) {
 
 void cameraToCenter() {
 	gluLookAt(0.0, 0.0, 0.0,
-        0.0,-1.0,0.0,
-    0.0,0.0,1.0);
+        0.0,0.0,-1.0,
+    0.0,-1.0,0.0);
 }
 
 void setCamera(float theta, float phy, float dist_zoom) {
