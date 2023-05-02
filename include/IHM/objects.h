@@ -25,8 +25,8 @@ struct Geometry {
 };
 
 struct Mesh {
-    Image&& texture;
-    Geometry&& forme;
+    Image& texture;
+    Geometry& forme;
 };
 
 void set_coord(float* table, int idx, float x, float y);
