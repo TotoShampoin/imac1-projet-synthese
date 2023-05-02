@@ -11,12 +11,12 @@ struct Type {
     std::function<void ()> end;
 };
 
-struct TypeTable {
-    std::vector<Type> types;
-    Bonus createBonus(int type_id, Vec3f position);
-};
-
 struct Bonus {
     Vec3f position;
     Type& specs;
+};
+
+struct TypeTable {
+    std::vector<Type> types;
+    Bonus createBonus(int type_id, Vec3f position);
 };
