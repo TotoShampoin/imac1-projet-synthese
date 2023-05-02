@@ -25,6 +25,21 @@ PhysicsSphere::PhysicsSphere(Vec3f pos, float r) {
     radius = r;
 }
 
+Vec3f PhysicsAABB::boundMin() {
+    return Vec3f {
+        min(boundA.x, boundB.x),
+        min(boundA.y, boundB.y),
+        min(boundA.z, boundB.z)
+    };
+}
+Vec3f PhysicsAABB::boundMax() {
+    return Vec3f {
+        max(boundA.x, boundB.x),
+        max(boundA.y, boundB.y),
+        max(boundA.z, boundB.z)
+    };
+}
+
 bool PhysicsAABB::collide(PhysicsAABB other) {
     bool collide_x = floatCollide(
         this->boundA.x, this->boundB.x,
@@ -45,18 +60,13 @@ bool PhysicsSphere::collide(Vec3f point) {
     return (point - position).norm2() <= radius*radius;
 }
 
-/* https://jeux.developpez.com/tutoriels/theorie-des-collisions/formes-complexes/#LVI */
-bool PhysicsSphere::collide(PhysicsAABB other) {
-    Vec3f radius_box = Vec3f(1,1,1) * radius;
-    PhysicsAABB bound_of_sphere = PhysicsAABB(
-        position + radius_box,
-        position - radius_box
-    );
-    return bound_of_sphere.collide(other);
-    // if(!bound_of_sphere.collide(other)) return false;
-    // bounded line sphere intersection for all edges
-    // if(
-    //     // bounded line sphere intersection for all edges
-    // ) return true;
-    // return false;
+/* https://developer.mozilla.org/en-US/docs/Games/Techniques/3D_collision_detection#sphere_vs._aabb */
+bool PhysicsSphere::collide(PhysicsAABB box) {
+    Vec3f closest = Vec3f {
+        max(box.boundMin().x, min(position.x, box.boundMax().x)),
+        max(box.boundMin().y, min(position.y, box.boundMax().y)),
+        max(box.boundMin().z, min(position.z, box.boundMax().z))
+    };
+
+    return (closest - position).norm2() < radius*radius;
 }

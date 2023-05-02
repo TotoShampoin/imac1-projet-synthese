@@ -31,7 +31,7 @@ public:
     bool shouldClose();
     void updateSize(unsigned int width = 0, unsigned int height = 0);
 
-    void clear();
+    void clear(float r = 0, float g = 0, float b = 0, float a = 1);
     void refresh();
 
 static void pollEvents();

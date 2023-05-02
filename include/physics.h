@@ -6,6 +6,9 @@ struct PhysicsAABB {
 
     PhysicsAABB(Vec3f a, Vec3f b);
 
+    Vec3f boundMin();
+    Vec3f boundMax();
+
     bool collide(PhysicsAABB other);
 };
 
