@@ -1,5 +1,7 @@
 #include "physics.h"
 #include <cmath>
+#include <iostream>
+
 
 #define min(a, b) ((a) < (b) ? (a) : (b))
 #define max(a, b) ((a) > (b) ? (a) : (b))
@@ -39,6 +41,12 @@ Vec3f PhysicsAABB::boundMax() {
         max(boundA.z, boundB.z)
     };
 }
+Vec3f PhysicsAABB::middle() {
+    return (boundA+boundB)/2;
+}
+Vec3f PhysicsAABB::size() {
+    return (boundA-boundB)/2;
+}
 
 bool PhysicsAABB::collide(PhysicsAABB other) {
     bool collide_x = floatCollide(
@@ -69,4 +77,35 @@ bool PhysicsSphere::collide(PhysicsAABB box) {
     };
 
     return (closest - position).norm2() < radius*radius;
+}
+
+bool PhysicsSphere::collide(PhysicsAABB box, Vec3f& normal) {
+    Vec3f closest = Vec3f {
+        max(box.boundMin().x, min(position.x, box.boundMax().x)),
+        max(box.boundMin().y, min(position.y, box.boundMax().y)),
+        max(box.boundMin().z, min(position.z, box.boundMax().z))
+    };
+    Vec3f middleBox = box.middle();
+
+    float rad2 = radius * radius;
+    float dist2 = (closest - position).norm2();
+    
+    if( dist2 >= rad2 ) return false;
+
+    if( closest == position ) {
+        normal = (position - middleBox).normalize();
+        return true;
+    }
+
+    normal = Vec3f(0,0,0);
+
+    if(closest.x == box.boundMin().x) normal -= Vec3f(1,0,0);
+    if(closest.y == box.boundMin().y) normal -= Vec3f(0,1,0);
+    if(closest.z == box.boundMin().z) normal -= Vec3f(0,0,1);
+    if(closest.x == box.boundMax().x) normal += Vec3f(1,0,0);
+    if(closest.y == box.boundMax().y) normal += Vec3f(0,1,0);
+    if(closest.z == box.boundMax().z) normal += Vec3f(0,0,1);
+
+    normal = normal.normalize();
+    return true;
 }

@@ -8,6 +8,8 @@ struct PhysicsAABB {
 
     Vec3f boundMin();
     Vec3f boundMax();
+    Vec3f middle();
+    Vec3f size();
 
     bool collide(PhysicsAABB other);
 };
