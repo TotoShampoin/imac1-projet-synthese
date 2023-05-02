@@ -8,13 +8,13 @@ int main(int argc, const char* argv[]) {
     Image yes {"assets/check.png"};
     Image no  {"assets/cross.png"};
     
-    Image yey {"assets/yey.png"};
+    Image yey {"assets/wallcube.png"};
     Image colors {"assets/colors.png"};
     Geometry cube = createCube();
     Geometry sphere = createSphere(24);
 
     PhysicsSphere ball { Vec3f(2, 0, 0), .5 };
-    PhysicsAABB box { Vec3f(0, -1, -2) , Vec3f(-2, 1, -.45) };
+    PhysicsAABB box { Vec3f(0, -1, -2) , Vec3f(-2, 1, -.4) };
     
     bool is_touching = false;
     
@@ -23,6 +23,7 @@ int main(int argc, const char* argv[]) {
         double startTime = glfwGetTime();
 
         ball.position.x = cos(timer) + 1;
+        ball.position.y = sin(timer);
 
         is_touching = ball.collide(box);
         
@@ -44,7 +45,7 @@ int main(int argc, const char* argv[]) {
         // draw3DObject(cube);
 
         // Test collision
-        setCamera(90, 90, 5);
+        setCamera(90, 90, 3);
         
         glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
         draw3DObject(cube, colors,
