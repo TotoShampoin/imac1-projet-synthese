@@ -83,68 +83,68 @@ Geometry createCube() {
     Geometry cube (24, 12);
 
     /* VERTICES */
-    // ABCD
-    set_coord(cube.vertices, 0, -1, -1, -1); // A
-    set_coord(cube.vertices, 1,  1, -1, -1); // B
-    set_coord(cube.vertices, 2,  1,  1, -1); // C
-    set_coord(cube.vertices, 3, -1,  1, -1); // D
-    // EFGH
-    set_coord(cube.vertices, 4, -1, -1,  1); // E
-    set_coord(cube.vertices, 5,  1, -1,  1); // F
-    set_coord(cube.vertices, 6,  1,  1,  1); // G
-    set_coord(cube.vertices, 7, -1,  1,  1); // H
-    // AEHD
-    set_coord(cube.vertices, 8, -1, -1, -1); // A
-    set_coord(cube.vertices, 9, -1, -1,  1); // E
-    set_coord(cube.vertices,10, -1,  1,  1); // H
-    set_coord(cube.vertices,11, -1,  1, -1); // D
-    // BFGC
-    set_coord(cube.vertices,12,  1, -1, -1); // B
-    set_coord(cube.vertices,13,  1, -1,  1); // F
-    set_coord(cube.vertices,14,  1,  1,  1); // G
-    set_coord(cube.vertices,15,  1,  1, -1); // C
-    // AEFB
-    set_coord(cube.vertices,16, -1, -1, -1); // A
-    set_coord(cube.vertices,17, -1, -1,  1); // E
-    set_coord(cube.vertices,18,  1, -1,  1); // F
-    set_coord(cube.vertices,19,  1, -1, -1); // B
-    // DHGC
-    set_coord(cube.vertices,20, -1,  1, -1); // D
-    set_coord(cube.vertices,21, -1,  1,  1); // H
-    set_coord(cube.vertices,22,  1,  1,  1); // G
-    set_coord(cube.vertices,23,  1,  1, -1); // C
+    // ABCD / DIE 1
+    set_coord(cube.vertices, 0, -1, -1,  1); // A
+    set_coord(cube.vertices, 1,  1, -1,  1); // B
+    set_coord(cube.vertices, 2,  1,  1,  1); // C
+    set_coord(cube.vertices, 3, -1,  1,  1); // D
+    // EFGH / DIE 6
+    set_coord(cube.vertices, 4, -1,  1, -1); // E
+    set_coord(cube.vertices, 5,  1,  1, -1); // F
+    set_coord(cube.vertices, 6,  1, -1, -1); // G
+    set_coord(cube.vertices, 7, -1, -1, -1); // H
+    // BGFC / DIE 2
+    set_coord(cube.vertices, 8,  1, -1,  1); // B
+    set_coord(cube.vertices, 9,  1, -1, -1); // G
+    set_coord(cube.vertices,10,  1,  1, -1); // F
+    set_coord(cube.vertices,11,  1,  1,  1); // C
+    // HADE / DIE 5
+    set_coord(cube.vertices,12, -1, -1, -1); // H
+    set_coord(cube.vertices,13, -1, -1,  1); // A
+    set_coord(cube.vertices,14, -1,  1,  1); // D
+    set_coord(cube.vertices,15, -1,  1, -1); // E
+    // HGBA / DIE 3
+    set_coord(cube.vertices,16, -1, -1, -1); // H
+    set_coord(cube.vertices,17,  1, -1, -1); // G
+    set_coord(cube.vertices,18,  1, -1,  1); // B
+    set_coord(cube.vertices,19, -1, -1,  1); // A
+    // DCFE / DIE 4
+    set_coord(cube.vertices,20, -1,  1,  1); // D
+    set_coord(cube.vertices,21,  1,  1,  1); // C
+    set_coord(cube.vertices,22,  1,  1, -1); // F
+    set_coord(cube.vertices,23, -1,  1, -1); // E
 
     /* UV MAP*/
-    // ABCD
+    // ABCD / DIE 1
     set_coord(cube.uv, 0,    0,    0); // A
     set_coord(cube.uv, 1, 1/3.,    0); // B
     set_coord(cube.uv, 2, 1/3., 1/2.); // C
     set_coord(cube.uv, 3,    0, 1/2.); // D
-    // EFGH
-    set_coord(cube.uv, 4,    0, 1/2.); // E
-    set_coord(cube.uv, 5, 1/3., 1/2.); // F
-    set_coord(cube.uv, 6, 1/3.,    1); // G
-    set_coord(cube.uv, 7,    0,    1); // H
-    // AEHD
-    set_coord(cube.uv, 8, 1/3.,    0); // A
-    set_coord(cube.uv, 9, 2/3.,    0); // E
-    set_coord(cube.uv,10, 2/3., 1/2.); // H
-    set_coord(cube.uv,11, 1/3., 1/2.); // D
-    // BFGC
-    set_coord(cube.uv,12, 1/3., 1/2.); // B
-    set_coord(cube.uv,13, 2/3., 1/2.); // F
-    set_coord(cube.uv,14, 2/3.,    1); // G
-    set_coord(cube.uv,15, 1/3.,    1); // C
-    // AEFB
-    set_coord(cube.uv,16, 2/3.,    0); // A
-    set_coord(cube.uv,17,    1,    0); // E
-    set_coord(cube.uv,18,    1, 1/2.); // F
-    set_coord(cube.uv,19, 2/3., 1/2.); // B
-    // DHGC
-    set_coord(cube.uv,20, 2/3., 1/2.); // D
-    set_coord(cube.uv,21,    1, 1/2.); // H
-    set_coord(cube.uv,22,    1,    1); // G
-    set_coord(cube.uv,23, 2/3.,    1); // C
+    // EFGH / DIE 6
+    set_coord(cube.uv, 4, 2/3., 1/2.); // E
+    set_coord(cube.uv, 5,    1, 1/2.); // F
+    set_coord(cube.uv, 6,    1,    1); // G
+    set_coord(cube.uv, 7, 2/3.,    1); // H
+    // BGFC / DIE 2
+    set_coord(cube.uv, 8, 1/3.,    0); // B
+    set_coord(cube.uv, 9, 2/3.,    0); // G
+    set_coord(cube.uv,10, 2/3., 1/2.); // F
+    set_coord(cube.uv,11, 1/3., 1/2.); // C
+    // HADE / DIE 5
+    set_coord(cube.uv,12, 1/3., 1/2.); // H
+    set_coord(cube.uv,13, 2/3., 1/2.); // A
+    set_coord(cube.uv,14, 2/3.,    1); // D
+    set_coord(cube.uv,15, 1/3.,    1); // E
+    // HGBA / DIE 3
+    set_coord(cube.uv,16, 2/3.,    0); // H
+    set_coord(cube.uv,17,    1,    0); // G
+    set_coord(cube.uv,18,    1, 1/2.); // B
+    set_coord(cube.uv,19, 2/3., 1/2.); // A
+    // DCFE / DIE 4
+    set_coord(cube.uv,20,    0, 1/2.); // D
+    set_coord(cube.uv,21, 1/3., 1/2.); // C
+    set_coord(cube.uv,22, 1/3.,    1); // F
+    set_coord(cube.uv,23,    0,    1); // E
 
     for(int i = 0; i < 6; i++) {
         set_triangle(cube.triangles, i*2+0, i*4, i*4+1, i*4+2);

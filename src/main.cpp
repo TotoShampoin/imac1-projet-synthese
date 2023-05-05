@@ -65,7 +65,10 @@ int main(int argc, const char* argv[]) {
         );
         glColor4f(1,1,1,1);
         glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+        glPushMatrix();
+        glRotatef(timer * 180 / M_PI, 1, 0, 0);
         drawAABB(box, wall);
+        glPopMatrix();
         
         glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
         drawSphere(ball);
