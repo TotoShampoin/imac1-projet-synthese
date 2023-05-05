@@ -158,6 +158,85 @@ Geometry createCube() {
     return cube;
 }
 
+Geometry createWall() {
+    Geometry cube (16, 8);
+
+    /* VERTICES */
+    // // ABCD / DIE 1
+    // set_coord(cube.vertices, 0, -1, -1,  1); // A
+    // set_coord(cube.vertices, 1,  1, -1,  1); // B
+    // set_coord(cube.vertices, 2,  1,  1,  1); // C
+    // set_coord(cube.vertices, 3, -1,  1,  1); // D
+    // // EFGH / DIE 6
+    // set_coord(cube.vertices, 4, -1,  1, -1); // E
+    // set_coord(cube.vertices, 5,  1,  1, -1); // F
+    // set_coord(cube.vertices, 6,  1, -1, -1); // G
+    // set_coord(cube.vertices, 7, -1, -1, -1); // H
+    // BGFC / DIE 2
+    set_coord(cube.vertices, 0,  1, -1, -1); // G
+    set_coord(cube.vertices, 1,  1, -1,  1); // B
+    set_coord(cube.vertices, 2,  1,  1,  1); // C
+    set_coord(cube.vertices, 3,  1,  1, -1); // F
+    // HADE / DIE 5
+    set_coord(cube.vertices, 4, -1, -1,  1); // A
+    set_coord(cube.vertices, 5, -1, -1, -1); // H
+    set_coord(cube.vertices, 6, -1,  1, -1); // E
+    set_coord(cube.vertices, 7, -1,  1,  1); // D
+    // HGBA / DIE 3
+    set_coord(cube.vertices, 8,  1, -1, -1); // G
+    set_coord(cube.vertices, 9, -1, -1, -1); // H
+    set_coord(cube.vertices,10, -1, -1,  1); // A
+    set_coord(cube.vertices,11,  1, -1,  1); // B
+    // DCFE / DIE 4
+    set_coord(cube.vertices,12,  1,  1,  1); // C
+    set_coord(cube.vertices,13, -1,  1,  1); // D
+    set_coord(cube.vertices,14, -1,  1, -1); // E
+    set_coord(cube.vertices,15,  1,  1, -1); // F
+
+    /* UV MAP*/
+    // // ABCD / DIE 1
+    // set_coord(cube.uv, 0,    0,    0); // A
+    // set_coord(cube.uv, 1, 1/3.,    0); // B
+    // set_coord(cube.uv, 2, 1/3., 1/2.); // C
+    // set_coord(cube.uv, 3,    0, 1/2.); // D
+    // // EFGH / DIE 6
+    // set_coord(cube.uv, 4, 2/3., 1/2.); // E
+    // set_coord(cube.uv, 5,    1, 1/2.); // F
+    // set_coord(cube.uv, 6,    1,    1); // G
+    // set_coord(cube.uv, 7, 2/3.,    1); // H
+    // BGFC / DIE 2
+    set_coord(cube.uv, 0,    0,    0); // B
+    set_coord(cube.uv, 1, 1/2.,    0); // G
+    set_coord(cube.uv, 2, 1/2., 1/2.); // F
+    set_coord(cube.uv, 3,    0, 1/2.); // C
+    // HADE / DIE 5
+    set_coord(cube.uv, 4,    0, 1/2.); // H
+    set_coord(cube.uv, 5, 1/2., 1/2.); // A
+    set_coord(cube.uv, 6, 1/2.,    1); // D
+    set_coord(cube.uv, 7,    0,    1); // E
+    // HGBA / DIE 3
+    set_coord(cube.uv, 8, 1/2.,    0); // H
+    set_coord(cube.uv, 9,    1,    0); // G
+    set_coord(cube.uv,10,    1, 1/2.); // B
+    set_coord(cube.uv,11, 1/2., 1/2.); // A
+    // DCFE / DIE 4
+    set_coord(cube.uv,12, 1/2., 1/2.); // D
+    set_coord(cube.uv,13,    1, 1/2.); // C
+    set_coord(cube.uv,14,    1,    1); // F
+    set_coord(cube.uv,15, 1/2.,    1); // E
+
+    for(int i = 0; i < 4; i++) {
+        set_triangle(cube.triangles, i*2+0, i*4, i*4+1, i*4+2);
+        set_triangle(cube.triangles, i*2+1, i*4, i*4+2, i*4+3);
+    }
+
+    for(int i = 0; i < 16; i++) {
+        set_coord(cube.colors, i, 1, 1, 1, 1);
+    }
+
+    return cube;
+}
+
 Geometry createSphere(GLint precision) {
     int vertex_number = precision * (precision / 2 + 1); // A CHANGER
     int triangle_number = vertex_number * 2; // A CHANGER

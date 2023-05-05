@@ -23,8 +23,11 @@ void drawLine(Vec3f l1, Vec3f l2) {
 int main(int argc, const char* argv[]) {
     Window win {800, 600, "fenetre"};
 
-    Image wall {"assets/corridor.png"};
+    Image cube_texture {"assets/corridor.png"};
+    Image wall_texture {"assets/walls.png"};
+    Image transparent {"assets/wallcube.png"};
     Geometry cube = createCube();
+    Geometry wall = createWall();
     Geometry sphere = createSphere(24);
 
     PhysicsAABB box {
@@ -49,26 +52,41 @@ int main(int argc, const char* argv[]) {
 
         // // Test texture
         // gluLookAt(
-        //     0, 0, -3,
+        //     1, 4, 3,
         //     0, 0, 0,
-        //     0, -1, 0
+        //     0, 0, 1
         // );
         // glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
-        // draw3DObject(cube, wall, Vec3f(0, 0, 0)); // devant
-        // draw3DObject(cube, wall, Vec3f(0, 0, 2)); // derrière
+        // glPushMatrix();
+        // glRotatef(timer * 180 / M_PI, 1, 0, 0);
+        // draw3DObject(cube, cube_texture, Vec3f(0, 0, 2.5)); // derrière
+        // draw3DObject(cube, transparent, Vec3f(0, 0, 0)); // devant
+        // glPopMatrix();
 
-        // Test collision
+        // // Test collision
+        // gluLookAt(
+        //     3, 4, 3,
+        //     0, 0, 0,
+        //     0, 0, 1
+        // );
+        // glColor4f(1,1,1,1);
+        // glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+        // glPushMatrix();
+        // glRotatef(timer * 180 / M_PI, 1, 0, 0);
+        // drawAABB(box, cube_texture);
+        // glPopMatrix();
+
+        // Test level
         gluLookAt(
-            3, 4, 3,
+            0, 0, 3,
             0, 0, 0,
-            0, 0, 1
+            0, 1, 1
         );
         glColor4f(1,1,1,1);
         glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
-        glPushMatrix();
-        glRotatef(timer * 180 / M_PI, 1, 0, 0);
-        drawAABB(box, wall);
-        glPopMatrix();
+        for (int i = -1; i < 20; i++) {
+            draw3DObject(wall, wall_texture, Vec3f(0, 0, -2 * i), Vec3f(-1, -1, -1));
+        }
         
         glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
         drawSphere(ball);
