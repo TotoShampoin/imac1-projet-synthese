@@ -10,9 +10,11 @@ struct Obstacle {
 };
 
 struct Level {
-    float length;
+    float length = 20;
     std::vector<Obstacle> obstacles;
     std::vector<Bonus> bonus;
+
+    Level();
 };
 
 Mesh makeWallMesh();

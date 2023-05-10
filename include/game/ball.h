@@ -1,6 +1,7 @@
 #include "vec3.h"
 #include "IHM/objects.h"
 #include "physics.h"
+#include "level.h"
 
 #include <vector>
 
@@ -10,7 +11,7 @@ struct Ball {
     float radius = 0.25;
 
     void move(float deltaTime);
-    bool collide(std::vector<PhysicsAABB>&);
+    bool collide(std::vector<Obstacle>&);
 };
 
 Mesh makeBallMesh();
