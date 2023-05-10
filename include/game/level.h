@@ -15,3 +15,4 @@ struct Level {
     std::vector<Bonus> bonus;
 };
 
+Mesh makeWallMesh();
