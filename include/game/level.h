@@ -1,8 +1,9 @@
 #pragma once
 #include <vector>
 
+#include "IHM/objects.h"
 #include "logic/vec3.h"
-#include "bonus.h"
+// #include "game/bonus.h"
 
 struct Obstacle {
     Vec3f position;
@@ -10,11 +11,12 @@ struct Obstacle {
 };
 
 struct Level {
-    float length = 20;
+    float length;
+    std::vector<Obstacle> walls;
     std::vector<Obstacle> obstacles;
-    std::vector<Bonus> bonus;
+    // std::vector<Bonus> bonus;
 
-    Level();
+    Level(float length);
 };
 
 Mesh makeWallMesh();
