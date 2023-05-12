@@ -1,7 +1,8 @@
+#pragma once
 #include "logic/vec3.h"
 #include "IHM/objects.h"
-#include "physics.h"
-#include "level.h"
+#include "logic/physics.h"
+#include "game/level.h"
 
 #include <vector>
 
