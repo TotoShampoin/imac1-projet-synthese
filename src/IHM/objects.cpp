@@ -287,7 +287,12 @@ Geometry createSphere(GLint precision) {
 
             float _i = 2 * M_PI * (float)i / precision;
             float _j = 2 * M_PI * (float)j / precision;
-            set_coord(sphere.vertices, a, cos(_j)*sin(_i), sin(_j)*sin(_i), cos(_i));
+
+            float x = cos(_j)*sin(_i);
+            float z = sin(_j)*sin(_i);
+            float y = cos(_i);
+
+            set_coord(sphere.vertices, a, x, y, z);
             set_coord(sphere.colors, a, 1, 1, 1, 1);
             set_coord(sphere.uv, a, (float)j/points_j, (float)i/points_i);
             set_triangle(sphere.triangles, 2 * a, a, b, d);
