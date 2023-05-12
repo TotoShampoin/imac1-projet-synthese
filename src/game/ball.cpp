@@ -10,7 +10,8 @@ Mesh makeBallMesh() {
 
 
 void Ball::move(float deltaTime) {
-    position += speed * deltaTime;
+    speed_dir = speed_dir.normalize();
+    position += speed_dir * speed * deltaTime;
 }
 
 bool Ball::collide(std::vector<Obstacle>& boxes) {
@@ -27,9 +28,9 @@ bool Ball::collide(std::vector<Obstacle>& boxes) {
         normal += tmp_normal;
     }
     if(!collides) return false;
-    normal.normalize();
+    normal = normal.normalize();
 
-    speed = speed - normal * 2 * (speed*normal);
+    speed_dir = (speed_dir - normal * 2 * (speed_dir*normal)).normalize();
     return true;
 }
 
