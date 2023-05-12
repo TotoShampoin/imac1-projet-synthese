@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 
-#include "vec3.h"
+#include "logic/vec3.h"
 #include "bonus.h"
 
 struct Obstacle {

@@ -1,5 +1,5 @@
 #include "IHM/draw.h"
-#include "vec3.h"
+#include "logic/vec3.h"
 
 #include <cmath>
 

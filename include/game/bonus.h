@@ -2,7 +2,7 @@
 #include <vector>
 #include <functional>
 
-#include "vec3.h"
+#include "logic/vec3.h"
 #include "IHM/objects.h"
 
 struct Type {

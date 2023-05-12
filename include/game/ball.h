@@ -1,4 +1,4 @@
-#include "vec3.h"
+#include "logic/vec3.h"
 #include "IHM/objects.h"
 #include "physics.h"
 #include "level.h"
