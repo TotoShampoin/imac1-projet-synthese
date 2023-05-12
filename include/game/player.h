@@ -2,7 +2,7 @@
 
 #include "IHM/window.h"
 #include "IHM/objects.h"
-#include "vec3.h"
+#include "logic/vec3.h"
 
 #include <cmath>
 #include <iostream>
