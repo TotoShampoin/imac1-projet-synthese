@@ -294,7 +294,7 @@ Geometry createSphere(GLint precision) {
 
             set_coord(sphere.vertices, a, x, y, z);
             set_coord(sphere.colors, a, 1, 1, 1, 1);
-            set_coord(sphere.uv, a, (float)j/points_j, (float)i/points_i);
+            set_coord(sphere.uv, a, (float)j/(points_j-1), (float)i/(points_i-1));
             set_triangle(sphere.triangles, 2 * a, a, b, d);
             set_triangle(sphere.triangles, 2 * a + 1, a, c, d);
         }
