@@ -4,7 +4,7 @@
 Mesh makeBallMesh() {
     return Mesh {
         .shape = createSphere(16),
-        .texture = Image("assets/tennis.png")
+        .texture = Image("assets/textures/tennis.png")
     };
 };
 
