@@ -12,7 +12,7 @@ void drawAABB(PhysicsAABB& box) {
     draw3DObject(geo, center, size);
 }
 
-void drawWorld(Window& win, Ball& ball, Level& level) {
+void drawWorld(Window& win, Player& player, Level& level) {
 static Mesh ball_mesh = makeBallMesh();
 static Mesh wall_mesh = makeWallMesh();
 // static Geometry racket_mesh = makeRacketMesh();
@@ -28,8 +28,8 @@ static Mesh wall_mesh = makeWallMesh();
     
     draw3DObject(
         ball_mesh.shape, ball_mesh.texture, 
-        ball.position + Vec3f(0,0,0),
-        Vec3f(1,1,1) * ball.radius
+        player.ball->position + Vec3f(0,0,0),
+        Vec3f(1,1,1) * player.ball->radius
     );
     int size = level.length/2;
     for (int i = 0; i < size; i++) {
@@ -61,9 +61,8 @@ static Mesh wall_mesh = makeWallMesh();
 int main(int argc, const char* argv[]) {
     Window win {800, 600, "fenetre"};
     
-    Ball ball;
-    ball.position = Vec3f(0, 0, 2);
-    ball.speed_dir = Vec3f(.5, .5, 2);
+    Player player;
+    player.spawn();
 
     Level level (20);
 
@@ -76,20 +75,24 @@ int main(int argc, const char* argv[]) {
         Vec3f(.5, 1, .25)
     });
 
-    win.on_mouse_move = [](double xpos, double ypos) {};
-    win.on_mouse_button = [](int button, int action, int mods) {};
+    win.on_mouse_move = [&player](double xpos, double ypos) {
+        player.racket->position = Vec3f(xpos, ypos, 2);
+    };
+    win.on_mouse_button = [&player](int button, int action, int mods) {
+
+    };
 
     double timer = 0;
     double deltaTime = 0;
     while(!win.shouldClose()) {
         double startTime = glfwGetTime();
 
-        ball.move(deltaTime);
-        ball.collide(level.walls);
-        ball.collide(level.obstacles);
+        player.ball->move(deltaTime);
+        player.ball->collide(level.walls);
+        player.ball->collide(level.obstacles);
 
         win.clear();
-        drawWorld(win, ball, level);
+        drawWorld(win, player, level);
 
     // Image en 2D
         use2dMode(win);

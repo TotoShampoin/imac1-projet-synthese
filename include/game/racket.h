@@ -1,3 +1,5 @@
+#pragma once
+
 #include "logic/vec3.h"
 #include "IHM/objects.h"
 #include "logic/physics.h"
@@ -7,6 +9,7 @@
 
 struct Racket {
     Vec3f position = Vec3f(0,0,0);
+    bool hasBall = true;
     //Vec3f speed = Vec3f(0,0,0);
     //float radius = 0.25;
 
@@ -14,5 +17,5 @@ struct Racket {
     //bool collide(std::vector<Obstacle>&);
 };
 
-Mesh makeRacketMesh();
+Geometry makeRacketMesh();
 

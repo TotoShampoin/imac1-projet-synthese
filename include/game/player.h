@@ -10,11 +10,12 @@
 #include <iostream>
 
 struct Player {
-    Racket racket;
-    Vec3f position;
-    Ball ball;
+    Ball* ball;
+    Racket* racket;
 
     void spawn();
+    void launchBall();
+    void receiveBall();
 };
 
 
