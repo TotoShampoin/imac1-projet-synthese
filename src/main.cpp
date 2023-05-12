@@ -60,6 +60,10 @@ static Mesh wall_mesh = makeWallMesh();
 
 int main(int argc, const char* argv[]) {
     Window win {800, 600, "fenetre"};
+    
+    Ball ball;
+    ball.position = Vec3f(0, 0, 2);
+    ball.speed_dir = Vec3f(.5, .5, 2);
 
     Level level (20);
 
@@ -72,9 +76,8 @@ int main(int argc, const char* argv[]) {
         Vec3f(.5, 1, .25)
     });
 
-    Ball ball;
-    ball.position = Vec3f(0, 0, 2);
-    ball.speed_dir = Vec3f(.5, .5, 2);
+    win.on_mouse_move = [](double xpos, double ypos) {};
+    win.on_mouse_button = [](int button, int action, int mods) {};
 
     double timer = 0;
     double deltaTime = 0;
