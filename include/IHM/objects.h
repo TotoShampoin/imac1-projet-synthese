@@ -38,3 +38,4 @@ void set_triangle(unsigned int* table, int idx, unsigned int t0, unsigned int t1
 Geometry createCube();
 Geometry createWall();
 Geometry createSphere(GLint precision);
+Geometry createPlane();

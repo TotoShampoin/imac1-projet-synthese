@@ -302,3 +302,25 @@ Geometry createSphere(GLint precision) {
 
     return sphere;
 }
+
+Geometry createPlane() {
+    Geometry plane (4, 2);
+
+    set_coord(plane.vertices, 0, -1, -1,  1);
+    set_coord(plane.vertices, 1,  1, -1,  1);
+    set_coord(plane.vertices, 2,  1,  1,  1);
+    set_coord(plane.vertices, 3, -1,  1,  1);
+
+    set_coord(plane.uv, 0, 0, 0);
+    set_coord(plane.uv, 1, 1, 0);
+    set_coord(plane.uv, 2, 1, 1);
+    set_coord(plane.uv, 3, 0, 1);
+
+    for(int i = 0; i < 4; i++) {
+        set_coord(plane.colors, i, 1, 1, 1, 1);
+    }
+    set_triangle(plane.triangles, 0, 0, 1, 2);
+    set_triangle(plane.triangles, 1, 0, 2, 3);
+
+    return plane;
+}
