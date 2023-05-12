@@ -32,6 +32,6 @@ Level::Level(float l) {
 Mesh makeWallMesh() {
     return {
         .shape = createWall(),
-        .texture = Image("assets/walls.png"),
+        .texture = Image("assets/textures/walls.png"),
     };
 }
