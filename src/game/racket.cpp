@@ -2,6 +2,6 @@
 #include "IHM/objects.h"
 
 Geometry makeRacketMesh() {
-    return createCube();
+    return createPlane();
 };
 

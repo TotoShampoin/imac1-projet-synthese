@@ -19,7 +19,7 @@ void drawAABB(PhysicsAABB& box) {
 void drawWorld(Window& win, Player& player, Level& level) {
 static Mesh ball_mesh = makeBallMesh();
 static Mesh wall_mesh = makeWallMesh();
-// static Geometry racket_mesh = makeRacketMesh();
+static Geometry racket_mesh = makeRacketMesh();
 
     use3dMode(win);
     glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
@@ -43,8 +43,13 @@ static Mesh wall_mesh = makeWallMesh();
             Vec3f(1, -1, 1)
         );
     }
-    
+
     glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+    draw3DObject(
+        racket_mesh, player.racket.position + Vec3f(0, 0, 0),
+        player.racket.scale
+    );
+    
     for(auto& box : level.obstacles) {
         PhysicsAABB tmp_box {
             Vec3f(box.position - box.size),
@@ -79,8 +84,12 @@ int main(int argc, const char* argv[]) {
         Vec3f(.5, 1, .25)
     });
 
-    win.on_mouse_move = [&player](double xpos, double ypos) {
-        player.racket.position = Vec3f(xpos, ypos, 2);
+    win.on_mouse_move = [&player, &win](double xpos, double ypos) {
+        player.racket.position = Vec3f(clamp(xpos, -0.7, 0.7), clamp(ypos, -0.7, 0.7), 2);
+        std::cout << "xpos: " << xpos << " ypos: " << ypos << std::endl;
+        if (player.racket.hasBall) {
+            player.ball.position = player.racket.position + Vec3f(0, 0, 1);
+        }
     };
     win.on_mouse_button = [&player](int button, int action, int mods) {
 

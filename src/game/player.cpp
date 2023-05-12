@@ -8,7 +8,7 @@ void Player::spawn() {
     this->ball.position = Vec3f(0, 0, 2);
     this->ball.speed_dir = Vec3f(0, 0, 0);
     this->ball.speed = 0;
-    this->racket.position = Vec3f(0, 0, 0);
+    this->racket.position = Vec3f(0, 0, 1);
 }
 
 void Player::launchBall() {

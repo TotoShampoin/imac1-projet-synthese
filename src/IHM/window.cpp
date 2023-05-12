@@ -47,11 +47,11 @@ void Window::_setEventCallbacks() {
     });
     glfwSetCursorPosCallback(_glwin, [](GLFWwindow* window, double xpos, double ypos) {
         Window* this_window = (Window*)glfwGetWindowUserPointer(window);
-        this_window->on_mouse_move(xpos, ypos);
+        this_window->on_mouse_move(xpos/this_window->width * (-2) + 1, ypos/this_window->height * (-2) + 1);
     });
     glfwSetScrollCallback(_glwin, [](GLFWwindow* window, double xoffset, double yoffset) {
         Window* this_window = (Window*)glfwGetWindowUserPointer(window);
-        this_window->on_scroll(xoffset/this_window->width * 2 - 1, yoffset/this_window->height * 2 - 1);
+        this_window->on_scroll(xoffset, yoffset);
     });
     glfwSetWindowSizeCallback(_glwin, [](GLFWwindow* window, int width, int height) {
         Window* this_window = (Window*)glfwGetWindowUserPointer(window);
