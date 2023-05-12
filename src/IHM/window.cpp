@@ -51,7 +51,7 @@ void Window::_setEventCallbacks() {
     });
     glfwSetScrollCallback(_glwin, [](GLFWwindow* window, double xoffset, double yoffset) {
         Window* this_window = (Window*)glfwGetWindowUserPointer(window);
-        this_window->on_scroll(xoffset, yoffset);
+        this_window->on_scroll(xoffset/this_window->width * 2 - 1, yoffset/this_window->height * 2 - 1);
     });
     glfwSetWindowSizeCallback(_glwin, [](GLFWwindow* window, int width, int height) {
         Window* this_window = (Window*)glfwGetWindowUserPointer(window);
