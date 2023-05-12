@@ -1,5 +1,5 @@
 #pragma once
-#include "vec3.h"
+#include "logic/vec3.h"
 
 struct PhysicsAABB {
     Vec3f boundA = Vec3f(0,0,0);
