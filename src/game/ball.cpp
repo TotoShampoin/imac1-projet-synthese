@@ -10,7 +10,9 @@ Mesh makeBallMesh() {
 
 
 void Ball::move(float deltaTime) {
-    speed_dir = speed_dir.normalize();
+    if(speed_dir.norm() > 0) {
+        speed_dir = speed_dir.normalize();
+    }
     position += speed_dir * speed * deltaTime;
 }
 
