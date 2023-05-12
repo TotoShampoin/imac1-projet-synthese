@@ -5,6 +5,10 @@
 #include "game/ball.h"
 #include "game/player.h"
 
+float clamp(float t, float min, float max) {
+    return (t < min) ? min : (t > max) ? max : t;
+}
+
 void drawAABB(PhysicsAABB& box) {
     static Geometry geo = createCube();
     Vec3f center = box.middle();
