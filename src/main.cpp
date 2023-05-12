@@ -28,8 +28,8 @@ static Mesh wall_mesh = makeWallMesh();
     
     draw3DObject(
         ball_mesh.shape, ball_mesh.texture, 
-        player.ball->position + Vec3f(0,0,0),
-        Vec3f(1,1,1) * player.ball->radius
+        player.ball.position + Vec3f(0,0,0),
+        Vec3f(1,1,1) * player.ball.radius
     );
     int size = level.length/2;
     for (int i = 0; i < size; i++) {
@@ -76,7 +76,7 @@ int main(int argc, const char* argv[]) {
     });
 
     win.on_mouse_move = [&player](double xpos, double ypos) {
-        player.racket->position = Vec3f(xpos, ypos, 2);
+        player.racket.position = Vec3f(xpos, ypos, 2);
     };
     win.on_mouse_button = [&player](int button, int action, int mods) {
 
@@ -87,9 +87,9 @@ int main(int argc, const char* argv[]) {
     while(!win.shouldClose()) {
         double startTime = glfwGetTime();
 
-        player.ball->move(deltaTime);
-        player.ball->collide(level.walls);
-        player.ball->collide(level.obstacles);
+        player.ball.move(deltaTime);
+        player.ball.collide(level.walls);
+        player.ball.collide(level.obstacles);
 
         win.clear();
         drawWorld(win, player, level);

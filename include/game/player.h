@@ -10,8 +10,8 @@
 #include <iostream>
 
 struct Player {
-    Ball* ball;
-    Racket* racket;
+    Ball ball;
+    Racket racket;
 
     void spawn();
     void launchBall();
