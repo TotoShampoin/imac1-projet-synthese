@@ -1,4 +1,4 @@
-#include "vec3.h"
+#include "logic/vec3.h"
 #include <cmath>
 
 Vec3f::Vec3f(float x, float y, float z) {
