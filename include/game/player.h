@@ -3,19 +3,11 @@
 #include "IHM/window.h"
 #include "IHM/objects.h"
 #include "logic/vec3.h"
+#include "game/ball.h"
+#include "game/racket.h"
 
 #include <cmath>
 #include <iostream>
-
-struct Ball {
-    Geometry& sphere;
-    // Bonus
-};
-
-struct Racket {
-    Geometry& rect;
-    // Bonus
-};
 
 struct Player {
     Racket racket;
