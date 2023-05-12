@@ -18,6 +18,7 @@ struct Geometry {
     unsigned long tri_nb;
     GLuint* triangles;  // * 3
 
+    Geometry(const char* file);
     Geometry(unsigned long vert_nb, unsigned long tri_nb);
     ~Geometry();
 

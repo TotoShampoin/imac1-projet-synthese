@@ -3,10 +3,15 @@
 
 #include <string>
 #include <sstream>
+#include <fstream>
 #include <stdexcept>
 #include <iostream>
 
 #include "IHM/objects.h"
+
+#define file_read(file, data) file.read(reinterpret_cast<char*>(&data), sizeof(data))
+#define file_write(file, data) file.write(reinterpret_cast<char*>(&data), sizeof(data))
+
 
 Image::Image(const char* file) {
     int channels_in_file;
@@ -49,6 +54,33 @@ Geometry::Geometry(unsigned long verts, unsigned long tris) {
     uv = new float[vert_nb * 2];
     colors = new float[vert_nb * 4];
     triangles = new unsigned int[tri_nb * 3];
+}
+Geometry::Geometry(const char* file_path) {
+	std::fstream file (file_path, std::ios::in | std::fstream::binary);
+	if(!file) {
+		throw std::runtime_error(std::string(file_path) + " not found");
+	}
+
+	file_read(file, vert_nb);
+	file_read(file, tri_nb);
+
+	vertices = new GLfloat[vert_nb*3];
+	uv = new GLfloat[vert_nb*2];
+    colors = new float[vert_nb * 4];
+	triangles = new GLuint[tri_nb*3];
+
+	for(size_t i = 0; i < vert_nb * 3; i++) {
+		file_read(file, vertices[i]);
+	}
+	for(size_t i = 0; i < vert_nb * 2; i++) {
+		file_read(file, uv[i]);
+	}
+	for(size_t i = 0; i < vert_nb * 4; i++) {
+		file_read(file, colors[i]);
+	}
+	for(size_t i = 0; i < tri_nb * 3; i++) {
+		file_read(file, triangles[i]);
+	}
 }
 
 Geometry::~Geometry() {
@@ -257,6 +289,7 @@ Geometry createSphere(GLint precision) {
             float _j = 2 * M_PI * (float)j / precision;
             set_coord(sphere.vertices, a, cos(_j)*sin(_i), sin(_j)*sin(_i), cos(_i));
             set_coord(sphere.colors, a, 1, 1, 1, 1);
+            set_coord(sphere.uv, a, (float)j/points_j, (float)i/points_i);
             set_triangle(sphere.triangles, 2 * a, a, b, d);
             set_triangle(sphere.triangles, 2 * a + 1, a, c, d);
         }
