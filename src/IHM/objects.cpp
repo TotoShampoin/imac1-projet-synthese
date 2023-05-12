@@ -306,10 +306,10 @@ Geometry createSphere(GLint precision) {
 Geometry createPlane() {
     Geometry plane (4, 2);
 
-    set_coord(plane.vertices, 0, -1, -1,  1);
-    set_coord(plane.vertices, 1,  1, -1,  1);
-    set_coord(plane.vertices, 2,  1,  1,  1);
-    set_coord(plane.vertices, 3, -1,  1,  1);
+    set_coord(plane.vertices, 0, -1, -1,  0);
+    set_coord(plane.vertices, 1,  1, -1,  0);
+    set_coord(plane.vertices, 2,  1,  1,  0);
+    set_coord(plane.vertices, 3, -1,  1,  0);
 
     set_coord(plane.uv, 0, 0, 0);
     set_coord(plane.uv, 1, 1, 0);
