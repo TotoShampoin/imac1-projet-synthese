@@ -40,7 +40,7 @@ static Geometry racket_mesh = makeRacketMesh();
         draw3DObject(
             wall_mesh.shape, wall_mesh.texture,
             Vec3f(0, 0, 2*(i+.5)),
-            Vec3f(1, -1, 1)
+            Vec3f(LEVEL_WIDTH, -LEVEL_HEIGHT, 1)
         );
     }
 
@@ -76,16 +76,20 @@ int main(int argc, const char* argv[]) {
     Level level (20);
 
     level.obstacles.push_back(Obstacle {
-        Vec3f(.5, 0, 5),
-        Vec3f(.5, 1, .25)
+        Vec3f(LEVEL_WIDTH/2., 0, 5),
+        Vec3f(LEVEL_WIDTH/2., LEVEL_HEIGHT, .25)
     });
     level.obstacles.push_back(Obstacle {
-        Vec3f(-.5, 0, 10),
-        Vec3f(.5, 1, .25)
+        Vec3f(-LEVEL_WIDTH/2., 0, 10),
+        Vec3f(LEVEL_WIDTH/2., LEVEL_HEIGHT, .25)
     });
 
     win.on_mouse_move = [&player, &win](double xpos, double ypos) {
-        player.racket.position = Vec3f(clamp(xpos, -0.7, 0.7), clamp(ypos, -0.7, 0.7), 2);
+        player.racket.position = Vec3f(
+            clamp(xpos, -(LEVEL_WIDTH - 0.3), LEVEL_WIDTH - 0.3), 
+            clamp(ypos, -(LEVEL_HEIGHT - 0.3), LEVEL_HEIGHT - 0.3), 
+            2
+        );
         std::cout << "xpos: " << xpos << " ypos: " << ypos << std::endl;
         if (player.racket.hasBall) {
             player.ball.position = player.racket.position + Vec3f(0, 0, 1);
