@@ -51,18 +51,20 @@ static Geometry racket_mesh = makeRacketMesh();
     );
     
     for(auto& box : level.obstacles) {
-        PhysicsAABB tmp_box {
-            Vec3f(box.position - box.size),
-            Vec3f(box.position + box.size),
-        };
-        drawAABB(tmp_box);
+        // PhysicsAABB tmp_box {
+        //     Vec3f(box.position - box.size),
+        //     Vec3f(box.position + box.size),
+        // };
+        // drawAABB(tmp_box);
+        drawAABB(box);
     }
     for(auto& box : level.walls) {
-        PhysicsAABB tmp_box {
-            Vec3f(box.position - box.size),
-            Vec3f(box.position + box.size),
-        };
-        drawAABB(tmp_box);
+        // PhysicsAABB tmp_box {
+        //     Vec3f(box.position - box.size),
+        //     Vec3f(box.position + box.size),
+        // };
+        // drawAABB(tmp_box);
+        drawAABB(box);
     }
 }
 
@@ -75,13 +77,21 @@ int main(int argc, const char* argv[]) {
 
     Level level (20);
 
+    // level.obstacles.push_back(Obstacle {
+    //     Vec3f(LEVEL_WIDTH/2., 0, 5),
+    //     Vec3f(LEVEL_WIDTH/2., LEVEL_HEIGHT, .25)
+    // });
+    // level.obstacles.push_back(Obstacle {
+    //     Vec3f(-LEVEL_WIDTH/2., 0, 10),
+    //     Vec3f(LEVEL_WIDTH/2., LEVEL_HEIGHT, .25)
+    // });
     level.obstacles.push_back(Obstacle {
-        Vec3f(LEVEL_WIDTH/2., 0, 5),
-        Vec3f(LEVEL_WIDTH/2., LEVEL_HEIGHT, .25)
+        Vec3f(0, -LEVEL_HEIGHT, 5),
+        Vec3f(LEVEL_WIDTH, LEVEL_HEIGHT, 5.5)
     });
     level.obstacles.push_back(Obstacle {
-        Vec3f(-LEVEL_WIDTH/2., 0, 10),
-        Vec3f(LEVEL_WIDTH/2., LEVEL_HEIGHT, .25)
+        Vec3f(-LEVEL_WIDTH, -LEVEL_HEIGHT, 10),
+        Vec3f(0, LEVEL_HEIGHT, 10.5)
     });
 
     win.on_mouse_move = [&player, &win](double xpos, double ypos) {
