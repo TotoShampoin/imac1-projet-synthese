@@ -9,6 +9,7 @@
 struct Racket {
     Vec3f position = Vec3f(0,0,0);
     Vec3f scale = Vec3f(0.3, 0.3, 0.3);
+    PhysicsAABB hitbox = PhysicsAABB (Vec3f(0, 0, 0), Vec3f(0, 0, 0));
     bool hasBall = true;
     //Vec3f speed = Vec3f(0,0,0);
     //float radius = 0.25;
