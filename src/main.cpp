@@ -61,6 +61,8 @@ static Geometry racket_mesh = makeRacketMesh();
 
 int main(int argc, const char* argv[]) {
     Window win {800, 600, "fenetre"};
+
+    PhysicsAABB racket_collision (Vec3f(0, 0, 0), Vec3f(0, 0, 0));
     
     Player player;
     player.spawn();
@@ -76,13 +78,20 @@ int main(int argc, const char* argv[]) {
         Vec3f(0, LEVEL_HEIGHT, 10.5)
     });
 
-    win.on_mouse_move = [&player, &win](double xpos, double ypos) {
+    win.on_mouse_move = [&player, &win, &racket_collision](double xpos, double ypos) {
         player.racket.position = Vec3f(
             clamp(xpos, -(LEVEL_WIDTH - 0.3), LEVEL_WIDTH - 0.3), 
             clamp(ypos, -(LEVEL_HEIGHT - 0.3), LEVEL_HEIGHT - 0.3), 
             2
         );
+        racket_collision.boundA = Vec3f(-1 * player.racket.scale.x,
+                                        -1 * player.racket.scale.y,
+                                        0.0) + player.racket.position;
+        racket_collision.boundB = Vec3f(1 * player.racket.scale.x,
+                                        1 * player.racket.scale.y,
+                                        0.1) + player.racket.position;
         std::cout << "xpos: " << xpos << " ypos: " << ypos << std::endl;
+        std::cout << "collider_xpos: " << racket_collision.middle().x << " collider_ypos: " << racket_collision.middle().y << std::endl;
         if (player.racket.hasBall) {
             player.ball.position = player.racket.position + Vec3f(0, 0, 1);
         }
