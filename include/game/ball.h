@@ -12,6 +12,7 @@ struct Ball {
     float radius = 0.25;
 
     void move(float deltaTime);
+    bool collide(Obstacle&);
     bool collide(std::vector<Obstacle>&);
 };
 

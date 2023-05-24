@@ -16,6 +16,16 @@ void Ball::move(float deltaTime) {
     position += speed_dir * speed * deltaTime;
 }
 
+bool Ball::collide(Obstacle& box) {
+    PhysicsSphere this_ball (position, radius);
+    Vec3f normal (0,0,0);
+    bool collides = this_ball.collide(box, normal);
+    if(!collides) return false;
+    normal = normal.normalize();
+    speed_dir = (speed_dir - normal * 2 * (speed_dir*normal)).normalize();
+    return true;
+}
+
 bool Ball::collide(std::vector<Obstacle>& boxes) {
     PhysicsSphere this_ball (position, radius);
     Vec3f normal (0,0,0);
