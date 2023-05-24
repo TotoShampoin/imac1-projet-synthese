@@ -29,9 +29,16 @@ void initTypeTable() {
     };
 }
 
-Bonus createBonus(int type_id, Vec3f position) {
-    Type& sp = type_table[type_id];
-    return Bonus {sp, position, sp.time_in_second};
+Bonus::Bonus(TypeID type_id, Vec3f pos) {
+    specs = type_table[type_id];
+    position = pos;
+    time_remaining = specs.time_in_second;
+}
+
+Bonus::Bonus(Type& sp, Vec3f pos) {
+    specs = sp;
+    position = pos;
+    time_remaining = specs.time_in_second;
 }
 
 void Bonus::update(float delta_time) {

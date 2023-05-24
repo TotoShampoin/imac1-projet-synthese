@@ -16,14 +16,24 @@ struct Type {
     Vec3f size {.25, .25, .25};
 };
 
+enum TypeID {
+    VICTORY,
+    SLOW_BALL,
+    LARGE_RACKET,
+};
+static std::vector<Type> type_table;
+
 struct Bonus {
-    Type& specs;
+    Type& specs = type_table[0];
     Vec3f position;
-    float time_remaining;
+    float time_remaining = 0;
 
     bool is_active = false;
     bool is_picked = false;
     Player* player = nullptr;
+
+    Bonus(Type& specs, Vec3f position);
+    Bonus(TypeID type_id, Vec3f position);
 
     void update(float delta_time);
 
@@ -32,13 +42,5 @@ struct Bonus {
     void bePicked(Player&);
 };
 
-enum TypeID {
-    VICTORY,
-    SLOW_BALL,
-    LARGE_RACKET,
-};
-static std::vector<Type> type_table;
-
 void initTypeTable();
 
-Bonus createBonus(TypeID type_id, Vec3f position);
