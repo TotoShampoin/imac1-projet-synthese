@@ -13,6 +13,7 @@ struct Image {
 struct Geometry {
     unsigned long vert_nb;
     GLfloat* vertices;  // * 3
+    GLfloat* uv;        // * 2
     GLfloat* colors;    // * 4
     unsigned long tri_nb;
     GLuint* triangles;  // * 3
