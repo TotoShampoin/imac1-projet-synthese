@@ -88,7 +88,11 @@ int main(int argc, const char* argv[]) {
         }
     };
     win.on_mouse_button = [&player](int button, int action, int mods) {
-
+        if (button == GLFW_MOUSE_BUTTON_LEFT) {
+            player.racket.hasBall = false;
+            player.ball.speed = 3;
+            player.ball.speed_dir = Vec3f(-player.racket.position.x, -player.racket.position.y, 1);
+        }
     };
 
     double timer = 0;
