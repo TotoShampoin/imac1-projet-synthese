@@ -72,13 +72,11 @@ Geometry::Geometry(const char* file_path) {
 	for(size_t i = 0; i < tri_nb * 3; i++) {
 		file_read(file, triangles[i]);
 	}
-	for(size_t i = 0; i < vert_nb * 4; i++) {
-		colors[i] = 1;
-	}
 }
 
 Geometry::~Geometry() {
     delete[] vertices;
+    delete[] uv;
     delete[] colors;
     delete[] triangles;
 }
@@ -139,6 +137,38 @@ Geometry createCube() {
     set_coord(cube.vertices,22,  1,  1, -1); // F
     set_coord(cube.vertices,23, -1,  1, -1); // E
 
+    /* UV MAP*/
+    // ABCD / DIE 1
+    set_coord(cube.uv, 0,    0,    0); // A
+    set_coord(cube.uv, 1, 1/3.,    0); // B
+    set_coord(cube.uv, 2, 1/3., 1/2.); // C
+    set_coord(cube.uv, 3,    0, 1/2.); // D
+    // EFGH / DIE 6
+    set_coord(cube.uv, 4, 2/3., 1/2.); // E
+    set_coord(cube.uv, 5,    1, 1/2.); // F
+    set_coord(cube.uv, 6,    1,    1); // G
+    set_coord(cube.uv, 7, 2/3.,    1); // H
+    // BGFC / DIE 2
+    set_coord(cube.uv, 8, 1/3.,    0); // B
+    set_coord(cube.uv, 9, 2/3.,    0); // G
+    set_coord(cube.uv,10, 2/3., 1/2.); // F
+    set_coord(cube.uv,11, 1/3., 1/2.); // C
+    // HADE / DIE 5
+    set_coord(cube.uv,12, 1/3., 1/2.); // H
+    set_coord(cube.uv,13, 2/3., 1/2.); // A
+    set_coord(cube.uv,14, 2/3.,    1); // D
+    set_coord(cube.uv,15, 1/3.,    1); // E
+    // HGBA / DIE 3
+    set_coord(cube.uv,16, 2/3.,    0); // H
+    set_coord(cube.uv,17,    1,    0); // G
+    set_coord(cube.uv,18,    1, 1/2.); // B
+    set_coord(cube.uv,19, 2/3., 1/2.); // A
+    // DCFE / DIE 4
+    set_coord(cube.uv,20,    0, 1/2.); // D
+    set_coord(cube.uv,21, 1/3., 1/2.); // C
+    set_coord(cube.uv,22, 1/3.,    1); // F
+    set_coord(cube.uv,23,    0,    1); // E
+
     for(int i = 0; i < 6; i++) {
         set_triangle(cube.triangles, i*2+0, i*4, i*4+1, i*4+2);
         set_triangle(cube.triangles, i*2+1, i*4, i*4+2, i*4+3);
@@ -186,6 +216,38 @@ Geometry createWall() {
     set_coord(cube.vertices,14, -1,  1, -1); // E
     set_coord(cube.vertices,15,  1,  1, -1); // F
 
+    /* UV MAP*/
+    // // ABCD / DIE 1
+    // set_coord(cube.uv, 0,    0,    0); // A
+    // set_coord(cube.uv, 1, 1/3.,    0); // B
+    // set_coord(cube.uv, 2, 1/3., 1/2.); // C
+    // set_coord(cube.uv, 3,    0, 1/2.); // D
+    // // EFGH / DIE 6
+    // set_coord(cube.uv, 4, 2/3., 1/2.); // E
+    // set_coord(cube.uv, 5,    1, 1/2.); // F
+    // set_coord(cube.uv, 6,    1,    1); // G
+    // set_coord(cube.uv, 7, 2/3.,    1); // H
+    // BGFC / DIE 2
+    set_coord(cube.uv, 0,    0,    0); // B
+    set_coord(cube.uv, 1, 1/2.,    0); // G
+    set_coord(cube.uv, 2, 1/2., 1/2.); // F
+    set_coord(cube.uv, 3,    0, 1/2.); // C
+    // HADE / DIE 5
+    set_coord(cube.uv, 4,    0, 1/2.); // H
+    set_coord(cube.uv, 5, 1/2., 1/2.); // A
+    set_coord(cube.uv, 6, 1/2.,    1); // D
+    set_coord(cube.uv, 7,    0,    1); // E
+    // HGBA / DIE 3
+    set_coord(cube.uv, 8, 1/2.,    0); // H
+    set_coord(cube.uv, 9,    1,    0); // G
+    set_coord(cube.uv,10,    1, 1/2.); // B
+    set_coord(cube.uv,11, 1/2., 1/2.); // A
+    // DCFE / DIE 4
+    set_coord(cube.uv,12, 1/2., 1/2.); // D
+    set_coord(cube.uv,13,    1, 1/2.); // C
+    set_coord(cube.uv,14,    1,    1); // F
+    set_coord(cube.uv,15, 1/2.,    1); // E
+
     for(int i = 0; i < 4; i++) {
         set_triangle(cube.triangles, i*2+0, i*4, i*4+1, i*4+2);
         set_triangle(cube.triangles, i*2+1, i*4, i*4+2, i*4+3);
@@ -223,6 +285,7 @@ Geometry createSphere(GLint precision) {
 
             set_coord(sphere.vertices, a, x, y, z);
             set_coord(sphere.colors, a, 1, 1, 1, 1);
+            set_coord(sphere.uv, a, (float)j/(points_j-1), (float)i/(points_i-1));
             set_triangle(sphere.triangles, 2 * a, a, b, d);
             set_triangle(sphere.triangles, 2 * a + 1, a, c, d);
         }
@@ -238,6 +301,11 @@ Geometry createPlane() {
     set_coord(plane.vertices, 1,  1, -1,  0);
     set_coord(plane.vertices, 2,  1,  1,  0);
     set_coord(plane.vertices, 3, -1,  1,  0);
+
+    set_coord(plane.uv, 0, 0, 0);
+    set_coord(plane.uv, 1, 1, 0);
+    set_coord(plane.uv, 2, 1, 1);
+    set_coord(plane.uv, 3, 0, 1);
 
     for(int i = 0; i < 4; i++) {
         set_coord(plane.colors, i, 1, 1, 1, 1);
