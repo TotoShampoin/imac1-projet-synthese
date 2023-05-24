@@ -2,6 +2,8 @@
 #include "IHM/objects.h"
 
 void initTypeTable() {
+static bool is_init = false;
+    if(is_init) return;
     type_table[VICTORY] = Type {
         [](Player &P) {
             P.ball.speed /= 2;
@@ -27,9 +29,11 @@ void initTypeTable() {
             P.racket.scale /= 1.5;
         }
     };
+    is_init = true;
 }
 
 Bonus::Bonus(TypeID type_id, Vec3f pos) {
+    initTypeTable();
     specs = type_table[type_id];
     position = pos;
     time_remaining = specs.time_in_second;
