@@ -51,6 +51,7 @@ Geometry::Geometry(unsigned long verts, unsigned long tris) {
     vert_nb = verts;
     tri_nb = tris;
     vertices = new float[vert_nb * 3];
+    uv = new float[vert_nb * 2];
     colors = new float[vert_nb * 4];
     triangles = new unsigned int[tri_nb * 3];
 }
@@ -64,10 +65,18 @@ Geometry::Geometry(const char* file_path) {
 	file_read(file, tri_nb);
 
 	vertices = new GLfloat[vert_nb*3];
+	uv = new GLfloat[vert_nb*2];
+    colors = new float[vert_nb * 4];
 	triangles = new GLuint[tri_nb*3];
 
 	for(size_t i = 0; i < vert_nb * 3; i++) {
 		file_read(file, vertices[i]);
+	}
+	for(size_t i = 0; i < vert_nb * 2; i++) {
+		file_read(file, uv[i]);
+	}
+	for(size_t i = 0; i < vert_nb * 4; i++) {
+		colors[i] = 1;
 	}
 	for(size_t i = 0; i < tri_nb * 3; i++) {
 		file_read(file, triangles[i]);
