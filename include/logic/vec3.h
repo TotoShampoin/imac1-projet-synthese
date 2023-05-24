@@ -1,8 +1,9 @@
 #pragma once
 
 struct Vec3f {
-    float x = 0, y = 0, z = 0;
+    float x, y, z;
 
+    Vec3f();
     Vec3f(float x, float y, float z);
 
     Vec3f& operator=(Vec3f other);
