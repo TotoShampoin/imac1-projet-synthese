@@ -24,7 +24,7 @@ enum TypeID {
 static std::vector<Type> type_table;
 
 struct Bonus {
-    Type& specs = type_table[0];
+    Type& specs = type_table[VICTORY];
     Vec3f position;
     float time_remaining = 0;
 
