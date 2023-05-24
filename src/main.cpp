@@ -2,8 +2,8 @@
 #include "IHM/draw.h"
 #include "logic/physics.h"
 
-#include "game/ball.h"
 #include "game/player.h"
+#include "game/level.h"
 
 float clamp(float t, float min, float max) {
     return (t < min) ? min : (t > max) ? max : t;

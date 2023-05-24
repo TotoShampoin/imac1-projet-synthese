@@ -3,7 +3,6 @@
 #include "logic/vec3.h"
 #include "IHM/objects.h"
 #include "logic/physics.h"
-#include "game/level.h"
 
 #include <vector>
 

@@ -5,9 +5,7 @@
 #include "logic/vec3.h"
 #include "IHM/objects.h"
 
-#include "game/ball.h"
 #include "game/player.h"
-#include "game/racket.h"
 
 struct Type {
     std::function<void (Player&)> start;

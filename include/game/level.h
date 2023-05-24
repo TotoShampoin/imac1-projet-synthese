@@ -9,8 +9,6 @@
 #define LEVEL_WIDTH 1.4
 #define LEVEL_HEIGHT 1
 
-typedef PhysicsAABB Obstacle;
-
 struct Level {
     float length;
     std::vector<Obstacle> walls;

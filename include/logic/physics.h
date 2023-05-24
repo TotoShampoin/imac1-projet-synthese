@@ -26,5 +26,7 @@ struct PhysicsSphere {
     bool collide(PhysicsAABB other, Vec3f& normal);
 };
 
+typedef PhysicsAABB Obstacle;
+
 
 bool floatCollide(float a0, float a1, float b0, float b1);
