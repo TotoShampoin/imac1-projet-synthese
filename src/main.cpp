@@ -45,17 +45,13 @@ static Geometry racket_mesh = makeRacketMesh();
     }
 
     glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-    // draw3DObject(
-    //     racket_mesh, player.racket.position + Vec3f(0, 0, 0),
-    //     player.racket.scale
-    // );
     drawAABB(player.racket.hitbox);
     
     for(auto& box : level.obstacles) {
         drawAABB(box);
     }
     for(auto& box : level.walls) {
-        drawAABB(box);
+        // drawAABB(box);
     }
 }
 
