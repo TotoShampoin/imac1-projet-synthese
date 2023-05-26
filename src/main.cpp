@@ -37,9 +37,16 @@ static Geometry racket_mesh = makeRacketMesh();
     );
     int size = level.length/2;
     for (int i = 0; i < size; i++) {
+        float wall_distance = 2*(i+.5);
+        float distance_to_player = abs(player.racket.position.z - wall_distance);
+        float wall_light = 1 - distance_to_player / 10;
+        std::cout << wall_light << std::endl;
+        for(int j = 0; j < 16; j++) {
+            set_coord(wall_mesh.shape.colors, j, wall_light, wall_light, wall_light, 1);
+        }
         draw3DObject(
             wall_mesh.shape, wall_mesh.texture,
-            Vec3f(0, 0, 2*(i+.5)),
+            Vec3f(0, 0, wall_distance),
             Vec3f(LEVEL_WIDTH, -LEVEL_HEIGHT, 1)
         );
     }
