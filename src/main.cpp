@@ -61,7 +61,6 @@ int main(int argc, const char* argv[]) {
     
     Player player;
     player.spawn();
-    player.racket.position.z = 2;
 
     Level level (20);
 
@@ -98,26 +97,31 @@ int main(int argc, const char* argv[]) {
         }
     };
     win.on_key = [&player](int key, int scancode, int action, int mods) {
-        if (!player.racket.hasBall && key == GLFW_KEY_W) {
-            player.racket.position.z += 0.02;
-            player.racket.hitbox.boundA = Vec3f(-1 * player.racket.scale.x,
-                                                -1 * player.racket.scale.y,
-                                                0.0) + player.racket.position;
-            player.racket.hitbox.boundB = Vec3f(1 * player.racket.scale.x,
-                                                1 * player.racket.scale.y,
-                                                -0.1) + player.racket.position;
-        }
+        player.racket.isMovingForward = !player.racket.hasBall && key == GLFW_KEY_W;
     };
 
     double timer = 0;
     double deltaTime = 0;
     while(!win.shouldClose()) {
         double startTime = glfwGetTime();
+        int keyState_W = win.getKey(GLFW_KEY_W);
 
         player.ball.move(deltaTime);
         player.ball.collide(level.walls);
         player.ball.collide(level.obstacles);
         player.ball.collide(player.racket.hitbox);
+
+        if (player.racket.isMovingForward && keyState_W == GLFW_PRESS) {
+            player.racket.position.z += 0.01;
+            player.racket.hitbox.boundA = Vec3f(-1 * player.racket.scale.x,
+                                                -1 * player.racket.scale.y,
+                                                0.0) + player.racket.position;
+            player.racket.hitbox.boundB = Vec3f(1 * player.racket.scale.x,
+                                                1 * player.racket.scale.y,
+                                                -0.1) + player.racket.position;
+        } else {
+            player.racket.isMovingForward = false;
+        }
 
         win.clear();
         drawWorld(win, player, level);

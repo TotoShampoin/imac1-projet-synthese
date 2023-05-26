@@ -60,6 +60,9 @@ void Window::_setEventCallbacks() {
     });
 }
 
+int Window::getKey(int key) {
+    return glfwGetKey(_glwin, key);
+}
 void Window::makeContextCurrent() {
     glfwMakeContextCurrent(_glwin);
 }

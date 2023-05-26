@@ -27,6 +27,7 @@ public:
     Window(unsigned int width = 800, unsigned int height = 600, const char *title = "A window");
     ~Window();
 
+    int getKey(int key);
     void makeContextCurrent();
     bool shouldClose();
     void updateSize(unsigned int width = 0, unsigned int height = 0);
