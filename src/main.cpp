@@ -1,5 +1,6 @@
 #include "main.h"
 #include "IHM/draw.h"
+#include "IHM/audio.h"
 #include "logic/physics.h"
 
 #include "game/player.h"
@@ -71,6 +72,10 @@ int main(int argc, const char* argv[]) {
 
     Level level (20);
 
+    // This is a test
+    AudioContext channel;
+    AudioMedia tac ("assets/sounds/switch.wav");
+
     level.obstacles.push_back(Obstacle {
         Vec3f(0, -LEVEL_HEIGHT, 5),
         Vec3f(LEVEL_WIDTH, LEVEL_HEIGHT, 5.5)
@@ -114,9 +119,15 @@ int main(int argc, const char* argv[]) {
         int keyState_W = win.getKey(GLFW_KEY_W);
 
         player.ball.move(deltaTime);
-        player.ball.collide(level.walls);
-        player.ball.collide(level.obstacles);
-        player.ball.collide(player.racket.hitbox);
+
+        bool collided = false;
+        collided |= player.ball.collide(level.walls);
+        collided |= player.ball.collide(level.obstacles);
+        collided |= player.ball.collide(player.racket.hitbox);
+        if(collided) {
+            tac.stop();
+            tac.play();
+        }
 
         if (player.racket.isMovingForward && keyState_W == GLFW_PRESS) {
             player.racket.position.z += 0.01;

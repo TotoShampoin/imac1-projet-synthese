@@ -2,7 +2,7 @@ EXEC = test
 CC = g++
 
 CFLAGS  = -Wall -O2 -g
-LDFLAGS = -lglfw -lGLU -lGL -lm
+LDFLAGS = -lglfw -lGLU -lGL -lopenal -lsndfile
 
 SRCDIR = src
 INCDIR = include
