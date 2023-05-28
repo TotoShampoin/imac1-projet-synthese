@@ -10,7 +10,7 @@
 void physics(Window& win, Player& player, Level& level, double delta_time) {
     int keyState_W = win.getKey(GLFW_KEY_W);
 
-    player.ball.move(delta_time);
+    player.ball.update(delta_time);
 
     player.ball.collide(level.walls);
     player.ball.collide(level.obstacles);
@@ -55,7 +55,7 @@ void display(Window& win, Player& player, Level& level, double delta_time) {
         float wall_distance = 2*(i+.5);
         float distance_to_player = abs(player.racket.position.z - wall_distance);
         float wall_light = 1 - distance_to_player / 10;
-        std::cout << wall_light << std::endl;
+        // std::cout << wall_light << std::endl;
         for(int j = 0; j < 16; j++) {
             set_coord(wall_mesh.shape.colors, j, wall_light, wall_light, wall_light, 1);
         }
@@ -76,11 +76,15 @@ void display(Window& win, Player& player, Level& level, double delta_time) {
     win.refresh();
 }
 
-// TODO: un flag qui dit que la balle a collide
+// TODO: Un son différent pour quand ça rebondit et quand on grab la balle
 void audio(Player& player, Level& level, double delta_time) {
     static AudioContext channel;
     static AudioMedia tac ("assets/sounds/switch.wav");
 
+    if(player.ball.has_collided) {
+        tac.stop();
+        tac.play();
+    }
 }
 
 
