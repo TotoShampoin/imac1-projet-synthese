@@ -5,13 +5,9 @@ void initTypeTable() {
 static bool is_init = false;
     if(is_init) return;
     type_table.push_back(Type {
-        [](Player &P) {
-            P.ball.speed /= 2;
-        },
-        [](Player &P) {
-            P.ball.speed *= 2;
-        },
-        0, Vec3f(2, 2, .5)
+        [](Player &P) {},
+        [](Player &P) {},
+        0, Vec3f(2, 2, .5), true
     });
     type_table.push_back(Type {
         [](Player &P) {
@@ -67,4 +63,11 @@ void Bonus::bePicked(Player& P) {
     player = &P;
     is_picked = true;
     start();
+}
+
+PhysicsAABB Bonus::getHitbox() {
+    return PhysicsAABB (
+        position - specs->size,
+        position + specs->size
+    );
 }

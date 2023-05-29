@@ -12,6 +12,7 @@ struct Type {
     std::function<void (Player&)> end;
     float time_in_second = 10.;
     Vec3f size {.25, .25, .25};
+    bool is_victory = 0;
 };
 
 typedef unsigned int TypeID;
@@ -38,6 +39,7 @@ struct Bonus {
     void start();
     void end();
     void bePicked(Player&);
+    PhysicsAABB getHitbox();
 };
 
 void initTypeTable();

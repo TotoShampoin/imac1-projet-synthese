@@ -1,4 +1,5 @@
 #include "game.h"
+#include "IHM/objects.h"
 #include "IHM/draw.h"
 #include "IHM/audio.h"
 #include "logic/physics.h"
@@ -26,12 +27,23 @@ void physics(Player& player, Level& level, double delta_time) {
 
     player.update(delta_time);
     player.makeAllCollisions(obstacles);
+
+    for(auto& bonus : level.bonus) {
+        PhysicsAABB hitbox = bonus.getHitbox();
+        bonus.update(delta_time);
+        if(!bonus.is_picked && player.ball.isColliding(hitbox)) {
+            bonus.bePicked(player);
+        }
+    }
 }
 
 void display(Window& win, Player& player, Level& level, double delta_time) {
     static Mesh ball_mesh = makeBallMesh();
     static Mesh wall_mesh = makeWallMesh();
     static Geometry racket_mesh = makeRacketMesh();
+    static Geometry bonus_mesh = createSphere(4);
+    static double timer = 0;
+    timer += delta_time;
 
     win.clear();
 
@@ -70,6 +82,16 @@ void display(Window& win, Player& player, Level& level, double delta_time) {
     
     for(auto& box : level.obstacles) {
         drawAABB(box);
+    }
+    for(auto& bonus : level.bonus) {
+        PhysicsAABB hitbox = bonus.getHitbox();
+        drawAABB(hitbox);
+        if(bonus.specs->is_victory || bonus.is_picked) {
+            continue;
+        }
+        glPushMatrix();
+        draw3DObject(bonus_mesh, bonus.position, bonus.specs->size / 2);
+        glPopMatrix();
     }
     
     win.refresh();
@@ -116,9 +138,11 @@ void makeEvents(Window& win, Player& player, Level& level) {
         // if (player.racket.hasBall) {
         //     player.ball.position = player.racket.position + Vec3f(0, 0, 1);
         // }
+        float lim_x = level.width - player.racket.scale.x;
+        float lim_y = level.height - player.racket.scale.y;
         player.setPosition(
-            clamp(xpos, -(level.width  - 0.3), level.width  - 0.3), 
-            clamp(ypos, -(level.height - 0.3), level.height - 0.3)
+            clamp(xpos, -lim_x, lim_x), 
+            clamp(ypos, -lim_y, lim_y)
         );
     };
     win.on_mouse_button = [&player](int button, int action, int mods) {
@@ -149,20 +173,22 @@ void makeEvents(Window& win, Player& player, Level& level) {
 }
 
 
-Level temporaryLevel() {
-    Level level (20);
-    level.obstacles.push_back(Obstacle {
-        Vec3f(0, -DEFAULT_LEVEL_HEIGHT, 5),
-        Vec3f(DEFAULT_LEVEL_WIDTH, DEFAULT_LEVEL_HEIGHT, 5.5)
-    });
-    level.obstacles.push_back(Obstacle {
-        Vec3f(-DEFAULT_LEVEL_WIDTH, -DEFAULT_LEVEL_HEIGHT, 10),
-        Vec3f(0, DEFAULT_LEVEL_HEIGHT, 10.5)
-    });
-    return level;
-}
+// Level temporaryLevel() {
+//     Level level (20);
+//     level.obstacles.push_back(Obstacle {
+//         Vec3f(0, -DEFAULT_LEVEL_HEIGHT, 5),
+//         Vec3f(DEFAULT_LEVEL_WIDTH, DEFAULT_LEVEL_HEIGHT, 5.5)
+//     });
+//     level.obstacles.push_back(Obstacle {
+//         Vec3f(-DEFAULT_LEVEL_WIDTH, -DEFAULT_LEVEL_HEIGHT, 10),
+//         Vec3f(0, DEFAULT_LEVEL_HEIGHT, 10.5)
+//     });
+//     return level;
+// }
 
 void startGame(const char* level_path, Window& win) {
+    initTypeTable();
+    
     Level level (level_path);
     // Level level = temporaryLevel();
     Player player;
