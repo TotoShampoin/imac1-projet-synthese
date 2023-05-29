@@ -7,7 +7,7 @@ int main(int argc, const char* argv[]) {
 
     // TODO: L'écran titre et l'écran de menu
 
-    startGame("", win);
+    startGame("assets/levels/test.lvl", win);
 
     return 0;
 }

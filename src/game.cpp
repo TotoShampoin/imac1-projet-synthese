@@ -61,7 +61,7 @@ void display(Window& win, Player& player, Level& level, double delta_time) {
         draw3DObject(
             wall_mesh.shape, wall_mesh.texture,
             Vec3f(0, 0, wall_distance),
-            Vec3f(LEVEL_WIDTH, -LEVEL_HEIGHT, 1)
+            Vec3f(level.width, -level.height, 1)
         );
     }
 
@@ -100,8 +100,8 @@ void gameLoop(Window& win, Player& player, Level& level) {
 }
 
 
-void makeEvents(Window& win, Player& player) {
-    win.on_mouse_move = [&player, &win](double xpos, double ypos) {
+void makeEvents(Window& win, Player& player, Level& level) {
+    win.on_mouse_move = [&player, &win, &level](double xpos, double ypos) {
         // player.racket.position = Vec3f(
         //     clamp(xpos, -(LEVEL_WIDTH - 0.3), LEVEL_WIDTH - 0.3), 
         //     clamp(ypos, -(LEVEL_HEIGHT - 0.3), LEVEL_HEIGHT - 0.3), 
@@ -117,8 +117,8 @@ void makeEvents(Window& win, Player& player) {
         //     player.ball.position = player.racket.position + Vec3f(0, 0, 1);
         // }
         player.setPosition(
-            clamp(xpos, -(LEVEL_WIDTH - 0.3), LEVEL_WIDTH - 0.3), 
-            clamp(ypos, -(LEVEL_HEIGHT - 0.3), LEVEL_HEIGHT - 0.3)
+            clamp(xpos, -(level.width  - 0.3), level.width  - 0.3), 
+            clamp(ypos, -(level.height - 0.3), level.height - 0.3)
         );
     };
     win.on_mouse_button = [&player](int button, int action, int mods) {
@@ -152,23 +152,23 @@ void makeEvents(Window& win, Player& player) {
 Level temporaryLevel() {
     Level level (20);
     level.obstacles.push_back(Obstacle {
-        Vec3f(0, -LEVEL_HEIGHT, 5),
-        Vec3f(LEVEL_WIDTH, LEVEL_HEIGHT, 5.5)
+        Vec3f(0, -DEFAULT_LEVEL_HEIGHT, 5),
+        Vec3f(DEFAULT_LEVEL_WIDTH, DEFAULT_LEVEL_HEIGHT, 5.5)
     });
     level.obstacles.push_back(Obstacle {
-        Vec3f(-LEVEL_WIDTH, -LEVEL_HEIGHT, 10),
-        Vec3f(0, LEVEL_HEIGHT, 10.5)
+        Vec3f(-DEFAULT_LEVEL_WIDTH, -DEFAULT_LEVEL_HEIGHT, 10),
+        Vec3f(0, DEFAULT_LEVEL_HEIGHT, 10.5)
     });
     return level;
 }
 
 void startGame(const char* level_path, Window& win) {
-    // Level level (level_path);
-    Level level = temporaryLevel();
+    Level level (level_path);
+    // Level level = temporaryLevel();
     Player player;
     player.spawn();
 
-    makeEvents(win, player);
+    makeEvents(win, player, level);
 
     while(!win.shouldClose()) {
         gameLoop(win, player, level);

@@ -14,11 +14,11 @@ struct Type {
     Vec3f size {.25, .25, .25};
 };
 
-enum TypeID {
-    VICTORY,
-    SLOW_BALL,
-    LARGE_RACKET,
-};
+typedef unsigned int TypeID;
+#define VICTORY         0
+#define SLOW_BALL       1
+#define LARGE_RACKET    2
+
 static std::vector<Type> type_table;
 
 struct Bonus {

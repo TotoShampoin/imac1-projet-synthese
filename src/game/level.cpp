@@ -9,32 +9,7 @@
 
 Level::Level(float l) {
     length = l;
-    walls.push_back(Obstacle {
-        Vec3f(-LEVEL_WIDTH, -LEVEL_HEIGHT, -1),
-        Vec3f( LEVEL_WIDTH,  LEVEL_HEIGHT, 1)
-    });
-    walls.push_back(Obstacle {
-        Vec3f(-LEVEL_WIDTH, -LEVEL_HEIGHT, length),
-        Vec3f( LEVEL_WIDTH,  LEVEL_HEIGHT, length+1)
-    });
-    walls.push_back(Obstacle {
-        Vec3f(-LEVEL_WIDTH, -LEVEL_HEIGHT-.5, 0),
-        Vec3f( LEVEL_WIDTH, -LEVEL_HEIGHT   , length)
-    });
-    walls.push_back(Obstacle {
-        Vec3f(-LEVEL_WIDTH,  LEVEL_HEIGHT   , 0),
-        Vec3f( LEVEL_WIDTH,  LEVEL_HEIGHT+.5, length)
-    });
-    walls.push_back(Obstacle {
-        Vec3f(-LEVEL_WIDTH-.5, -LEVEL_HEIGHT, 0),
-        Vec3f(-LEVEL_WIDTH   ,  LEVEL_HEIGHT, length)
-    });
-    walls.push_back(Obstacle {
-        Vec3f( LEVEL_WIDTH   ,  LEVEL_HEIGHT, 0),
-        Vec3f( LEVEL_WIDTH+.5, -LEVEL_HEIGHT, length)
-    });
-
-    bonus.push_back(Bonus(VICTORY, Vec3f(0, 0, length)));
+    addDefaultElements();
 }
 
 Level::Level(const char* file_path) {
@@ -46,8 +21,12 @@ Level::Level(const char* file_path) {
     unsigned long obstacles_nb, bonus_nb;
     
 	file_read(file, length);
+	file_read(file, width);
+	file_read(file, height);
 	file_read(file, obstacles_nb);
 	file_read(file, bonus_nb);
+
+    addDefaultElements();
 
     for(size_t i = 0; i < obstacles_nb; i++) {
         Obstacle tmp_obs (Vec3f(0,0,0), Vec3f(0,0,0));
@@ -59,8 +38,6 @@ Level::Level(const char* file_path) {
         file_read(file, tmp_obs.boundB.z);
         obstacles.push_back(tmp_obs);
     }
-
-    bonus.push_back(Bonus(VICTORY, Vec3f(0, 0, length)));
     for(size_t i = 0; i < bonus_nb; i++) {
         TypeID tmp_type;
         Vec3f tmp_pos;
@@ -71,6 +48,35 @@ Level::Level(const char* file_path) {
         Bonus tmp_bonus (tmp_type, tmp_pos);
         bonus.push_back(tmp_bonus);
     }
+}
+
+void Level::addDefaultElements() {
+    walls.push_back(Obstacle {
+        Vec3f(-width, -height, -1),
+        Vec3f( width,  height, 1)
+    });
+    walls.push_back(Obstacle {
+        Vec3f(-width, -height, length),
+        Vec3f( width,  height, length+1)
+    });
+    walls.push_back(Obstacle {
+        Vec3f(-width, -height-.5, 0),
+        Vec3f( width, -height   , length)
+    });
+    walls.push_back(Obstacle {
+        Vec3f(-width,  height   , 0),
+        Vec3f( width,  height+.5, length)
+    });
+    walls.push_back(Obstacle {
+        Vec3f(-width-.5, -height, 0),
+        Vec3f(-width   ,  height, length)
+    });
+    walls.push_back(Obstacle {
+        Vec3f( width   ,  height, 0),
+        Vec3f( width+.5, -height, length)
+    });
+
+    bonus.push_back(Bonus(VICTORY, Vec3f(0, 0, length)));
 }
 
 std::vector<Obstacle> Level::getAllObstacles() {
