@@ -12,9 +12,17 @@ struct Ball {
     float radius = 0.25;
     bool has_collided = false;
 
+    void goToward(Vec3f vec_speed);
+    void goToward(Vec3f direction, float speed_value);
+
     void move(float delta_time);
-    bool collide(Obstacle&);
-    bool collide(std::vector<Obstacle>&);
+
+    bool isColliding(Obstacle&);
+
+    void bounce(Vec3f& normal);
+
+    bool collideAndBounce(Obstacle&);
+    bool collideAndBounce(std::vector<Obstacle>&);
 
     void update(float delta_time);
 };

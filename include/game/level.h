@@ -17,6 +17,8 @@ struct Level {
 
     Level(float length);
     Level(const char* file);
+
+    std::vector<Obstacle> getAllObstacles();
 };
 
 Mesh makeWallMesh();

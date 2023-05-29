@@ -73,6 +73,13 @@ Level::Level(const char* file_path) {
     }
 }
 
+std::vector<Obstacle> Level::getAllObstacles() {
+    std::vector<Obstacle> all;
+    all.insert(all.end(), walls.begin(), walls.end());
+    all.insert(all.end(), obstacles.begin(), obstacles.end());
+    return all;
+}
+
 Mesh makeWallMesh() {
     return {
         .shape = createWall(),

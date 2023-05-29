@@ -12,6 +12,12 @@ struct Racket {
     PhysicsAABB hitbox = PhysicsAABB (Vec3f(0, 0, 0), Vec3f(0, 0, 0));
     bool hasBall = true;
     bool isMovingForward = false;
+    
+    void updateHitbox();
+    void setPosition(Vec3f);
+    void move(float delta_time);
+
+    void update(float delta_time);
 };
 
 Geometry makeRacketMesh();

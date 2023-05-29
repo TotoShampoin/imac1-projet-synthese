@@ -6,27 +6,26 @@
 #include "game/player.h"
 #include "game/level.h"
 
-// Le window ne devrait pas être là...
-void physics(Window& win, Player& player, Level& level, double delta_time) {
-    int keyState_W = win.getKey(GLFW_KEY_W);
+void physics(Player& player, Level& level, double delta_time) {
+    // player.ball.update(delta_time);
 
-    player.ball.update(delta_time);
+    // player.ball.collide(level.walls);
+    // player.ball.collide(level.obstacles);
+    // player.ball.collide(player.racket.hitbox);
 
-    player.ball.collide(level.walls);
-    player.ball.collide(level.obstacles);
-    player.ball.collide(player.racket.hitbox);
+    // if (player.racket.isMovingForward) {
+    //     player.racket.position.z += 0.025;
+    //     player.racket.hitbox.boundA = Vec3f(-1 * player.racket.scale.x,
+    //                                         -1 * player.racket.scale.y,
+    //                                         0.0) + player.racket.position;
+    //     player.racket.hitbox.boundB = Vec3f(1 * player.racket.scale.x,
+    //                                         1 * player.racket.scale.y,
+    //                                         -0.1) + player.racket.position;
+    // }
+    std::vector<Obstacle> obstacles = level.getAllObstacles();
 
-    if (player.racket.isMovingForward && keyState_W == GLFW_PRESS) {
-        player.racket.position.z += 0.01;
-        player.racket.hitbox.boundA = Vec3f(-1 * player.racket.scale.x,
-                                            -1 * player.racket.scale.y,
-                                            0.0) + player.racket.position;
-        player.racket.hitbox.boundB = Vec3f(1 * player.racket.scale.x,
-                                            1 * player.racket.scale.y,
-                                            -0.1) + player.racket.position;
-    } else {
-        player.racket.isMovingForward = false;
-    }
+    player.update(delta_time);
+    player.makeAllCollisions(obstacles);
 }
 
 void display(Window& win, Player& player, Level& level, double delta_time) {
@@ -92,7 +91,8 @@ void gameLoop(Window& win, Player& player, Level& level) {
     static double delta_time = 0;
     
     win.pollEvents();
-    physics(win, player, level, delta_time);
+    physics(player, level, delta_time);
+    
     display(win, player, level, delta_time);
     audio(player, level, delta_time);
 
@@ -102,30 +102,49 @@ void gameLoop(Window& win, Player& player, Level& level) {
 
 void makeEvents(Window& win, Player& player) {
     win.on_mouse_move = [&player, &win](double xpos, double ypos) {
-        player.racket.position = Vec3f(
+        // player.racket.position = Vec3f(
+        //     clamp(xpos, -(LEVEL_WIDTH - 0.3), LEVEL_WIDTH - 0.3), 
+        //     clamp(ypos, -(LEVEL_HEIGHT - 0.3), LEVEL_HEIGHT - 0.3), 
+        //     player.racket.position.z
+        // );
+        // player.racket.hitbox.boundA = Vec3f(-1 * player.racket.scale.x,
+        //                                 -1 * player.racket.scale.y,
+        //                                 0.0) + player.racket.position;
+        // player.racket.hitbox.boundB = Vec3f(1 * player.racket.scale.x,
+        //                                 1 * player.racket.scale.y,
+        //                                 -0.1) + player.racket.position;
+        // if (player.racket.hasBall) {
+        //     player.ball.position = player.racket.position + Vec3f(0, 0, 1);
+        // }
+        player.setPosition(
             clamp(xpos, -(LEVEL_WIDTH - 0.3), LEVEL_WIDTH - 0.3), 
-            clamp(ypos, -(LEVEL_HEIGHT - 0.3), LEVEL_HEIGHT - 0.3), 
-            player.racket.position.z
+            clamp(ypos, -(LEVEL_HEIGHT - 0.3), LEVEL_HEIGHT - 0.3)
         );
-        player.racket.hitbox.boundA = Vec3f(-1 * player.racket.scale.x,
-                                        -1 * player.racket.scale.y,
-                                        0.0) + player.racket.position;
-        player.racket.hitbox.boundB = Vec3f(1 * player.racket.scale.x,
-                                        1 * player.racket.scale.y,
-                                        -0.1) + player.racket.position;
-        if (player.racket.hasBall) {
-            player.ball.position = player.racket.position + Vec3f(0, 0, 1);
-        }
     };
     win.on_mouse_button = [&player](int button, int action, int mods) {
-        if (button == GLFW_MOUSE_BUTTON_LEFT) {
-            player.racket.hasBall = false;
-            player.ball.speed = 3;
-            player.ball.speed_dir = Vec3f(0, 0, 1);
+        if(action == GLFW_PRESS) {
+            switch(button) {
+            case GLFW_MOUSE_BUTTON_LEFT: {
+                player.launchBall();
+            } break;
+            }
         }
     };
     win.on_key = [&player](int key, int scancode, int action, int mods) {
-        player.racket.isMovingForward = !player.racket.hasBall && key == GLFW_KEY_W;
+        if(action == GLFW_PRESS) {
+            switch(key) {
+            case GLFW_KEY_W: {
+                player.racket.isMovingForward = !player.racket.hasBall;
+            } break;
+            }
+        }
+        if(action == GLFW_RELEASE) {
+            switch(key) {
+            case GLFW_KEY_W: {
+                player.racket.isMovingForward = false;
+            } break;
+            }
+        }
     };
 }
 
