@@ -26,13 +26,13 @@ with open(argv[1], "r") as file:
                 "boundB": (x2, y2, z2)
             })
         if line.startswith("b "):
-            type , x , y , z = parse("b {} {} {} {}", line)
+            typ , x , y , z = parse("b {} {} {} {}", line)
+            typ = int(typ)
             x , y , z = float(x) , float(y) , float(z)
-            type = int(type)
-            bonuses.append([{
-                "type": type,
+            bonuses.append({
+                "type": typ,
                 "coord": (x, y, z)
-            }])
+            })
 
 print(length, len(obstacles), len(bonuses))
 
