@@ -1,0 +1,16 @@
+level-maker:
+    ./levelmaker.py <file_input.txt> <file_output.lvl>
+    dans le .txt:
+        l <depth> <width> <height>
+        o <x1> <y1> <z1> <x2> <y2> <z2>
+        o <x1> <y1> <z1> <x2> <y2> <z2>
+        o <x1> <y1> <z1> <x2> <y2> <z2>
+        ...
+        b <id-type> <x> <y> <z>
+        b <id-type> <x> <y> <z>
+        b <id-type> <x> <y> <z>
+        ...
+    ATTENTION: Ne supporte pas plusieurs espaces entre les nombres (pour l'instant)
+
+model-maker: (TODO)
+    ./model-maker.py <file_input.obj> <file_output.model>
