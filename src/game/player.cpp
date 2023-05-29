@@ -34,7 +34,9 @@ void Player::makeAllCollisions(std::vector<Obstacle>& obstacles) {
     this->ball.collideAndBounce(obstacles);
     if(!this->racket.hasBall && this->ball.isColliding(this->racket.hitbox)) {
         this->racket.position + BALL_SHIFT;
-        this->ball.goToward(this->ball.position - this->racket.position);
+        this->ball.goToward(
+            this->ball.position - (this->racket.position - Vec3f(0,0,.5))
+        );
     }
 }
 
