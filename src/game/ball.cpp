@@ -42,6 +42,11 @@ bool Ball::collideAndBounce(Obstacle& box) {
     if(!collides) {
         return false;
     }
+
+    normal = normal.normalize();
+    speed_dir = (speed_dir - normal * 2 * (speed_dir*normal)).normalize();
+    has_collided = true;
+    return true;
 }
 
 bool Ball::collideAndBounce(std::vector<Obstacle>& boxes) {
