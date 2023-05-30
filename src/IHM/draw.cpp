@@ -3,13 +3,13 @@
 
 #include <cmath>
 
-void draw3DObject(Geometry& geo, Image& img, Coord3D& coords) {
+void draw3DObject(Geometry& geo, Image& img, Coord3D coords) {
     draw3DObject(geo, img, coords.position, coords.scale, coords.rotation_axis, coords.rotation_angle);
 }
-void draw3DObject(Geometry& geo, Coord3D& coords) {
+void draw3DObject(Geometry& geo, Coord3D coords) {
     draw3DObject(geo, coords.position, coords.scale, coords.rotation_axis, coords.rotation_angle);
 }
-void draw2DTexture(Image& img, Coord2D& coords) {
+void draw2DTexture(Image& img, Coord2D coords) {
     draw2DTexture(img, coords.position, coords.scale, coords.rotation_angle);
 }
 
@@ -52,6 +52,23 @@ void draw2DTexture(Image& img, Vec2f pos, Vec2f scale, GLdouble rotation) {
         glRotated(rotation, 0, 0, 1);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         drawSquare(img);
+    glPopMatrix();
+}
+
+void draw2DBox(Vec2f pos, Vec2f scale, GLdouble rotation) {
+    glPushMatrix();
+        glTranslated(pos.x, pos.y, 0);
+        glScaled(scale.x, scale.y, 1);
+        glRotated(rotation, 0, 0, 1);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glEnable(GL_BLEND);
+        glBegin(GL_POLYGON);
+            glVertex2f(-1, -1);
+            glVertex2f( 1, -1);
+            glVertex2f( 1,  1);
+            glVertex2f(-1,  1);
+        glEnd();
+        glDisable(GL_BLEND);
     glPopMatrix();
 }
 
