@@ -7,22 +7,30 @@
 #include "game/player.h"
 #include "game/level.h"
 
-void physics(Player& player, Level& level, double delta_time) {
-    // player.ball.update(delta_time);
 
-    // player.ball.collide(level.walls);
-    // player.ball.collide(level.obstacles);
-    // player.ball.collide(player.racket.hitbox);
+struct Game {
+    Player player;
+    Level level;
+    bool is_pause;
+    bool pause_switched;
 
-    // if (player.racket.isMovingForward) {
-    //     player.racket.position.z += 0.025;
-    //     player.racket.hitbox.boundA = Vec3f(-1 * player.racket.scale.x,
-    //                                         -1 * player.racket.scale.y,
-    //                                         0.0) + player.racket.position;
-    //     player.racket.hitbox.boundB = Vec3f(1 * player.racket.scale.x,
-    //                                         1 * player.racket.scale.y,
-    //                                         -0.1) + player.racket.position;
-    // }
+    void pause() {
+        is_pause = true;
+        pause_switched = true;
+    }
+    void resume() {
+        is_pause = false;
+        pause_switched = true;
+    }
+    void update() {
+        pause_switched = false;
+    }
+};
+
+
+void physics(Game& game, double delta_time) {
+    Level& level = game.level;
+    Player& player = game.player;
     std::vector<Obstacle> obstacles = level.getAllObstacles();
 
     player.update(delta_time);
@@ -37,13 +45,16 @@ void physics(Player& player, Level& level, double delta_time) {
     }
 }
 
-void display(Window& win, Player& player, Level& level, double delta_time) {
+void display(Window& win, Game& game, double delta_time) {
     static Mesh ball_mesh = makeBallMesh();
     static Mesh wall_mesh = makeWallMesh();
     static Geometry racket_mesh = makeRacketMesh();
     static Geometry bonus_mesh = createSphere(4);
     static double timer = 0;
     timer += delta_time;
+
+    Level& level = game.level;
+    Player& player = game.player;
 
     win.clear();
 
@@ -98,9 +109,12 @@ void display(Window& win, Player& player, Level& level, double delta_time) {
 }
 
 // TODO: Un son différent pour quand ça rebondit et quand on grab la balle
-void audio(Player& player, Level& level, double delta_time) {
+void audio(Game& game, double delta_time) {
     static AudioContext channel;
     static AudioMedia tac ("assets/sounds/switch.wav");
+
+    Level& level = game.level;
+    Player& player = game.player;
 
     if(player.ball.has_collided) {
         tac.stop();
@@ -109,35 +123,27 @@ void audio(Player& player, Level& level, double delta_time) {
 }
 
 
-void gameLoop(Window& win, Player& player, Level& level) {
+void gameLoop(Window& win, Game& game) {
     static double delta_time = 0;
+
+    Level& level = game.level;
+    Player& player = game.player;
     
     win.pollEvents();
-    physics(player, level, delta_time);
+    physics(game, delta_time);
     
-    display(win, player, level, delta_time);
-    audio(player, level, delta_time);
+    display(win, game, delta_time);
+    audio(game, delta_time);
 
     delta_time = timer();
 }
 
 
-void makeEvents(Window& win, Player& player, Level& level) {
+void makeEvents(Window& win, Game& game) {
+    Level& level = game.level;
+    Player& player = game.player;
+
     win.on_mouse_move = [&player, &win, &level](double xpos, double ypos) {
-        // player.racket.position = Vec3f(
-        //     clamp(xpos, -(LEVEL_WIDTH - 0.3), LEVEL_WIDTH - 0.3), 
-        //     clamp(ypos, -(LEVEL_HEIGHT - 0.3), LEVEL_HEIGHT - 0.3), 
-        //     player.racket.position.z
-        // );
-        // player.racket.hitbox.boundA = Vec3f(-1 * player.racket.scale.x,
-        //                                 -1 * player.racket.scale.y,
-        //                                 0.0) + player.racket.position;
-        // player.racket.hitbox.boundB = Vec3f(1 * player.racket.scale.x,
-        //                                 1 * player.racket.scale.y,
-        //                                 -0.1) + player.racket.position;
-        // if (player.racket.hasBall) {
-        //     player.ball.position = player.racket.position + Vec3f(0, 0, 1);
-        // }
         float lim_x = level.width - player.racket.scale.x;
         float lim_y = level.height - player.racket.scale.y;
         player.setPosition(
@@ -173,31 +179,18 @@ void makeEvents(Window& win, Player& player, Level& level) {
 }
 
 
-// Level temporaryLevel() {
-//     Level level (20);
-//     level.obstacles.push_back(Obstacle {
-//         Vec3f(0, -DEFAULT_LEVEL_HEIGHT, 5),
-//         Vec3f(DEFAULT_LEVEL_WIDTH, DEFAULT_LEVEL_HEIGHT, 5.5)
-//     });
-//     level.obstacles.push_back(Obstacle {
-//         Vec3f(-DEFAULT_LEVEL_WIDTH, -DEFAULT_LEVEL_HEIGHT, 10),
-//         Vec3f(0, DEFAULT_LEVEL_HEIGHT, 10.5)
-//     });
-//     return level;
-// }
-
 void startGame(const char* level_path, Window& win) {
     initTypeTable();
-    
-    Level level (level_path);
-    // Level level = temporaryLevel();
-    Player player;
-    player.spawn();
 
-    makeEvents(win, player, level);
+    Game game {
+        Player(),
+        Level(level_path)
+    };
+
+    makeEvents(win, game);
 
     while(!win.shouldClose()) {
-        gameLoop(win, player, level);
+        gameLoop(win, game);
     }
 
 }
