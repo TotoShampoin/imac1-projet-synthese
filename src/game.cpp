@@ -120,11 +120,6 @@ void physics(Game& game, double delta_time) {
 }
 
 void display(Window& win, Game& game, double delta_time) {
-    static Mesh ball_mesh = makeBallMesh();
-    static Mesh wall_mesh = makeWallMesh();
-    static Geometry racket_mesh = makeRacketMesh();
-    static Geometry bonus_mesh = createSphere(4);
-
     Level& level = game.level;
     Player& player = game.player;
 
