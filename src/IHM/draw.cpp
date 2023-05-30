@@ -13,7 +13,7 @@ void draw2DTexture(Image& img, Coord2D& coords) {
     draw2DTexture(img, coords.position, coords.scale, coords.rotation_angle);
 }
 
-void draw3DObject(Geometry& geo, Image& img, Vec3f vec, Vec3f scale, Vec3f rotation_axis = Vec3f(1, 0, 0), float rotation_angle = 0) {
+void draw3DObject(Geometry& geo, Image& img, Vec3f vec, Vec3f scale, Vec3f rotation_axis, float rotation_angle) {
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_BLEND);
     glBindTexture(GL_TEXTURE_2D, img.texture_id);
@@ -23,7 +23,7 @@ void draw3DObject(Geometry& geo, Image& img, Vec3f vec, Vec3f scale, Vec3f rotat
     glDisable(GL_TEXTURE_2D);
 }
 
-void draw3DObject(Geometry& geo, Vec3f vec, Vec3f scale, Vec3f rotation_axis = Vec3f(1, 0, 0), float rotation_angle = 0) {
+void draw3DObject(Geometry& geo, Vec3f vec, Vec3f scale, Vec3f rotation_axis, float rotation_angle) {
     glPushMatrix();
         glTranslated(vec.x, vec.y, vec.z);
         glScaled(scale.x, scale.y, scale.z);
