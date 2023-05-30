@@ -100,9 +100,7 @@ void display(Window& win, Game& game, double delta_time) {
         if(bonus.specs->is_victory || bonus.is_picked) {
             continue;
         }
-        glPushMatrix();
-        draw3DObject(bonus_mesh, bonus.position, bonus.specs->size / 2);
-        glPopMatrix();
+        draw3DObject(bonus_mesh, bonus.position, bonus.specs->size / 2, Vec3f(0, 1, 1), timer * 2 * 180 / M_PI);
     }
     
     win.refresh();

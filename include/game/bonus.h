@@ -11,7 +11,7 @@ struct Type {
     std::function<void (Player&)> start;
     std::function<void (Player&)> end;
     float time_in_second = 10.;
-    Vec3f size {.25, .25, .25};
+    Vec3f size {.35, .35, .35};
     bool is_victory = 0;
 };
 

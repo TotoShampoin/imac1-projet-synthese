@@ -67,7 +67,7 @@ void Bonus::bePicked(Player& P) {
 
 PhysicsAABB Bonus::getHitbox() {
     return PhysicsAABB (
-        position - specs->size,
-        position + specs->size
+        position - specs->size /2,
+        position + specs->size /2
     );
 }
