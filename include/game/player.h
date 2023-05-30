@@ -15,6 +15,8 @@ struct Player {
     Ball ball;
     Racket racket;
 
+    Player();
+
     void spawn();
     void launchBall();
     void receiveBall();

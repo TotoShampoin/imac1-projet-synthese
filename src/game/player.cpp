@@ -4,6 +4,10 @@
 #include "game/player.h"
 #include "game/ball.h"
 
+Player::Player() {
+    this->spawn();
+}
+
 void Player::spawn() {
     this->ball.position = Vec3f(0, 0, 2);
     this->ball.speed_dir = Vec3f(0, 0, 0);
