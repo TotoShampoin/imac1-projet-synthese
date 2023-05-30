@@ -1,12 +1,11 @@
-#include "game.h"
+#include "logic/physics.h"
 #include "IHM/objects.h"
 #include "IHM/draw.h"
 #include "IHM/audio.h"
-#include "logic/physics.h"
-
 #include "game/player.h"
 #include "game/level.h"
-
+#include "game.h"
+#include "draw-game.h"
 
 struct Game {
     Player player;
@@ -132,49 +131,12 @@ void display(Window& win, Game& game, double delta_time) {
     win.clear();
 
     use3dMode(win);
-    glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
-
-    gluLookAt(
-        0, 0, player.racket.position.z - 2,
-        0, 0, level.length,
-        0, 1, 0
-    );
     
-    draw3DObject(
-        ball_mesh.shape, ball_mesh.texture, 
-        player.ball.position + Vec3f(0,0,0),
-        Vec3f(1,1,1) * player.ball.radius
-    );
-    int size = level.length/2;
-    for (int i = 0; i < size; i++) {
-        float wall_distance = 2*(i+.5);
-        float distance_to_player = abs(player.racket.position.z - wall_distance);
-        float wall_light = 1 - distance_to_player / 10;
-        // std::cout << wall_light << std::endl;
-        for(int j = 0; j < 16; j++) {
-            set_coord(wall_mesh.shape.colors, j, wall_light, wall_light, wall_light, 1);
-        }
-        draw3DObject(
-            wall_mesh.shape, wall_mesh.texture,
-            Vec3f(0, 0, wall_distance),
-            Vec3f(level.width, -level.height, 1)
-        );
-    }
-
-    glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-    drawAABB(player.racket.hitbox);
+    placeCamera(player, level);
     
-    for(auto& box : level.obstacles) {
-        drawAABB(box);
-    }
-    for(auto& bonus : level.bonus) {
-        PhysicsAABB hitbox = bonus.getHitbox();
-        drawAABB(hitbox);
-        if(bonus.specs->is_victory || bonus.is_picked) {
-            continue;
-        }
-        draw3DObject(bonus_mesh, bonus.position, bonus.specs->size / 2, Vec3f(0, 1, 1), game.timer * 2 * 180 / M_PI);
-    }
+    drawBall(player.ball);
+    drawRacket(player.racket);
+    drawLevel(level, player, game.timer);
 
     //
 
