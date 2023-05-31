@@ -9,20 +9,13 @@ void draw3DObject(Geometry& geo, Image& img, Coord3D coords) {
 void draw3DObject(Geometry& geo, Coord3D coords) {
     draw3DObject(geo, coords.position, coords.scale, coords.rotation_axis, coords.rotation_angle);
 }
-void draw2DTexture(Image& img, Coord2D coords) {
-    draw2DTexture(img, coords.position, coords.scale, coords.rotation_angle);
-}
-
 void draw3DObject(Geometry& geo, Image& img, Vec3f vec, Vec3f scale, Vec3f rotation_axis, float rotation_angle) {
     glEnable(GL_TEXTURE_2D);
-    glEnable(GL_BLEND);
     glBindTexture(GL_TEXTURE_2D, img.texture_id);
     draw3DObject(geo, vec, scale, rotation_axis, rotation_angle);
     glBindTexture(GL_TEXTURE_2D, 0);
-    glDisable(GL_BLEND);
     glDisable(GL_TEXTURE_2D);
 }
-
 void draw3DObject(Geometry& geo, Vec3f vec, Vec3f scale, Vec3f rotation_axis, float rotation_angle) {
     glPushMatrix();
         glTranslated(vec.x, vec.y, vec.z);
@@ -33,6 +26,23 @@ void draw3DObject(Geometry& geo, Vec3f vec, Vec3f scale, Vec3f rotation_axis, fl
     glPopMatrix();
 }
 
+void draw2DBox(Vec2f pos, Vec2f scale, GLdouble rotation) {
+    glPushMatrix();
+        glTranslated(pos.x, pos.y, 0);
+        glScaled(scale.x, scale.y, 1);
+        glRotated(rotation, 0, 0, 1);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glBegin(GL_POLYGON);
+            glVertex2f(-1, -1);
+            glVertex2f( 1, -1);
+            glVertex2f( 1,  1);
+            glVertex2f(-1,  1);
+        glEnd();
+    glPopMatrix();
+}
+void draw2DTexture(Image& img, Coord2D coords) {
+    draw2DTexture(img, coords.position, coords.scale, coords.rotation_angle);
+}
 void draw2DTexture(Image& img, Vec2f pos, GLdouble scale, GLdouble rotation) {
     glPushMatrix();
         glTranslated(pos.x, pos.y, 0);
@@ -43,7 +53,6 @@ void draw2DTexture(Image& img, Vec2f pos, GLdouble scale, GLdouble rotation) {
         drawSquare(img);
     glPopMatrix();
 }
-
 void draw2DTexture(Image& img, Vec2f pos, Vec2f scale, GLdouble rotation) {
     glPushMatrix();
         glTranslated(pos.x, pos.y, 0);
@@ -55,24 +64,8 @@ void draw2DTexture(Image& img, Vec2f pos, Vec2f scale, GLdouble rotation) {
     glPopMatrix();
 }
 
-void draw2DBox(Vec2f pos, Vec2f scale, GLdouble rotation) {
-    glPushMatrix();
-        glTranslated(pos.x, pos.y, 0);
-        glScaled(scale.x, scale.y, 1);
-        glRotated(rotation, 0, 0, 1);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        glEnable(GL_BLEND);
-        glBegin(GL_POLYGON);
-            glVertex2f(-1, -1);
-            glVertex2f( 1, -1);
-            glVertex2f( 1,  1);
-            glVertex2f(-1,  1);
-        glEnd();
-        glDisable(GL_BLEND);
-    glPopMatrix();
-}
-
 void drawGeometry(Geometry& geo) {
+    glEnable(GL_BLEND);
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -83,6 +76,7 @@ void drawGeometry(Geometry& geo) {
     glDisableClientState(GL_VERTEX_ARRAY);
     glDisableClientState(GL_COLOR_ARRAY);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    glDisable(GL_BLEND);
 }
 
 void drawSquare(Image& img) {
