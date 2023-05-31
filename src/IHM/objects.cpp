@@ -47,6 +47,13 @@ Image::~Image() {
     glDeleteTextures(1, &texture_id);
 }
 
+void Image::setFilter(GLint min, GLint mag) {
+    glBindTexture(GL_TEXTURE_2D, texture_id);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, min);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, mag);
+    glBindTexture(GL_TEXTURE_2D, 0);
+}
+
 Geometry::Geometry(unsigned long verts, unsigned long tris) {
     vert_nb = verts;
     tri_nb = tris;
@@ -88,6 +95,26 @@ Geometry::~Geometry() {
     delete[] uv;
     delete[] colors;
     delete[] triangles;
+}
+
+Font::Font(const char* texture_path, int offset_w, int offset_h, int size_w, int size_h, char first_character, int nx, int ny):
+    texture(Image(texture_path))
+{
+    offset_u = float(offset_w) / texture.width;
+    offset_v = float(offset_h) / texture.height;
+    size_u   = float(size_w)   / texture.width;
+    size_v   = float(size_h)   / texture.height;
+    offset_c = first_character;
+    nb_x = nx;
+    nb_y = ny;
+}
+
+Vec2f Font::getCharacter(char c) {
+    char oc = c - offset_c;
+    return Vec2f (
+        offset_u * (oc % nb_x),
+        offset_v * ((oc / nb_x) % nb_y)
+    );
 }
 
 void set_coord(float* table, int idx, float x, float y) {

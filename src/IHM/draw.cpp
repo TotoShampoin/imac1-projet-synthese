@@ -2,6 +2,7 @@
 #include "logic/vec3.h"
 
 #include <cmath>
+#include <cstring>
 
 void draw3DObject(Geometry& geo, Image& img, Coord3D coords) {
     draw3DObject(geo, img, coords.position, coords.scale, coords.rotation_axis, coords.rotation_angle);
@@ -32,12 +33,14 @@ void draw2DBox(Vec2f pos, Vec2f scale, GLdouble rotation) {
         glScaled(scale.x, scale.y, 1);
         glRotated(rotation, 0, 0, 1);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glEnable(GL_BLEND);
         glBegin(GL_POLYGON);
             glVertex2f(-1, -1);
             glVertex2f( 1, -1);
             glVertex2f( 1,  1);
             glVertex2f(-1,  1);
         glEnd();
+        glDisable(GL_BLEND);
     glPopMatrix();
 }
 void draw2DTexture(Image& img, Coord2D coords) {
@@ -61,6 +64,30 @@ void draw2DTexture(Image& img, Vec2f pos, Vec2f scale, GLdouble rotation) {
         glRotated(rotation, 0, 0, 1);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         drawSquare(img);
+    glPopMatrix();
+}
+
+void draw2DText(const char* text, Font& font, Coord2D coords) {
+    draw2DText(text, font, coords.position, coords.scale, coords.rotation_angle);
+}
+void draw2DText(const char* text, Font& font, Vec2f pos, Vec2f scale, GLdouble rotation) {
+    int len = strlen(text);
+    Vec2f start_pos = Vec2f (
+        -float(len)/2 + .5,
+        0
+    );
+    glPushMatrix();
+        glTranslated(pos.x, pos.y, 0);
+        glScaled(scale.x / len, scale.y / len, 1);
+        glScalef((float)2*font.size_u/font.size_v, 2, 1);
+        glRotated(rotation, 0, 0, 1);
+        glTranslated(start_pos.x*2, start_pos.y, 0);
+        for(int i = 0; i < len; i++) {
+            Vec2f top_left = font.getCharacter(text[i]);
+            Vec2f bottom_right = top_left + Vec2f(font.size_u, font.size_v);
+            drawPartialSquare(font.texture, top_left, bottom_right);
+            glTranslated(2, 0, 0);
+        }
     glPopMatrix();
 }
 
@@ -91,6 +118,24 @@ void drawSquare(Image& img) {
         glTexCoord2f(1, 1);
         glVertex2f( 1,  1);
         glTexCoord2f(0, 1);
+        glVertex2f(-1,  1);
+    glEnd();
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glDisable(GL_BLEND);
+    glDisable(GL_TEXTURE_2D);
+}
+void drawPartialSquare(Image& img, Vec2f top_left, Vec2f bottom_right) {
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_BLEND);
+    glBindTexture(GL_TEXTURE_2D, img.texture_id);
+    glBegin(GL_POLYGON);
+        glTexCoord2f(top_left.x, top_left.y);
+        glVertex2f(-1, -1);
+        glTexCoord2f(bottom_right.x, top_left.y);
+        glVertex2f( 1, -1);
+        glTexCoord2f(bottom_right.x, bottom_right.y);
+        glVertex2f( 1,  1);
+        glTexCoord2f(top_left.x, bottom_right.y);
         glVertex2f(-1,  1);
     glEnd();
     glBindTexture(GL_TEXTURE_2D, 0);
@@ -129,6 +174,7 @@ void use3dMode(Window& win) {
 
 void use2dMode(Window& win) {
     win.updateSize();
+    glDisable(GL_DEPTH_TEST);
     glViewport(0, 0, win.width, win.height);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
