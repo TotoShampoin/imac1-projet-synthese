@@ -13,4 +13,4 @@ level-maker:
     ATTENTION: Ne supporte pas plusieurs espaces entre les nombres (pour l'instant)
 
 model-maker: (TODO)
-    ./model-maker.py <file_input.obj> <file_output.model>
+    ./model-maker.py <file_input.obj> <file_output.mdl>
