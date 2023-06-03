@@ -4,12 +4,12 @@
 void initTypeTable() {
 static bool is_init = false;
     if(is_init) return;
-    type_table.push_back(Type {
+    type_table.push_back(Type { // 0: VICTOIRE
         [](Player &P) {},
         [](Player &P) {},
         0, Vec3f(2, 2, .5), true
     });
-    type_table.push_back(Type {
+    type_table.push_back(Type { // 1: SLOW_BALL
         [](Player &P) {
             P.ball.speed /= 2;
         },
@@ -17,7 +17,7 @@ static bool is_init = false;
             P.ball.speed *= 2;
         }
     });
-    type_table.push_back(Type {
+    type_table.push_back(Type { // 2: LARGE_RACKET
         [](Player &P) {
             P.racket.scale *= 1.5;
         },
