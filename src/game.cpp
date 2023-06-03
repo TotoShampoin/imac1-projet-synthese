@@ -140,6 +140,7 @@ void physics(Game& game, double delta_time) {
         bonus.update(delta_time);
         if(!bonus.is_picked && player.ball.isColliding(hitbox)) {
             bonus.bePicked(player);
+            player.bonus_picked++;
         }
     }
 }
@@ -147,6 +148,12 @@ void physics(Game& game, double delta_time) {
 void display(Window& win, Game& game, double delta_time) {
     static Font font ("assets/textures/fonts/minecraft.png", 16, 16, 8, 16, '\0', 16, 16);
     font.texture.setFilter(GL_NEAREST,GL_NEAREST);
+
+    char score_string[16];
+    char life_string[16];
+
+    sprintf(score_string, "SCR: %10d", game.score);
+    sprintf(life_string, "LIF: %10d", game.player.lives);
 
     Level& level = game.level;
     Player& player = game.player;
@@ -165,6 +172,12 @@ void display(Window& win, Game& game, double delta_time) {
 
     use2dMode(win);
     glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+
+    glColor4f(0, 0, 0, .5);
+    draw2DBox(Vec2f(win.aspect_ratio - 15*16/600., -1 + 64/600.), Vec2f(15*16/600., 64/600.));
+    glColor4f(1, 1, 1, 1);
+    draw2DText(life_string, font, Coord2D {Vec2f(win.aspect_ratio - 15*16/600., -1 + 32/600.), Vec2f(32/1200., 32/1200.), 0});
+    draw2DText(score_string, font, Coord2D {Vec2f(win.aspect_ratio - 15*16/600., -1 + 96/600.), Vec2f(32/1200., 32/1200.), 0});
     
     if(game.is_pause) {
         glColor4f(0, 0, 0, .5);
@@ -172,7 +185,6 @@ void display(Window& win, Game& game, double delta_time) {
         glColor4f(1, 1, 1, 1);
         draw2DText("Pause", font, Vec2f(0, -.5), Vec2f(.25, .25));
     }
-
     
     win.refresh();
 }
@@ -201,9 +213,13 @@ void startGameLoop(Window& win, Game& game) {
     Level& level = game.level;
     Player& player = game.player;
     
-    while(!(win.shouldClose() || player.hasReachedEndLine)) {
+    while(!(win.shouldClose() || player.hasReachedEndLine || (player.lives <= 0 && player.isReady))) {
         win.pollEvents();
-        if(!game.is_pause) {
+
+        game.score = (player.racket.position.z - SPAWN_Z) * 100 + (player.bonus_picked * 300);
+        
+        player.recover(delta_time);
+        if(!game.is_pause && game.player.isReady) {
             physics(game, delta_time);
         }
         display(win, game, delta_time);
@@ -215,7 +231,7 @@ void startGameLoop(Window& win, Game& game) {
     }
 }
 
-void victorySequence(Window& win, Game& game) {
+void endSequence(Window& win, Game& game, const char* message) {
     static Font font ("assets/textures/fonts/minecraft.png", 16, 16, 8, 16, '\0', 16, 16);
     font.texture.setFilter(GL_NEAREST,GL_NEAREST);
 
@@ -256,7 +272,7 @@ void victorySequence(Window& win, Game& game) {
         glColor4f(0, 0, 0, remap(time, 0, 2, 0, 1));
         draw2DBox(Vec2f(0, 0), Vec2f(win.aspect_ratio, 1));
         glColor4f(1, 1, 1, 1);
-        draw2DText("Victory!", font, Coord2D {
+        draw2DText(message, font, Coord2D {
             Vec2f(0, remap(time, .25, 1, -1.25, -.5)),
             Vec2f(80/1200., 80/1200.)
         });
@@ -289,7 +305,11 @@ void main_game(const char* level_path, Window& win) {
     };
 
     startGameLoop(win, game);
-    victorySequence(win, game);
+    if(game.player.hasReachedEndLine) {
+        endSequence(win, game, "Victory!");
+    } else {
+        endSequence(win, game, "Game over");
+    }
 
 }
 

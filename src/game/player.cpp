@@ -9,10 +9,10 @@ Player::Player() {
 }
 
 void Player::spawn() {
-    this->ball.position = Vec3f(0, 0, 2);
+    this->ball.position = Vec3f(0, 0, SPAWN_Z) + BALL_SHIFT;
     this->ball.speed_dir = Vec3f(0, 0, 0);
     this->ball.speed = 0;
-    this->racket.position = Vec3f(0, 0, 2);
+    this->racket.position = Vec3f(0, 0, SPAWN_Z);
 }
 
 void Player::launchBall() {
@@ -36,6 +36,28 @@ void Player::setPosition(float x, float y) {
     }
 }
 
+void Player::loseALife() {
+    this->lives -= 1;
+    this->hasLostALife = true;
+    this->ball.speed = 0;
+    this->isReady = false;
+}
+
+void Player::recover(double delta_time) {
+    if(this->hasLostALife) {
+        this->recoverTime = RECOVER_TIME_START;
+        this->isReady = false;
+        this->hasLostALife = false;
+        return;
+    }
+    if(this->recoverTime <= 0 && !this->isReady) {
+        this->receiveBall();
+        this->isReady = true;
+        return;
+    }
+    this->recoverTime -= delta_time;
+}
+
 void Player::makeAllCollisions(std::vector<Obstacle>& obstacles) {
     this->ball.collideAndBounce(obstacles);
     if(
@@ -51,6 +73,9 @@ void Player::makeAllCollisions(std::vector<Obstacle>& obstacles) {
             this->ball.position - (this->racket.position - Vec3f(0,0,.5))
         );
         this->ball.has_collided = true;
+    }
+    if(this->ball.position.z < this->racket.position.z - 1) {
+        this->loseALife();
     }
 }
 
