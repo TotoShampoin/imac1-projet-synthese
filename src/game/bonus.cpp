@@ -25,6 +25,14 @@ static bool is_init = false;
             P.racket.scale /= 1.5;
         }
     });
+    type_table.push_back(Type { // 3 : SNATCHER
+        [](Player &P) {
+            P.canCatchBall = true;
+        },
+        [](Player &P) {
+            P.canCatchBall = false;
+        }
+    });
     is_init = true;
 }
 

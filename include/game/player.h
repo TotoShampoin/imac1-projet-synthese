@@ -15,6 +15,8 @@ struct Player {
     Ball ball;
     Racket racket;
 
+    bool canCatchBall = false;
+
     Player();
 
     void spawn();

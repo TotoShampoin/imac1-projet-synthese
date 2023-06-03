@@ -19,6 +19,7 @@ typedef unsigned int TypeID;
 #define VICTORY         0
 #define SLOW_BALL       1
 #define LARGE_RACKET    2
+#define SNATCHER        3
 
 static std::vector<Type> type_table;
 
