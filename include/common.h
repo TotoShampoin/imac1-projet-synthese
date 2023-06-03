@@ -9,3 +9,4 @@ const double FRAME_TIME = 1./FPS;
 float clamp(float t, float min, float max);
 void drawAABB(PhysicsAABB& box);
 double timer();
+bool endsWith(const char* str,  const char* endstr);

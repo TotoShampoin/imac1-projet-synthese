@@ -1,5 +1,7 @@
 #include "common.h"
 
+#include <cstring>
+
 float clamp(float t, float min, float max) {
     return (t < min) ? min : (t > max) ? max : t;
 }
@@ -19,4 +21,12 @@ double timer() {
     }
     start_time = glfwGetTime();
     return delta_time;
+}
+
+bool endsWith(const char* str,  const char* endstr) {
+    if(!str || !endstr) return false;
+    size_t len_str = strlen(str);
+    size_t len_end = strlen(endstr);
+    if(len_end > len_str) return false;
+    return strncmp(str + len_str - len_end, endstr, len_end) == 0;
 }

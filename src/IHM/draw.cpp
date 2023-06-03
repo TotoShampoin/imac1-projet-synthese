@@ -134,6 +134,7 @@ void drawPartialSquare(Image& img, Vec2f top_left, Vec2f bottom_right) {
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_BLEND);
     glBindTexture(GL_TEXTURE_2D, img.texture_id);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glBegin(GL_POLYGON);
         glTexCoord2f(top_left.x, top_left.y);
         glVertex2f(-1, -1);
