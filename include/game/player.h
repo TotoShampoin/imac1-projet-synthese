@@ -15,7 +15,7 @@ struct Player {
     Ball ball;
     Racket racket;
 
-    bool canCatchBall = false;
+    bool hasReachedEndLine = false;
 
     Player();
 

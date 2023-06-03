@@ -25,6 +25,7 @@ void Player::receiveBall() {
     this->ball.speed_dir = Vec3f(0, 0, 0);
     this->ball.speed = 0;
     this->ball.position = this->racket.position + BALL_SHIFT;
+    this->racket.isMovingForward = false;
 }
 
 void Player::setPosition(float x, float y) {
@@ -41,7 +42,7 @@ void Player::makeAllCollisions(std::vector<Obstacle>& obstacles) {
         !this->racket.hasBall && 
         this->ball.isColliding(this->racket.hitbox)
     ) {
-        if(this->canCatchBall) {
+        if(this->racket.canCatchBall) {
             this->receiveBall();
             return;
         }
