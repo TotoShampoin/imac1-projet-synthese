@@ -129,8 +129,6 @@ void display(Window& win, Game& game, double delta_time) {
     win.clear();
 
     use3dMode(win);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     
     placeCamera(player, level);
     
@@ -142,8 +140,6 @@ void display(Window& win, Game& game, double delta_time) {
 
     use2dMode(win);
     glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     
     if(game.is_pause) {
         glColor4f(0, 0, 0, .5);

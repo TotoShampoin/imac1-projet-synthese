@@ -67,18 +67,24 @@ void draw2DTexture(Image& img, Vec2f pos, Vec2f scale, GLdouble rotation) {
     glPopMatrix();
 }
 
-void draw2DText(const char* text, Font& font, Coord2D coords) {
-    draw2DText(text, font, coords.position, coords.scale, coords.rotation_angle);
+#include <cstdio>
+
+void draw2DText(const char* text, Font& font, Coord2D coords, bool centered) {
+    draw2DText(text, font, coords.position, coords.scale, coords.rotation_angle, centered);
 }
-void draw2DText(const char* text, Font& font, Vec2f pos, Vec2f scale, GLdouble rotation) {
+void draw2DText(const char* text, Font& font, Vec2f pos, Vec2f scale, GLdouble rotation, bool centered) {
+    if(!text) return;
     int len = strlen(text);
     Vec2f start_pos = Vec2f (
         -float(len)/2 + .5,
         0
     );
+    if(!centered) {
+        start_pos += Vec2f(float(len)/2, 1);
+    }
     glPushMatrix();
         glTranslated(pos.x, pos.y, 0);
-        glScaled(scale.x / len, scale.y / len, 1);
+        glScaled(scale.x, scale.y, 1);
         glScalef((float)2*font.size_u/font.size_v, 2, 1);
         glRotated(rotation, 0, 0, 1);
         glTranslated(start_pos.x*2, start_pos.y, 0);

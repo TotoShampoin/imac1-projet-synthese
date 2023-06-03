@@ -28,8 +28,8 @@ void draw2DBox(Vec2f pos, Vec2f scale, GLdouble rotation = 0);
 void draw2DTexture(Image& img, Coord2D coords);
 void draw2DTexture(Image& img, Vec2f pos, GLdouble scale = 1., GLdouble rotation = 0.);
 void draw2DTexture(Image& img, Vec2f pos, Vec2f scale = Vec2f(1, 1), GLdouble rotation = 0.);
-void draw2DText(const char* text, Font& font, Coord2D coords);
-void draw2DText(const char* text, Font& font, Vec2f pos, Vec2f scale = Vec2f(1, 1), GLdouble rotation = 0.);
+void draw2DText(const char* text, Font& font, Coord2D coords, bool centered = true);
+void draw2DText(const char* text, Font& font, Vec2f pos, Vec2f scale = Vec2f(1, 1), GLdouble rotation = 0., bool centered = true);
 
 void drawGeometry(Geometry& geo);
 void drawSquare(Image& img);
