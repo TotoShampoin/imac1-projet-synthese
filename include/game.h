@@ -3,5 +3,5 @@
 
 #include "common.h"
 
-void startGame(const char* level_path, Window& win);
+void main_game(const char* level_path, Window& win);
 

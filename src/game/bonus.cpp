@@ -5,7 +5,9 @@ void initTypeTable() {
 static bool is_init = false;
     if(is_init) return;
     type_table.push_back(Type { // 0: VICTOIRE
-        [](Player &P) {},
+        [](Player &P) {
+            P.hasReachedEndLine = true;
+        },
         [](Player &P) {},
         0, Vec3f(2, 2, .5), true
     });
@@ -27,10 +29,10 @@ static bool is_init = false;
     });
     type_table.push_back(Type { // 3 : SNATCHER
         [](Player &P) {
-            P.canCatchBall = true;
+            P.racket.canCatchBall = true;
         },
         [](Player &P) {
-            P.canCatchBall = false;
+            P.racket.canCatchBall = false;
         }
     });
     is_init = true;

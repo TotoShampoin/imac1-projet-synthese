@@ -14,6 +14,7 @@ struct Game {
     bool is_pause = false;
     bool pause_switched = false;
     double timer = 0;
+    int score = 0;
 
     Game(Player pl, Level lv, Window& wn): 
         player(pl),
@@ -81,6 +82,30 @@ struct Game {
                 }
             }
         };
+    }
+    void makeVictoryEvents(bool& confirm) {
+        Game& game = *this;
+        Window& win = window;
+
+        win.on_mouse_move = [](double xpos, double ypos) {};
+        win.on_mouse_button = [&confirm](int button, int action, int mods) {
+            if(action == GLFW_RELEASE) {
+                confirm = true;
+            }
+        };
+        win.on_key = [&confirm](int key, int scancode, int action, int mods) {
+            if(action == GLFW_RELEASE) {
+                confirm = true;
+            }
+        };
+    }
+    void makeNoEvents() {
+        Game& game = *this;
+        Window& win = window;
+
+        win.on_mouse_move = [](double xpos, double ypos) {};
+        win.on_mouse_button = [](int button, int action, int mods) {};
+        win.on_key = [](int key, int scancode, int action, int mods) {};
     }
 
     void pause() {
@@ -154,7 +179,6 @@ void display(Window& win, Game& game, double delta_time) {
 
 // TODO: Un son différent pour quand ça rebondit et quand on grab la balle
 void audio(Game& game, double delta_time) {
-    static AudioContext channel;
     static AudioMedia tac ("assets/sounds/switch.wav");
 
     if(game.is_pause) {
@@ -171,26 +195,91 @@ void audio(Game& game, double delta_time) {
 }
 
 
-void gameLoop(Window& win, Game& game) {
-    static double delta_time = 0;
+void startGameLoop(Window& win, Game& game) {
+    double delta_time = 0;
 
     Level& level = game.level;
     Player& player = game.player;
     
-    win.pollEvents();
-    if(!game.is_pause) {
-        physics(game, delta_time);
+    while(!(win.shouldClose() || player.hasReachedEndLine)) {
+        win.pollEvents();
+        if(!game.is_pause) {
+            physics(game, delta_time);
+        }
+        display(win, game, delta_time);
+        audio(game, delta_time);
+
+        game.update(delta_time);
+
+        delta_time = timer();
     }
-    display(win, game, delta_time);
-    audio(game, delta_time);
+}
 
-    game.update(delta_time);
+void victorySequence(Window& win, Game& game) {
+    static Font font ("assets/textures/fonts/minecraft.png", 16, 16, 8, 16, '\0', 16, 16);
+    font.texture.setFilter(GL_NEAREST,GL_NEAREST);
 
-    delta_time = timer();
+    double delta_time = 0;
+    double time = 0;
+
+    Level& level = game.level;
+    Player& player = game.player;
+    game.is_pause = false;
+
+    bool can_confirm = false;
+    bool confirm = false;
+
+    char score_string[12];
+    sprintf(score_string, "%10d", game.score);
+    
+    game.makeNoEvents();
+
+    while(!(win.shouldClose() || confirm)) {
+        if(!can_confirm && time > 3) {
+            game.makeVictoryEvents(confirm);
+            can_confirm = true;
+        }
+
+        win.pollEvents();
+
+        win.clear();
+        use3dMode(win);
+        
+        placeCamera(player, level);
+        drawBall(player.ball);
+        drawRacket(player.racket);
+        drawLevel(level, player, game.timer);
+
+        use2dMode(win);
+        glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+
+        glColor4f(0, 0, 0, remap(time, 0, 2, 0, 1));
+        draw2DBox(Vec2f(0, 0), Vec2f(win.aspect_ratio, 1));
+        glColor4f(1, 1, 1, 1);
+        draw2DText("Victory!", font, Coord2D {
+            Vec2f(0, remap(time, .25, 1, -1.25, -.5)),
+            Vec2f(80/1200., 80/1200.)
+        });
+        draw2DText(score_string, font, Coord2D {
+            Vec2f(0, remap(time, .5, 1.25, 1.25, .5)),
+            Vec2f(48/1200., 48/1200.)
+        });
+        if(can_confirm) {
+            draw2DText("Press a key to continue", font, Coord2D {
+                Vec2f(0, 0),
+                Vec2f(32/1200., 32/1200.)
+            });
+        }
+
+        win.refresh();
+
+        delta_time = timer();
+        time += delta_time;
+    }
 }
 
 
-void startGame(const char* level_path, Window& win) {
+void main_game(const char* level_path, Window& win) {
     initTypeTable();
 
     Game game {
@@ -199,9 +288,8 @@ void startGame(const char* level_path, Window& win) {
         win
     };
 
-    while(!win.shouldClose()) {
-        gameLoop(win, game);
-    }
+    startGameLoop(win, game);
+    victorySequence(win, game);
 
 }
 

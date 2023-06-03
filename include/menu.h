@@ -7,4 +7,4 @@ struct MenuData {
     std::string level_path;
 };
 
-MenuData menu(Window& win);
+MenuData main_menu(Window& win);

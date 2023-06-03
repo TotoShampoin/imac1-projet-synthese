@@ -6,6 +6,20 @@ float clamp(float t, float min, float max) {
     return (t < min) ? min : (t > max) ? max : t;
 }
 
+float lerp(float t, float a, float b) {
+    return (1 - t) * a + t * b;
+}
+
+float invlerp(float v, float a, float b) {
+    return ( v - a ) / ( b - a );
+}
+
+float remap(float t, float t_start, float t_end, float a, float b) {
+    float ct = clamp(t, t_start, t_end);
+    float it = invlerp(ct, t_start, t_end);
+    return lerp(it, a, b);
+}
+
 void drawAABB(PhysicsAABB& box) {
     static Geometry geo = createCube();
     Vec3f center = box.middle();

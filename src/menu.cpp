@@ -25,7 +25,7 @@ std::vector<std::string> searchLevels() {
     return files;
 }
 
-MenuData menu(Window& win) {
+MenuData main_menu(Window& win) {
     static Font font ("assets/textures/fonts/minecraft.png", 16, 16, 8, 16, '\0', 16, 16);
     font.texture.setFilter(GL_NEAREST, GL_NEAREST);
 
