@@ -3,9 +3,11 @@
 #include "IHM/draw.h"
 #include "common.h"
 
+static const float CAMERA_SHIFT = .1;
+
 void placeCamera(Player& player, Level& level) {
     gluLookAt(
-        0, 0, player.racket.position.z - 2,
+        player.racket.position.x * CAMERA_SHIFT, player.racket.position.y * CAMERA_SHIFT, player.racket.position.z - 2,
         0, 0, level.length,
         0, 1, 0
     );
@@ -14,6 +16,11 @@ void placeCamera(Player& player, Level& level) {
 void setColor(Geometry& geo, float r, float g, float b, float a) {
     for(int j = 0; j < geo.vert_nb; j++) {
         set_coord(geo.colors, j, r, g, b, a);
+    }
+}
+void setAlpha(Geometry& geo, float a) {
+    for(int j = 0; j < geo.vert_nb; j++) {
+        geo.colors[j*4 + 3] = a;
     }
 }
 
@@ -63,9 +70,17 @@ void drawBall(Ball& ball) {
     );
 }
 
+#define NB_TEXTURES 5
 void drawLevel(Level& level, Player& player, double time) {
     static Mesh wall_mesh = makeWallMesh();
-    static Geometry bonus_mesh = createSphere(4);
+    static Geometry obstacle_mesh = createPlane();
+    static Image obstacle_textures[NB_TEXTURES] = {
+        Image("assets/textures/obstacles/elies_fight.jpg"),
+        Image("assets/textures/obstacles/elies_oh.jpg"),
+        Image("assets/textures/obstacles/leaugane.jpg"),
+        Image("assets/textures/obstacles/maureen.jpg"),
+        Image("assets/textures/obstacles/shampoing.jpg")
+    };
 
     glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
     int size = level.length/2;
@@ -85,15 +100,31 @@ void drawLevel(Level& level, Player& player, double time) {
     }
 
     glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-    for(auto& box : level.obstacles) {
-        drawAABB(box);
-    }
     for(auto& bonus : level.bonus) {
         if(bonus.specs->is_victory || bonus.is_picked) {
             continue;
         }
+        float distance = (bonus.position - player.racket.position).z;
         modelLight(*bonus.specs->mesh, bonus.position, light_sources, 1, .5, .25);
+        setAlpha(*bonus.specs->mesh, remap(distance, -1, 1, 0, 1));
         draw3DObject(*bonus.specs->mesh, bonus.position, bonus.specs->size / 2, Vec3f(0, 1, 0), time * 2 * 180 / M_PI);
+    }
+    int index = 0;
+    for(auto& box : level.obstacles) {
+        Vec3f middle = box.middle();
+        Vec3f size = box.size();
+        Vec3f offset1 = Vec3f(0, 0, -size.z);
+        Vec3f offset2 = Vec3f(0, 0,  size.z);
+
+        float distance = (middle - player.racket.position).z;
+
+        glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+        vertexLight(obstacle_mesh, middle, size, light_sources, 1, 1, 1);
+        setAlpha(obstacle_mesh, remap(distance, -1, 1, 0, 1));
+        draw3DObject(obstacle_mesh, obstacle_textures[index], middle - offset2, size);
+        draw3DObject(obstacle_mesh, obstacle_textures[index], middle - offset1, size);
+        glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+        index = (index + 1) % NB_TEXTURES;
     }
 }
 

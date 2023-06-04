@@ -52,7 +52,6 @@ void draw2DTexture(Image& img, Vec2f pos, GLdouble scale, GLdouble rotation) {
         glScaled(scale, scale, 1);
         glScalef(1, (float)img.height/img.width, 1);
         glRotated(rotation, 0, 0, 1);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         drawSquare(img);
     glPopMatrix();
 }
@@ -62,7 +61,6 @@ void draw2DTexture(Image& img, Vec2f pos, Vec2f scale, GLdouble rotation) {
         glScaled(scale.x, scale.y, 1);
         glScalef(1, (float)img.height/img.width, 1);
         glRotated(rotation, 0, 0, 1);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         drawSquare(img);
     glPopMatrix();
 }
@@ -99,6 +97,7 @@ void draw2DText(const char* text, Font& font, Vec2f pos, Vec2f scale, GLdouble r
 
 void drawGeometry(Geometry& geo) {
     glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -115,6 +114,7 @@ void drawGeometry(Geometry& geo) {
 void drawSquare(Image& img) {
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glBindTexture(GL_TEXTURE_2D, img.texture_id);
     glBegin(GL_POLYGON);
         glTexCoord2f(0, 0);

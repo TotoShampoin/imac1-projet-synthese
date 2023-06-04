@@ -48,6 +48,13 @@ Level::Level(const char* file_path) {
         Bonus tmp_bonus (tmp_type, tmp_pos);
         bonus.push_back(tmp_bonus);
     }
+
+    std::sort(obstacles.begin(), obstacles.end(), [](Obstacle& a, Obstacle& b) {
+        return a.middle().z > b.middle().z;
+    });
+    std::sort(bonus.begin(), bonus.end(), [](Bonus& a, Bonus& b) {
+        return a.position.z > b.position.z;
+    });
 }
 
 void Level::addDefaultElements() {
