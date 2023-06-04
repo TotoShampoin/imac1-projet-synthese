@@ -7,12 +7,16 @@
 
 #include "game/player.h"
 
+static const float BONUS_DEFAULT_TIME = 10.;
+static const Vec3f BONUS_DEFAULT_SIZE = {.35, .35, .35};
+
 struct Type {
     std::function<void (Player&)> start;
     std::function<void (Player&)> end;
-    float time_in_second = 10.;
-    Vec3f size {.35, .35, .35};
-    bool is_victory = 0;
+    float time_in_second;
+    Vec3f size;
+    Geometry mesh = createSphere(4);
+    bool is_victory = false;
 };
 
 typedef unsigned int TypeID;

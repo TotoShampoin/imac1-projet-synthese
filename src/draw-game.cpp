@@ -11,6 +11,12 @@ void placeCamera(Player& player, Level& level) {
     );
 }
 
+void setColor(Geometry& geo, float r, float g, float b, float a) {
+    for(int j = 0; j < geo.vert_nb; j++) {
+        set_coord(geo.colors, j, r, g, b, a);
+    }
+}
+
 void drawBall(Ball& ball) {
     static Mesh ball_mesh = makeBallMesh();
 
@@ -33,9 +39,7 @@ void drawLevel(Level& level, Player& player, double time) {
         float wall_distance = 2*(i+.5);
         float distance_to_player = abs(player.racket.position.z - wall_distance);
         float wall_light = 1 - distance_to_player / 10;
-        for(int j = 0; j < 16; j++) {
-            set_coord(wall_mesh.shape.colors, j, wall_light, wall_light, wall_light, 1);
-        }
+        setColor(wall_mesh.shape, wall_light, wall_light, wall_light, 1);
         draw3DObject(
             wall_mesh.shape, wall_mesh.texture,
             Vec3f(0, 0, wall_distance),
@@ -53,7 +57,7 @@ void drawLevel(Level& level, Player& player, double time) {
         if(bonus.specs->is_victory || bonus.is_picked) {
             continue;
         }
-        draw3DObject(bonus_mesh, bonus.position, bonus.specs->size / 2, Vec3f(0, 1, 1), time * 2 * 180 / M_PI);
+        draw3DObject(bonus.specs->mesh, bonus.position, bonus.specs->size / 2, Vec3f(0, 1, 1), time * 2 * 180 / M_PI);
     }
 }
 

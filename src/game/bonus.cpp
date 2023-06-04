@@ -2,14 +2,15 @@
 #include "IHM/objects.h"
 
 void initTypeTable() {
-static bool is_init = false;
+    static bool is_init = false;
     if(is_init) return;
     type_table.push_back(Type { // 0: VICTOIRE
         [](Player &P) {
             P.hasReachedEndLine = true;
         },
         [](Player &P) {},
-        0, Vec3f(2, 2, .5), true
+        0, Vec3f(2, 2, .5),
+        nullptr, true
     });
     type_table.push_back(Type { // 1: SLOW_BALL
         [](Player &P) {
@@ -17,7 +18,9 @@ static bool is_init = false;
         },
         [](Player &P) {
             P.ball.speed *= 2;
-        }
+        },
+        BONUS_DEFAULT_TIME, BONUS_DEFAULT_SIZE,
+        Geometry("assets/models/slow.mdl")
     });
     type_table.push_back(Type { // 2: LARGE_RACKET
         [](Player &P) {
@@ -25,7 +28,9 @@ static bool is_init = false;
         },
         [](Player &P) {
             P.racket.scale /= 1.5;
-        }
+        },
+        BONUS_DEFAULT_TIME, BONUS_DEFAULT_SIZE,
+        Geometry("assets/models/grow.mdl")
     });
     type_table.push_back(Type { // 3 : SNATCHER
         [](Player &P) {
@@ -33,7 +38,9 @@ static bool is_init = false;
         },
         [](Player &P) {
             P.racket.canCatchBall = false;
-        }
+        },
+        BONUS_DEFAULT_TIME, BONUS_DEFAULT_SIZE,
+        Geometry("assets/models/stick.mdl")
     });
     is_init = true;
 }
