@@ -191,7 +191,16 @@ void display(Window& win, Game& game, double delta_time) {
 
 // TODO: Un son différent pour quand ça rebondit et quand on grab la balle
 void audio(Game& game, double delta_time) {
-    static AudioMedia tac ("assets/sounds/switch.wav");
+    static AudioMedia bounce_enemy ("assets/sounds/bounce_enemy.wav");
+    static AudioMedia bounce_racket ("assets/sounds/bounce_racket.wav");
+    static AudioMedia bounce_wall ("assets/sounds/bounce_wall.wav");
+    static AudioMedia damage ("assets/sounds/damage.wav");
+    static AudioMedia game_over ("assets/sounds/game_over.wav");
+    static AudioMedia pause ("assets/sounds/pause.wav");
+    static AudioMedia resume ("assets/sounds/resume.wav");
+    static AudioMedia selection ("assets/sounds/selection.wav");
+    static AudioMedia tac ("assets/sounds/tac.wav");
+    static AudioMedia victory ("assets/sounds/victory.wav");
 
     if(game.is_pause) {
         return;
