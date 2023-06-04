@@ -20,7 +20,7 @@ void initTypeTable() {
             P.ball.speed *= 2;
         },
         BONUS_DEFAULT_TIME, BONUS_DEFAULT_SIZE,
-        Geometry("assets/models/slow.mdl")
+        new Geometry("assets/models/slow.mdl")
     });
     type_table.push_back(Type { // 2: LARGE_RACKET
         [](Player &P) {
@@ -30,7 +30,7 @@ void initTypeTable() {
             P.racket.scale /= 1.5;
         },
         BONUS_DEFAULT_TIME, BONUS_DEFAULT_SIZE,
-        Geometry("assets/models/grow.mdl")
+        new Geometry("assets/models/grow.mdl")
     });
     type_table.push_back(Type { // 3 : SNATCHER
         [](Player &P) {
@@ -40,7 +40,7 @@ void initTypeTable() {
             P.racket.canCatchBall = false;
         },
         BONUS_DEFAULT_TIME, BONUS_DEFAULT_SIZE,
-        Geometry("assets/models/stick.mdl")
+        new Geometry("assets/models/stick.mdl")
     });
     is_init = true;
 }

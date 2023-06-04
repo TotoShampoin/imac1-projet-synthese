@@ -15,7 +15,7 @@ struct Type {
     std::function<void (Player&)> end;
     float time_in_second;
     Vec3f size;
-    Geometry mesh = createSphere(4);
+    Geometry* mesh = nullptr;
     bool is_victory = false;
 };
 
