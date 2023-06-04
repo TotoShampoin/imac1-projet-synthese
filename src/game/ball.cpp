@@ -45,7 +45,6 @@ bool Ball::collideAndBounce(Obstacle& box) {
 
     normal = normal.normalize();
     speed_dir = (speed_dir - normal * 2 * (speed_dir*normal)).normalize();
-    has_collided = true;
     return true;
 }
 
@@ -56,7 +55,8 @@ bool Ball::collideAndBounce(std::vector<Obstacle>& boxes) {
 
     for(auto& box : boxes) {
         Vec3f tmp_normal (0,0,0);
-        collides |= this_ball.collide(box, tmp_normal);
+        bool collided_this = this_ball.collide(box, tmp_normal);
+        collides |= collided_this;
         normal += tmp_normal;
     }
 
@@ -66,12 +66,12 @@ bool Ball::collideAndBounce(std::vector<Obstacle>& boxes) {
     
     normal = normal.normalize();
     speed_dir = (speed_dir - normal * 2 * (speed_dir*normal)).normalize();
-    has_collided = true;
     return true;
 }
 
 
 void Ball::update(float delta_time) {
     move(delta_time);
-    has_collided = false;
+    has_collided_wall = false;
+    has_collided_racket = false;
 }

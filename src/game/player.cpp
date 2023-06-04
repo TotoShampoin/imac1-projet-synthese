@@ -28,6 +28,7 @@ void Player::receiveBall() {
     this->ball.speed = 0;
     this->ball.position = this->racket.position + BALL_SHIFT;
     this->racket.isMovingForward = false;
+    this->hasPickedBall = true;
 }
 
 void Player::setPosition(float x, float y) {
@@ -61,7 +62,7 @@ void Player::recover(double delta_time) {
 }
 
 void Player::makeAllCollisions(std::vector<Obstacle>& obstacles) {
-    this->ball.collideAndBounce(obstacles);
+    this->ball.has_collided_wall |= this->ball.collideAndBounce(obstacles);
     if(
         !this->racket.hasBall && 
         this->ball.isColliding(this->racket.hitbox)
@@ -74,7 +75,7 @@ void Player::makeAllCollisions(std::vector<Obstacle>& obstacles) {
         this->ball.goToward(
             this->ball.position - (this->racket.position - Vec3f(0,0,.5))
         );
-        this->ball.has_collided = true;
+        this->ball.has_collided_racket |= true;
     }
     if(this->ball.position.z < this->racket.position.z - 1) {
         this->loseALife();
@@ -84,4 +85,6 @@ void Player::makeAllCollisions(std::vector<Obstacle>& obstacles) {
 void Player::update(float delta_time) {
     this->ball.update(delta_time);
     this->racket.update(delta_time);
+    this->hasPickedBall = false;
+    this->hasPickedBonus = false;
 }

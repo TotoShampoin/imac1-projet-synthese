@@ -12,7 +12,8 @@ struct Game {
     Level level;
     Window& window;
     bool is_pause = false;
-    bool pause_switched = false;
+    bool pause_started = false;
+    bool pause_ended = false;
     double timer = 0;
     int score = 0;
 
@@ -110,16 +111,17 @@ struct Game {
 
     void pause() {
         is_pause = true;
-        pause_switched = true;
+        pause_started = true;
         makePauseEvents();
     }
     void resume() {
         is_pause = false;
-        pause_switched = true;
+        pause_ended = true;
         makeGameEvents();
     }
     void update(double delta_time) {
-        pause_switched = false;
+        pause_started = false;
+        pause_ended = false;
         if(!is_pause) {
             timer += delta_time;
         }
@@ -141,6 +143,7 @@ void physics(Game& game, double delta_time) {
         if(!bonus.is_picked && player.ball.isColliding(hitbox)) {
             bonus.bePicked(player);
             player.bonus_picked++;
+            player.hasPickedBonus = true;
         }
     }
 }
@@ -191,16 +194,23 @@ void display(Window& win, Game& game, double delta_time) {
 
 // TODO: Un son différent pour quand ça rebondit et quand on grab la balle
 void audio(Game& game, double delta_time) {
-    static AudioMedia bounce_enemy ("assets/sounds/bounce_enemy.wav");
+    static AudioMedia bounce_obstacle ("assets/sounds/bounce_enemy.wav");
     static AudioMedia bounce_racket ("assets/sounds/bounce_racket.wav");
     static AudioMedia bounce_wall ("assets/sounds/bounce_wall.wav");
+    static AudioMedia bonus ("assets/sounds/bonus.wav");
     static AudioMedia damage ("assets/sounds/damage.wav");
-    static AudioMedia game_over ("assets/sounds/game_over.wav");
     static AudioMedia pause ("assets/sounds/pause.wav");
+    static AudioMedia racket_grab ("assets/sounds/racket_grab.wav");
     static AudioMedia resume ("assets/sounds/resume.wav");
-    static AudioMedia selection ("assets/sounds/selection.wav");
-    static AudioMedia tac ("assets/sounds/tac.wav");
-    static AudioMedia victory ("assets/sounds/victory.wav");
+
+    if(game.pause_started) {
+        pause.stop();
+        pause.play();
+    }
+    if(game.pause_ended) {
+        resume.stop();
+        resume.play();
+    }
 
     if(game.is_pause) {
         return;
@@ -209,9 +219,25 @@ void audio(Game& game, double delta_time) {
     Level& level = game.level;
     Player& player = game.player;
 
-    if(player.ball.has_collided) {
-        tac.stop();
-        tac.play();
+    if(player.ball.has_collided_wall) {
+        bounce_wall.stop();
+        bounce_wall.play();
+    }
+    if(player.ball.has_collided_racket) {
+        bounce_racket.stop();
+        bounce_racket.play();
+    }
+    if(player.hasPickedBonus) {
+        bonus.stop();
+        bonus.play();
+    }
+    if(player.hasPickedBall) {
+        racket_grab.stop();
+        racket_grab.play();
+    }
+    if(player.hasLostALife) {
+        damage.stop();
+        damage.play();
     }
 }
 
@@ -240,7 +266,9 @@ void startGameLoop(Window& win, Game& game) {
     }
 }
 
-void endSequence(Window& win, Game& game, const char* message) {
+void endSequence(Window& win, Game& game) {
+    static AudioMedia game_over ("assets/sounds/game_over.wav");
+    static AudioMedia victory ("assets/sounds/victory.wav");
     static Font font ("assets/textures/fonts/minecraft.png", 16, 16, 8, 16, '\0', 16, 16);
     font.texture.setFilter(GL_NEAREST,GL_NEAREST);
 
@@ -254,8 +282,19 @@ void endSequence(Window& win, Game& game, const char* message) {
     bool can_confirm = false;
     bool confirm = false;
 
+    char message[10];
     char score_string[12];
     sprintf(score_string, "%10d", game.score);
+
+    if(player.hasReachedEndLine) {
+        sprintf(message, "Victory!");
+        victory.stop();
+        victory.play();
+    } else {
+        sprintf(message, "Game Over");
+        game_over.stop();
+        game_over.play();
+    }
     
     game.makeNoEvents();
 
@@ -314,11 +353,6 @@ void main_game(const char* level_path, Window& win) {
     };
 
     startGameLoop(win, game);
-    if(game.player.hasReachedEndLine) {
-        endSequence(win, game, "Victory!");
-    } else {
-        endSequence(win, game, "Game over");
-    }
-
+    endSequence(win, game);
 }
 

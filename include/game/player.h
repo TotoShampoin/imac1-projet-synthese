@@ -21,6 +21,8 @@ struct Player {
     bool hasReachedEndLine = false;
     bool hasLostALife = false;
     bool isReady = true;
+    bool hasPickedBall = false;
+    bool hasPickedBonus = false;
     double recoverTime = 0;
     int bonus_picked = 0;
 

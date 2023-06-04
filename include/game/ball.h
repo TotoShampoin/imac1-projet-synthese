@@ -12,6 +12,9 @@ struct Ball {
     float radius = 0.25;
     bool has_collided = false;
 
+    bool has_collided_wall = false;
+    bool has_collided_racket = false;
+
     void goToward(Vec3f vec_speed);
     void goToward(Vec3f direction, float speed_value);
 
