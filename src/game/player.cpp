@@ -16,8 +16,10 @@ void Player::spawn() {
 }
 
 void Player::launchBall() {
-    this->racket.hasBall = false;
-    this->ball.goToward(Vec3f(0, 0, 1), 3);
+    if(this->racket.hasBall) {
+        this->racket.hasBall = false;
+        this->ball.goToward(Vec3f(0, 0, 1), 3);
+    }
 }
 
 void Player::receiveBall() {
