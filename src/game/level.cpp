@@ -77,6 +77,8 @@ void Level::addDefaultElements() {
     });
 
     bonus.push_back(Bonus(VICTORY, Vec3f(0, 0, length)));
+    bonus.back().specs->size.x = width;
+    bonus.back().specs->size.y = height;
 }
 
 std::vector<Obstacle> Level::getAllObstacles() {

@@ -43,3 +43,11 @@
 //     });
 //     return level;
 // }
+
+/* light */
+
+// float distance_to_player = abs(player.racket.position.z - wall_distance);
+// float distance_to_ball = abs(player.ball.position.z - wall_distance);
+// float wall_light = 0;
+// wall_light += 1 - distance_to_player / 10;
+// setColor(wall_mesh.shape, wall_light, wall_light, wall_light, 1);

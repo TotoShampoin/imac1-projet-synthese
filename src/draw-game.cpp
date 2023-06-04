@@ -17,17 +17,37 @@ void setColor(Geometry& geo, float r, float g, float b, float a) {
     }
 }
 
-// Broken ?
-void vertexLight(Geometry& geo, Vec3f position, float dist_max, float r, float g, float b) {
+static const float LIGHT_STRENGTH = 1.5;
+static const float STRETCH = 1 / 5.;
+void vertexLight(Geometry& geo, Vec3f offset, Vec3f scale, std::vector<Vec3f> positions, float r, float g, float b) {
     GLfloat* colors = geo.colors;
     for(int i = 0; i < geo.vert_nb; i++) {
         int ic = i * 3;
-        Vec3f vert {
-            geo.vertices[ic+0],
-            geo.vertices[ic+1],
-            geo.vertices[ic+2]
-        };
-        float light = 1 - (vert * position) / dist_max;
+        Vec3f vert = Vec3f(
+            geo.vertices[ic+0] * scale.x,
+            geo.vertices[ic+1] * scale.y,
+            geo.vertices[ic+2] * scale.z
+        ) + offset;
+        float light = 0;
+        for(const auto& position : positions) {
+            float dist2 = (vert - position).norm2();
+            light += LIGHT_STRENGTH / (STRETCH * dist2 - STRETCH + 1);
+        }
+        light /= positions.size();
+        set_coord(geo.colors, i, r * light, g * light, b * light, 1);
+    }
+}
+void modelLight(Geometry& geo, Vec3f offset, std::vector<Vec3f> positions, float r, float g, float b) {
+    Vec3f vert = offset;
+    float light = 0;
+    for(const auto& position : positions) {
+        float dist2 = (vert - position).norm2();
+        light += LIGHT_STRENGTH / (STRETCH * dist2 - STRETCH + 1);
+    }
+    light /= positions.size();
+    
+    GLfloat* colors = geo.colors;
+    for(int i = 0; i < geo.vert_nb; i++) {
         set_coord(geo.colors, i, r * light, g * light, b * light, 1);
     }
 }
@@ -43,18 +63,20 @@ void drawBall(Ball& ball) {
     );
 }
 
-// Player ne devrait pas être là, mais je sais pas comment résoudre ça
 void drawLevel(Level& level, Player& player, double time) {
     static Mesh wall_mesh = makeWallMesh();
     static Geometry bonus_mesh = createSphere(4);
 
     glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
     int size = level.length/2;
+
+    std::vector<Vec3f> light_sources;
+    light_sources.push_back(player.racket.position);
+    light_sources.push_back(player.ball.position);
+
     for (int i = 0; i < size; i++) {
         float wall_distance = 2*(i+.5);
-        float distance_to_player = abs(player.racket.position.z - wall_distance);
-        float wall_light = 1 - distance_to_player / 10;
-        setColor(wall_mesh.shape, wall_light, wall_light, wall_light, 1);
+        vertexLight(wall_mesh.shape, Vec3f(0, 0, wall_distance), Vec3f(1, -1, 1), light_sources, 1, 1, 1);
         draw3DObject(
             wall_mesh.shape, wall_mesh.texture,
             Vec3f(0, 0, wall_distance),
@@ -67,11 +89,10 @@ void drawLevel(Level& level, Player& player, double time) {
         drawAABB(box);
     }
     for(auto& bonus : level.bonus) {
-        PhysicsAABB hitbox = bonus.getHitbox();
-        drawAABB(hitbox);
         if(bonus.specs->is_victory || bonus.is_picked) {
             continue;
         }
+        modelLight(*bonus.specs->mesh, bonus.position, light_sources, 1, .5, .25);
         draw3DObject(*bonus.specs->mesh, bonus.position, bonus.specs->size / 2, Vec3f(0, 1, 0), time * 2 * 180 / M_PI);
     }
 }
