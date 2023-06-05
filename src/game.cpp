@@ -14,6 +14,7 @@ struct Game {
     bool is_pause = false;
     bool pause_started = false;
     bool pause_ended = false;
+    bool quits = false;
     double timer = 0;
     int score = 0;
 
@@ -79,6 +80,9 @@ struct Game {
                 switch(key) {
                 case GLFW_KEY_ESCAPE: {
                     game.resume();
+                } break;
+                case GLFW_KEY_A: {
+                    game.quits = true;
                 } break;
                 }
             }
@@ -188,7 +192,8 @@ void display(Window& win, Game& game, double delta_time) {
         glColor4f(0, 0, 0, .5);
         draw2DBox(Vec2f(0, 0), Vec2f(win.aspect_ratio, 1));
         glColor4f(1, 1, 1, 1);
-        draw2DText("Pause", font, Vec2f(0, -.5), Vec2f(.25, .25));
+        draw2DText("Pause", font, Vec2f(0, -192/600.), Vec2f(128/1200., 128/1200.));
+        draw2DText("[ESC] resume - [Q] quit", font, Vec2f(0, 64/600.), Vec2f(32/1200., 32/1200.));
     }
     
     win.refresh();
@@ -254,7 +259,7 @@ void startGameLoop(Window& win, Game& game) {
     Level& level = game.level;
     Player& player = game.player;
     
-    while(!(win.shouldClose() || player.hasReachedEndLine || (player.lives <= 0 && player.isReady))) {
+    while(!(win.shouldClose() || player.hasReachedEndLine || (player.lives <= 0 && player.isReady) || game.quits)) {
         win.pollEvents();
 
         game.score = (player.racket.position.z - SPAWN_Z) * 100 + (player.bonus_picked * 300);
@@ -359,6 +364,6 @@ void main_game(const char* level_path, Window& win) {
     };
 
     startGameLoop(win, game);
-    endSequence(win, game);
+    if(!game.quits) endSequence(win, game);
 }
 
