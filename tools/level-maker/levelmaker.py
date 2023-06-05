@@ -4,6 +4,7 @@ from sys import argv
 from parse import parse
 import ctypes
 
+title = ""
 length = 0
 width = 0
 height = 0
@@ -13,6 +14,10 @@ bonuses = []
 with open(argv[1], "r") as file:
     for _line in file.readlines():
         line = _line.replace("\n", "")
+        if line.startswith("t "):
+            title = parse("t {}", line)
+            title = str(title[0])
+            print(title)
         if line.startswith("l "):
             length, width, height = parse("l {} {} {}", line)
             length, width, height = float(length), float(width), float(height)
@@ -37,6 +42,12 @@ with open(argv[1], "r") as file:
 print(length, len(obstacles), len(bonuses))
 
 with open(argv[2], "wb") as file:
+    for i in range(32):
+        if i < len(title):
+            c = ord(title[i])
+        else:
+            c = 0
+        file.write(ctypes.c_char(c))
     file.write(ctypes.c_float(length))
     file.write(ctypes.c_float(width))
     file.write(ctypes.c_float(height))

@@ -19,6 +19,10 @@ Level::Level(const char* file_path) {
 	}
 
     uint64_t obstacles_nb, bonus_nb;
+
+    for(size_t i = 0; i < LEVEL_NAME_LENGTH; i++) {
+        file_read(file, name[i]);
+    }
     
 	file_read(file, length);
 	file_read(file, width);
