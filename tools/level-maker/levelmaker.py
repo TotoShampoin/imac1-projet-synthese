@@ -40,8 +40,8 @@ with open(argv[2], "wb") as file:
     file.write(ctypes.c_float(length))
     file.write(ctypes.c_float(width))
     file.write(ctypes.c_float(height))
-    file.write(ctypes.c_ulong(len(obstacles)))
-    file.write(ctypes.c_ulong(len(bonuses)))
+    file.write(ctypes.c_uint64(len(obstacles)))
+    file.write(ctypes.c_uint64(len(bonuses)))
     for obs in obstacles:
         file.write(ctypes.c_float(obs["boundA"][0]))
         file.write(ctypes.c_float(obs["boundA"][1]))
@@ -50,7 +50,7 @@ with open(argv[2], "wb") as file:
         file.write(ctypes.c_float(obs["boundB"][1]))
         file.write(ctypes.c_float(obs["boundB"][2]))
     for bon in bonuses:
-        file.write(ctypes.c_uint(bon["type"]))
+        file.write(ctypes.c_uint32(bon["type"]))
         file.write(ctypes.c_float(bon["coord"][0]))
         file.write(ctypes.c_float(bon["coord"][1]))
         file.write(ctypes.c_float(bon["coord"][2]))
