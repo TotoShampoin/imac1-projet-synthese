@@ -5,10 +5,12 @@
 
 #include <vector>
 
+static const float BALL_SPEED = 4.;
+
 struct Ball {
     Vec3f position = Vec3f(0,0,0);
     Vec3f speed_dir = Vec3f(0,0,0);
-    float speed = 2;
+    float speed = BALL_SPEED;
     float radius = 0.25;
     bool has_collided = false;
     bool has_collided_wall = false;

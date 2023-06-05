@@ -23,7 +23,7 @@ void Player::spawn() {
 void Player::launchBall() {
     if(this->racket.hasBall) {
         this->racket.hasBall = false;
-        this->ball.goToward(Vec3f(0, 0, 1), 3);
+        this->ball.goToward(Vec3f(0, 0, 1), BALL_SPEED);
     }
 }
 

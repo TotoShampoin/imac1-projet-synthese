@@ -6,6 +6,8 @@
 
 #include <vector>
 
+static const float RACKET_SPEED = 2.;
+
 struct Racket {
     Vec3f position = Vec3f(0,0,0);
     Vec3f scale = Vec3f(0.3, 0.3, 0.3);

@@ -345,11 +345,11 @@ void endSequence(Window& win, Game& game) {
         glColor4f(1, 1, 1, 1);
         draw2DText(message, font, Coord2D {
             Vec2f(0, remap(time, .25, 1, -1.25, -.5)),
-            Vec2f(80/1200., 80/1200.)
+            Vec2f(96/1200., 96/1200.)
         });
         draw2DText(score_string, font, Coord2D {
             Vec2f(0, remap(time, .5, 1.25, 1.25, .5)),
-            Vec2f(48/1200., 48/1200.)
+            Vec2f(64/1200., 64/1200.)
         });
         if(can_confirm) {
             draw2DText("Press a key to continue", font, Coord2D {

@@ -27,7 +27,7 @@ void Racket::setPosition(Vec2f pos) {
 
 void Racket::move(float delta_time) {
     if(this->isMovingForward) {
-        this->position.z += delta_time;
+        this->position.z += RACKET_SPEED * delta_time;
         this->updateHitbox();
     }
 }
