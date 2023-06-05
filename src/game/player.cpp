@@ -129,6 +129,7 @@ void Player::makeRacketCollisions(std::vector<Obstacle>& obstacles, Vec2f limit)
 void Player::makeBallCollisions(std::vector<Obstacle>& obstacles, std::vector<Obstacle>& walls) {
     this->ball.has_collided_wall |= this->ball.collideAndBounce(walls);
     this->ball.has_collided_obstacle |= this->ball.collideAndBounce(obstacles);
+    this->ball.has_collided = this->ball.has_collided_wall || this->ball.has_collided_obstacle;
     if(
         !this->racket.hasBall && 
         this->ball.isColliding(this->racket.hitbox)

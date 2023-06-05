@@ -1,4 +1,4 @@
-EXEC = test
+EXEC = imac-corridor
 CC = g++
 
 CFLAGS  = -Wall -O2 -g

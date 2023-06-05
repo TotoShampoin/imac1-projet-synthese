@@ -27,6 +27,13 @@ bool Ball::isColliding(Obstacle& box) {
     PhysicsSphere this_ball (position, radius);
     return this_ball.collide(box);
 }
+bool Ball::isColliding(std::vector<Obstacle>& boxes) {
+    PhysicsSphere this_ball (position, radius);
+    for(auto& box : boxes) {
+        if(this_ball.collide(box)) return true;
+    }
+    return false;
+}
 
 void Ball::bounce(Vec3f& normal) {
     Vec3f normalized = normal.normalize();
@@ -72,6 +79,12 @@ bool Ball::collideAndBounce(std::vector<Obstacle>& boxes) {
 
 void Ball::update(float delta_time) {
     move(delta_time);
+    if(has_collided) {
+        collision_counter ++;
+    } else {
+        collision_counter = 0;
+    }
+    has_collided = false;
     has_collided_wall = false;
     has_collided_obstacle = false;
     has_collided_racket = false;

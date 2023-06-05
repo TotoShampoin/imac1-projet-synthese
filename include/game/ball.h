@@ -11,10 +11,10 @@ struct Ball {
     float speed = 2;
     float radius = 0.25;
     bool has_collided = false;
-
     bool has_collided_wall = false;
     bool has_collided_obstacle = false;
     bool has_collided_racket = false;
+    int collision_counter = 0;
 
     void goToward(Vec3f vec_speed);
     void goToward(Vec3f direction, float speed_value);
@@ -22,6 +22,7 @@ struct Ball {
     void move(float delta_time);
 
     bool isColliding(Obstacle&);
+    bool isColliding(std::vector<Obstacle>& boxes);
 
     void bounce(Vec3f& normal);
 

@@ -143,6 +143,18 @@ void physics(Game& game, double delta_time) {
     player.reposition();
     player.makeBallCollisions(level.obstacles, level.walls);
 
+    if(player.ball.collision_counter > 30) {
+        player.ball.position.x = 0;
+        player.ball.position.y = 0;
+        player.ball.position.z -= .5;
+        while(player.ball.isColliding(level.obstacles) || player.ball.isColliding(level.walls)) {
+            player.ball.position.z -= .25;
+        }
+        if(player.ball.position.z < player.racket.position.z) {
+            player.racket.position.z -= 2;
+        }
+    }
+
     for(auto& bonus : level.bonus) {
         PhysicsAABB hitbox = bonus.getHitbox();
         bonus.update(delta_time);
