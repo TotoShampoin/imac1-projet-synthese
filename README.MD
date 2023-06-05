@@ -13,15 +13,15 @@ Le jeu démarre sur un écran de sélection de niveau. On peut utiliser le curse
 
 Nous avons donc un jeu compilant trois niveaux, où la balle a une texture de balle de golf, les murs font penser aux couloirs du bâtiment Copernic, et les obstacles sont des camarades de classe qui bloquent le chemin.
 
-<img src="./.screenshots/menu.png" width="49.5%">
-<img src="./.screenshots/camarade.png" width="49.5%">
+<img src="./.screenshots/menu.png" width="49%">
+<img src="./.screenshots/camarade.png" width="49%">
 
 La raquette et la balle “émettent” de la lumière visible sur les murs, les obstacles et les différents bonus répartis dans le couloir. 
 
 Un écran de pause, de défaite, de victoire, ainsi qu’une interface basique pour afficher les points de vie et le score ont été ajoutés.
 
-<img src="./.screenshots/pause.png" width="49.5%">
-<img src="./.screenshots/victoire.png" width="49.5%">
+<img src="./.screenshots/pause.png" width="49%">
+<img src="./.screenshots/victoire.png" width="49%">
 
 ## Méthode de travail
 
