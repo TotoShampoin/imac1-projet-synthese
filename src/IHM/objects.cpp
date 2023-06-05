@@ -54,7 +54,7 @@ void Image::setFilter(GLint min, GLint mag) {
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-Geometry::Geometry(unsigned long verts, unsigned long tris) {
+Geometry::Geometry(uint64_t verts, uint64_t tris) {
     vert_nb = verts;
     tri_nb = tris;
     vertices = new float[vert_nb * 3];

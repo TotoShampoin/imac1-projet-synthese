@@ -18,7 +18,7 @@ Level::Level(const char* file_path) {
 		throw std::runtime_error(std::string(file_path) + " not found");
 	}
 
-    unsigned long obstacles_nb, bonus_nb;
+    uint64_t obstacles_nb, bonus_nb;
     
 	file_read(file, length);
 	file_read(file, width);

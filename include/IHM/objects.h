@@ -17,15 +17,15 @@ struct Image {
 };
 
 struct Geometry {
-    unsigned long vert_nb;
+    uint64_t vert_nb;
     GLfloat* vertices;  // * 3
     GLfloat* uv;        // * 2
     GLfloat* colors;    // * 4
-    unsigned long tri_nb;
+    uint64_t tri_nb;
     GLuint* triangles;  // * 3
 
     Geometry(const char* file);
-    Geometry(unsigned long vert_nb, unsigned long tri_nb);
+    Geometry(uint64_t vert_nb, uint64_t tri_nb);
     ~Geometry();
 
     // void draw();
