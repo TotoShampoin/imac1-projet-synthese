@@ -16,6 +16,7 @@ struct Racket {
     
     void updateHitbox();
     void setPosition(Vec3f);
+    void setPosition(Vec2f);
     void move(float delta_time);
 
     void update(float delta_time);

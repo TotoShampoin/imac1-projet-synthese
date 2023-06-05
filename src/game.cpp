@@ -132,10 +132,12 @@ struct Game {
 void physics(Game& game, double delta_time) {
     Level& level = game.level;
     Player& player = game.player;
-    std::vector<Obstacle> obstacles = level.getAllObstacles();
+    // std::vector<Obstacle> obstacles = level.getAllObstacles();
 
     player.update(delta_time);
-    player.makeAllCollisions(obstacles);
+    player.makeRacketCollisions(level.obstacles, Vec2f(level.width, level.height));
+    player.reposition();
+    player.makeBallCollisions(level.obstacles, level.walls);
 
     for(auto& bonus : level.bonus) {
         PhysicsAABB hitbox = bonus.getHitbox();
@@ -222,6 +224,10 @@ void audio(Game& game, double delta_time) {
     if(player.ball.has_collided_wall) {
         bounce_wall.stop();
         bounce_wall.play();
+    }
+    if(player.ball.has_collided_obstacle) {
+        bounce_obstacle.stop();
+        bounce_obstacle.play();
     }
     if(player.ball.has_collided_racket) {
         bounce_racket.stop();

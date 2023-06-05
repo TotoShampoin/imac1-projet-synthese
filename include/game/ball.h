@@ -13,6 +13,7 @@ struct Ball {
     bool has_collided = false;
 
     bool has_collided_wall = false;
+    bool has_collided_obstacle = false;
     bool has_collided_racket = false;
 
     void goToward(Vec3f vec_speed);

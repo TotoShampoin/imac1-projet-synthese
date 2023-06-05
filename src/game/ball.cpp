@@ -73,5 +73,6 @@ bool Ball::collideAndBounce(std::vector<Obstacle>& boxes) {
 void Ball::update(float delta_time) {
     move(delta_time);
     has_collided_wall = false;
+    has_collided_obstacle = false;
     has_collided_racket = false;
 }

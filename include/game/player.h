@@ -26,15 +26,19 @@ struct Player {
     double recoverTime = 0;
     int bonus_picked = 0;
 
+    Vec2f nextPosition;
+
     Player();
 
     void spawn();
     void launchBall();
     void receiveBall();
+    void reposition();
     void setPosition(float x, float y);
     void loseALife();
     void recover(double delta_time);
-    void makeAllCollisions(std::vector<Obstacle>& obstacles);
+    void makeRacketCollisions(std::vector<Obstacle>& obstacles, Vec2f limit);
+    void makeBallCollisions(std::vector<Obstacle>& obstacles, std::vector<Obstacle>& walls);
 
     void update(float delta_time);
 };

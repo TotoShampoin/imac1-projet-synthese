@@ -19,6 +19,11 @@ void Racket::setPosition(Vec3f pos) {
     this->position = pos;
     this->updateHitbox();
 }
+void Racket::setPosition(Vec2f pos) {
+    this->position.x = pos.x;
+    this->position.y = pos.y;
+    this->updateHitbox();
+}
 
 void Racket::move(float delta_time) {
     if(this->isMovingForward) {
