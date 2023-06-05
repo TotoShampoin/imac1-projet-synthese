@@ -5,7 +5,7 @@
 #include "game.h"
 
 int main(int argc, const char* argv[]) {
-    Window win {800, 600, "fenetre"};
+    Window win {800, 600, "IMAC Corridor"};
     AudioContext channel;
     
     // TODO: L'écran titre et l'écran de menu
