@@ -22,8 +22,10 @@ La raquette et la balle “émettent” de la lumière visible sur les murs, les
 
 Un écran de pause, de défaite, de victoire, ainsi qu’une interface basique pour afficher les points de vie et le score ont été ajoutés.
 
-<img src="./.screenshots/pause.png" width="49%">
-<img src="./.screenshots/victoire.png" width="49%">
+<p float="left">
+    <img src="./.screenshots/pause.png" width="49%">
+    <img src="./.screenshots/victoire.png" width="49%">
+</p>
 
 ## Méthode de travail
 
